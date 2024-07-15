@@ -2,7 +2,6 @@
   <ion-app>
     <ion-content>
       <router-link to="/test">
-        <Button primary>Cliquez ici mobile</Button>
       </router-link>
     </ion-content>
   </ion-app>

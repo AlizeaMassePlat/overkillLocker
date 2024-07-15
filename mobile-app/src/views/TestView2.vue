@@ -1,7 +1,6 @@
 <template>
   <ion-app>
     <ion-content>
-      <Button primary @click="handleClick">Cliquez ici mobile 2</Button>
     </ion-content>
   </ion-app>
 </template>
