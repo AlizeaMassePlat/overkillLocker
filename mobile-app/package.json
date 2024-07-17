@@ -10,8 +10,7 @@
     "test:e2e": "cypress run",
     "test:unit": "vitest",
     "lint": "eslint .",
-    "ionic:build": "npm run build",
-    "ionic:serve": "npm run dev -- --open"
+    "ionic:build": "vite build"
   },
   "dependencies": {
     "@ionic/vue": "^8.0.0",
