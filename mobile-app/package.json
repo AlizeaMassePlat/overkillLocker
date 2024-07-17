@@ -10,12 +10,7 @@
     "test:e2e": "cypress run",
     "test:unit": "vitest",
     "lint": "eslint .",
-    "serve": "vite preview",
-    "ionic:build": "vite build",
-    "serve:web": "vue-cli-service serve src/web/main.js",
-    "serve:mob": "ionic capacitor run android --project src/mobile-app",
-    "build:web": "vue-cli-service build --dest dist_web src/web/main.js",
-    "build:mob": "ionic build --engine=browser --project src/mobile-app"
+    "ionic:build": "vite build"
   },
   "dependencies": {
     "@capacitor/android": "^6.1.0",
