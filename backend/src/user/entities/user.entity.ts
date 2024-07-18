@@ -1,22 +1,24 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, BeforeInsert } from 'typeorm';
+import { AbstractEntity } from 'src/database/abstract.entity';
+import { genSalt, hash} from 'bcrypt';
+
+
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id_user: number;
+export class User extends AbstractEntity<User> {
 
   @Column({ length: 255 })
   password: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255 , nullable:true})
   firstname: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, nullable:true })
   lastname: string;
 
-  @Column({ length: 255 })
+  @Column({ unique: true, nullable:false })
   email: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, nullable:true })
   adress: string;
 
   @Column({ length: 255 })
@@ -33,6 +35,13 @@ export class User {
 
   @Column()
   create_date: Date;
+
+  // @BeforeInsert()
+  // async hashPassword():Promise<void> {
+  //   const salt = await genSalt();
+  //   this.password = await hash(this.password, salt);
+
+  // }
 }
 
 
