@@ -6,25 +6,14 @@
     <ion-card-content>
       <slot></slot>
     </ion-card-content>
-    <ion-card-footer>
+    <ion-footer>
       <slot name="footer"></slot>
-    </ion-card-footer>
+    </ion-footer>
   </ion-card>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
-import { IonCard, IonCardHeader, IonCardContent, IonCardFooter } from '@ionic/vue';
-
-export default defineComponent({
-  name: 'CardComponent',
-  components: {
-    IonCard,
-    IonCardHeader,
-    IonCardContent,
-    IonCardFooter
-  }
-});
+<script setup lang="ts">
+import { IonCard, IonCardHeader, IonCardContent, IonFooter } from '@ionic/vue';
 </script>
 
 <style scoped>

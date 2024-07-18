@@ -7,44 +7,34 @@
         <ion-col><strong>Email</strong></ion-col>
         <ion-col size="auto"><strong>Actions</strong></ion-col>
       </ion-row>
-      <ion-row v-for="user in users" :key="user.id">
+      <!-- <ion-row v-for="user in users" :key="user.id">
         <ion-col size="auto">{{ user.id }}</ion-col>
         <ion-col>{{ user.name }}</ion-col>
         <ion-col>{{ user.email }}</ion-col>
         <ion-col size="auto">
           <ion-button size="small" @click="viewDetails(user.id)">View</ion-button>
         </ion-col>
-      </ion-row>
+      </ion-row> -->
     </ion-grid>
   </ion-content>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
-import { IonContent, IonGrid, IonRow, IonCol, IonButton } from '@ionic/vue';
+<script setup lang="ts">
+// import { defineProps, defineEmits } from 'vue';
+import { IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
 
-export default defineComponent({
-  name: 'UsersTableComponent',
-  components: {
-    IonContent,
-    IonGrid,
-    IonRow,
-    IonCol,
-    IonButton
-  },
-  props: {
-    users: {
-      type: Array,
-      required: true
-    }
-  },
-  methods: {
-    viewDetails(id) {
-      // Emit an event to the parent component to view details
-      this.$emit('view-details', id);
-    }
-  }
-});
+// const props = defineProps({
+//   users: {
+//     type: Array,
+//     required: true
+//   }
+// });
+
+// const emit = defineEmits(['view-details']);
+
+// function viewDetails(id: number) {
+//   emit('view-details', id);
+// }
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 {
-  "name": "mobile-app",
+  "name": "package",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,34 +10,24 @@
     "test:e2e": "cypress run",
     "test:unit": "vitest",
     "lint": "eslint .",
-    "serve": "vite preview",
-    "ionic:build": "vite build",
-    "serve:web": "vue-cli-service serve src/web/main.js",
-    "serve:mob": "ionic capacitor run android --project src/mobile-app",
-    "build:web": "vue-cli-service build --dest dist_web src/web/main.js",
-    "build:mob": "ionic build --engine=browser --project src/mobile-app"
+    "ionic:build": "npm run build",
+    "ionic:serve": "npm run dev -- --open"
   },
   "dependencies": {
-    "@capacitor/android": "^6.1.0",
-    "@capacitor/app": "6.0.0",
-    "@capacitor/core": "^6.1.0",
-    "@capacitor/haptics": "6.0.0",
-    "@capacitor/keyboard": "6.0.1",
-    "@capacitor/status-bar": "6.0.0",
-    "@ionic/vue": "^5.9.4",
-    "@ionic/vue-router": "^5.9.4",
-    "@vue/cli": "^5.0.8",
-    "axios": "^1.7.2",
-    "ionic": "^5.4.16",
+    "@ionic/vue": "^8.0.0",
+    "@ionic/vue-router": "^8.0.0",
     "ionicons": "^7.0.0",
     "vue": "^3.3.0",
-    "vue-router": "^4.4.0",
-    "vuex": "^4.1.0"
+    "vue-router": "^4.2.0",
+    "@capacitor/app": "latest",
+    "@capacitor/core": "latest",
+    "@capacitor/keyboard": "latest",
+    "@capacitor/haptics": "latest",
+    "@capacitor/status-bar": "latest"
   },
   "devDependencies": {
-    "@capacitor/cli": "^6.1.0",
     "@vitejs/plugin-legacy": "^5.0.0",
-    "@vitejs/plugin-vue": "^4.6.2",
+    "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-typescript": "^12.0.0",
     "@vue/test-utils": "^2.3.0",
     "cypress": "^13.5.0",
@@ -48,7 +38,7 @@
     "typescript": "^5.1.6",
     "vite": "~5.2.0",
     "vitest": "^0.34.6",
-    "vue-tsc": "^2.0.22"
-  },
-  "description": "An Ionic project"
+    "vue-tsc": "^2.0.22",
+    "@capacitor/cli": "latest"
+  }
 }

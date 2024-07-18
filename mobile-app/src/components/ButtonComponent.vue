@@ -4,51 +4,50 @@
   </ion-button>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { computed } from 'vue';
 import { IonButton } from '@ionic/vue';
 
-export default defineComponent({
-  name: 'ButtonComponent',
-  components: {
-    IonButton
-  },
-  props: {
-    type: {
-      type: String,
-      default: 'primary'
-    }
-  },
-  computed: {
-    buttonClass() {
-      return {
-        'btn-primary': this.type === 'primary',
-        'btn-secondary': this.type === 'secondary',
-        'btn-danger': this.type === 'danger'
-      };
-    }
-  },
-  methods: {
-    handleClick(event) {
-      this.$emit('click', event);
-    }
+const props = defineProps({
+  type: {
+    type: String,
+    default: 'lg'
   }
 });
+
+const emit = defineEmits(['click']);
+
+const buttonClass = computed(() => ({
+  'btn-lg': props.type === 'lg',
+  'btn-sm': props.type === 'sm'
+}));
+
+const handleClick = (event: MouseEvent) => {
+  emit('click', event);
+};
 </script>
 
 <style scoped>
-.btn-primary {
-  --background: blue;
-  --color: white;
+.btn-lg {
+  border-radius: 8px;
+  background-color: #ffa62b;
+  width: 310px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-top: 34px;
 }
-
-.btn-secondary {
-  --background: gray;
-  --color: white;
-}
-
-.btn-danger {
-  --background: red;
-  --color: white;
+.btn-sm {
+  border-radius: 8px;
+  background-color: #ffa62b;
+  width: 180px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-top: 34px;
 }
 </style>

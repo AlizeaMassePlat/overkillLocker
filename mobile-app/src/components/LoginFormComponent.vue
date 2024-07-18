@@ -21,39 +21,17 @@
   </ion-page>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton } from '@ionic/vue';
 
-export default defineComponent({
-  name: 'LoginFormComponent',
-  components: {
-    IonPage,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonItem,
-    IonLabel,
-    IonInput,
-    IonButton
-  },
-  setup() {
-    const username = ref('');
-    const password = ref('');
+const username = ref('');
+const password = ref('');
 
-    const handleSubmit = () => {
-      // Handle login logic here
-      console.log('Login with', username.value, password.value);
-    };
-
-    return {
-      username,
-      password,
-      handleSubmit
-    };
-  }
-});
+function handleSubmit() {
+  // Handle login logic here
+  console.log('Login with', username.value, password.value);
+}
 </script>
 
 <style scoped>

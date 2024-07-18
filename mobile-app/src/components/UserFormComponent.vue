@@ -21,39 +21,17 @@
   </ion-page>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton } from '@ionic/vue';
 
-export default defineComponent({
-  name: 'UserFormComponent',
-  components: {
-    IonPage,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonItem,
-    IonLabel,
-    IonInput,
-    IonButton
-  },
-  setup() {
-    const name = ref('');
-    const email = ref('');
+const name = ref('');
+const email = ref('');
 
-    const handleSubmit = () => {
-      // Handle save logic here
-      console.log('Save user', name.value, email.value);
-    };
-
-    return {
-      name,
-      email,
-      handleSubmit
-    };
-  }
-});
+const handleSubmit = () => {
+  // Handle save logic here
+  console.log('Save user', name.value, email.value);
+};
 </script>
 
 <style scoped>

@@ -9,27 +9,18 @@
   </ion-card>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { defineProps } from 'vue';
 import { IonCard, IonCardHeader, IonCardTitle, IonCardContent } from '@ionic/vue';
 
-export default defineComponent({
-  name: 'StatsCardComponent',
-  components: {
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardContent
+const props = defineProps({
+  title: {
+    type: String,
+    required: true
   },
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
-    value: {
-      type: Number,
-      required: true
-    }
+  value: {
+    type: Number,
+    required: true
   }
 });
 </script>

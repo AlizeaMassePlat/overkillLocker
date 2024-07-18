@@ -25,34 +25,22 @@
   </ion-modal>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { defineProps, defineEmits } from 'vue';
 import { IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonFooter } from '@ionic/vue';
 
-export default defineComponent({
-  name: 'ModalComponent',
-  components: {
-    IonModal,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonButtons,
-    IonButton,
-    IonContent,
-    IonFooter
-  },
-  props: {
-    visible: {
-      type: Boolean,
-      default: false
-    }
-  },
-  methods: {
-    close() {
-      this.$emit('close');
-    }
+const props = defineProps({
+  visible: {
+    type: Boolean,
+    default: false
   }
 });
+
+const emit = defineEmits(['close']);
+
+function close() {
+  emit('close');
+}
 </script>
 
 <style scoped>

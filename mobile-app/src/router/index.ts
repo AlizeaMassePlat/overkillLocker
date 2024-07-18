@@ -1,16 +1,15 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import HomeView from '../views/HomeView.vue';
-import StartView from '../views/StartView.vue'
-import LoginView from '../views/LoginView.vue'
-import RegisterView from '../views/RegisterView.vue'
-import MapView from '../views/MapView.vue'
-import ReserveView from '../views/ReserveView.vue'
-import MyReservationsView from '../views/MyReservationsView.vue'
-import ReservationDetailView from '../views/ReservationDetailView.vue'
-import AccountView from '../views/AccountView.vue'
-import EditAccountView from '../views/EditAccountView.vue'
-import ReportIncidentView from '../views/ReportIncidentView.vue'
-
+import StartView from '../views/StartView.vue';
+import LoginView from '../views/LoginView.vue';
+import RegisterView from '../views/RegisterView.vue';
+import MapView from '../views/MapView.vue';
+import ReserveView from '../views/ReserveView.vue';
+import MyReservationsView from '../views/MyReservationsView.vue';
+import ReservationDetailView from '../views/ReservationDetailView.vue';
+import AccountView from '../views/AccountView.vue';
+import EditAccountView from '../views/EditAccountView.vue';
+import ReportIncidentView from '../views/ReportIncidentView.vue';
 
 const routes = [
   {
@@ -69,13 +68,11 @@ const routes = [
     name: 'ReportIncidentView',
     component: ReportIncidentView
   }
-  
 ];
 
 const router = createRouter({
-  history: createWebHistory(''),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes
 });
 
 export default router;
-

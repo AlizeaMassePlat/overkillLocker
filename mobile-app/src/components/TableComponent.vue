@@ -1,50 +1,62 @@
 <template>
-  <ion-grid>
-    <ion-row>
-      <ion-col v-for="header in headers" :key="header" class="header">
-        {{ header }}
-      </ion-col>
-    </ion-row>
-    <ion-row v-for="row in rows" :key="row.id">
-      <ion-col v-for="cell in row" :key="cell">
-        {{ cell }}
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="auto"><strong>ID</strong></ion-col>
+        <ion-col><strong>Name</strong></ion-col>
+        <ion-col><strong>Email</strong></ion-col>
+        <ion-col size="auto"><strong>Actions</strong></ion-col>
+      </ion-row>
+      <!-- <ion-row v-for="user in users" :key="user.id">
+        <ion-col size="auto">{{ user.id }}</ion-col>
+        <ion-col>{{ user.name }}</ion-col>
+        <ion-col>{{ user.email }}</ion-col>
+        <ion-col size="auto">
+          <ion-button size="small" @click="viewDetails(user.id)">View</ion-button>
+        </ion-col>
+      </ion-row> -->
+    </ion-grid>
+  </ion-content>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
-import { IonGrid, IonRow, IonCol } from '@ionic/vue';
+<script setup lang="ts">
+// import { defineProps, defineEmits } from 'vue';
+import { IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
 
-export default defineComponent({
-  name: 'TableComponent',
-  components: {
-    IonGrid,
-    IonRow,
-    IonCol
-  },
-  props: {
-    headers: {
-      type: Array,
-      required: true
-    },
-    rows: {
-      type: Array,
-      required: true
-    }
-  }
-});
+// interface User {
+//   id: string | number;
+//   name: string;
+//   email: string;
+// }
+
+// const props = defineProps<{
+//   users: User[];
+// }>();
+
+// const emit = defineEmits(['view-details']);
+
+// function viewDetails(id: string | number) {
+//   emit('view-details', id);
+// }
 </script>
 
 <style scoped>
-.header {
-  font-weight: bold;
-  background: #f4f4f4;
+ion-grid {
+  width: 100%;
+}
+
+ion-col {
+  border-bottom: 1px solid #ddd;
   padding: 8px;
 }
-ion-col {
-  border: 1px solid #ddd;
-  padding: 8px;
+
+ion-row:first-of-type ion-col {
+  border-bottom: 2px solid #ddd;
+  font-weight: bold;
+}
+
+ion-button {
+  --padding-start: 0;
+  --padding-end: 0;
 }
 </style>
