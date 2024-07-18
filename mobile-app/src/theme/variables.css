@@ -5,4 +5,26 @@ http://ionicframework.com/docs/theming/ */
 :root {
   --ion-color-custom-tab-hover: #ffa62b; 
   --ion-color-custom-tab-selected: #ffa62b; 
+
+  font-family: "Roboto", sans-serif;
+  
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    span {
+        font-size: 12px;
+    }
 }
