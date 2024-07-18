@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -20,16 +19,20 @@ export class User {
   @Column({ length: 255 })
   adress: string;
 
-  @Column({
-    type: 'enum',
-    enum: ['intern', 'admin', 'extern'],
-  })
+  @Column({ length: 255 })
   role: string;
 
   @Column({ length: 255 })
   school_prom: string;
 
   @Column()
-  card_number: number; 
+  card_number: number;
 
+  @Column()
+  is_deleted: boolean;
+
+  @Column()
+  create_date: Date;
 }
+
+
