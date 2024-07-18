@@ -5,10 +5,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { genSalt, hash } from 'bcrypt';
 
-@Controller('users')
+@Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UserService) {}
 
+  @Get()
+  findAll() {
+    return this.usersService.findAll();
+  }
   @Post('/create')
   async create(@Body() createUserDto: CreateUserDto ) {
     
@@ -17,17 +21,13 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number): Promise<User> {
     return this.usersService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('/update/:id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
