@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { IonButton } from '@ionic/vue';
+import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
   type: {
@@ -30,7 +31,7 @@ const handleClick = (event: MouseEvent) => {
 <style scoped>
 .btn-lg {
   border-radius: 8px;
-  background-color: #ffa62b;
+  --background: #ffa62b;
   width: 310px;
   height: 45px;
   display: flex;
