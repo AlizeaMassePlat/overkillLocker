@@ -17,16 +17,16 @@ export class UserService {
     return this.usersRepository.insert(createUserDto);
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll():Promise<User[]> {
+    return await this.usersRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number):Promise<User> {
+    return await this.usersRepository.findOneBy({id});
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    return await this.usersRepository.update(id, updateUserDto);
   }
 
   remove(id: number) {
