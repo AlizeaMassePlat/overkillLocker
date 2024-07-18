@@ -21,7 +21,7 @@
 
         <ButtonComponent type="lg" @click="login">Login</ButtonComponent>
         <div class="register-link">
-          <router-link to="/register">Not registered yet?</router-link>
+          <router-link to="/inscription">Not registered yet?</router-link>
         </div>
       </div>
     </ion-content>
@@ -30,6 +30,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import axios from 'axios';
+
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import FormInputComponent from '@/components/FormInputComponent.vue';
 
@@ -38,9 +40,9 @@ const password = ref('');
 const emailError = ref('');
 const passwordError = ref('');
 
-function login() {
-  // Logic for login
+async function login() {
   console.log('Login with', email.value, password.value);
+  
 }
 </script>
 
@@ -51,6 +53,10 @@ function login() {
   height: 100vh;
   width: 100vw;
   color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .register-link {
   margin-top: 16px;
