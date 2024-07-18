@@ -13,7 +13,7 @@
           <ion-item>
             <ion-label>Phone: 06 34 56 78 90</ion-label>
           </ion-item>
-          <ion-button expand="full" @click="editAccount">Edit Account</ion-button>
+          <ion-button expand="full" @click="editAccount">Sauvegarder les modifications</ion-button>
         </ion-list>
       </div>
     </ion-content>

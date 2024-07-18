@@ -4,11 +4,14 @@
       <div class="reservations-container">
         <h2>My Reservations</h2>
         <ion-list>
-          <ion-item v-for="reservation in reservations" :key="reservation.id" @click="viewDetails(reservation.id)">
+          <ion-item v-for="reservation in reservations" :key="reservation.id">
             <ion-label>
               <h3>{{ reservation.id }}</h3>
               <p>{{ reservation.date }}</p>
             </ion-label>
+            <ion-button @click="viewDetails(reservation.id)" slot="end">
+              Voir Détails
+            </ion-button>
           </ion-item>
         </ion-list>
       </div>
@@ -19,17 +22,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { IonPage, IonContent, IonList, IonItem, IonLabel } from '@ionic/vue';
 
 const router = useRouter();
 
 const reservations = ref([
-  // Example data
   { id: '125689', date: '2024-07-15' },
   { id: '125688', date: '2024-07-14' }
 ]);
 
 function viewDetails(id: string) {
-  router.push(`/my-reservations/detail/${id}`);
+  router.push(`/mes-reservations/detail/${id}`);
 }
 </script>
 

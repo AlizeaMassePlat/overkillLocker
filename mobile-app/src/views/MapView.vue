@@ -2,6 +2,9 @@
   <ion-page>
     <ion-content>
       <div class="map-container">
+        <p>je suis la map qui me permet de booker</p>
+          <ion-button expand="full" @click="clickPin">Pin</ion-button>
+
         <!-- Map implementation here -->
       </div>
     </ion-content>
@@ -9,7 +12,16 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+
+import { IonPage, IonContent } from '@ionic/vue';
 import { onMounted } from 'vue';
+
+const router = useRouter();
+
+function clickPin() {
+  router.push('/reserver');
+}
 
 onMounted(() => {
   // Initialize map
