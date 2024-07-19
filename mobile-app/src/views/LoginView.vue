@@ -20,9 +20,8 @@
         </form-input-component>
 
         <ButtonComponent type="lg" @click="login">Login</ButtonComponent>
-        <div class="register-link">
-          <router-link to="/inscription">Mot de passe oublié ?</router-link>
-          <router-link to="/inscription">Not registered yet?</router-link>
+        <div class="link">
+          <router-link @click="retrievePwd" to="">Mot de passe oublié ?</router-link>
         </div>
       </div>
     </ion-content>
@@ -43,8 +42,11 @@ const emailError = ref('');
 const passwordError = ref('');
 
 async function login() {
-  console.log('Register clicked', { email: email.value, password: password.value });
+  console.log('login clicked', { email: email.value, password: password.value });
   
+}
+async function retrievePwd() {
+  console.log('retrievePwd clicked', { email: email.value });
 }
 </script>
 
@@ -60,14 +62,13 @@ async function login() {
   align-items: center;
   justify-content: center;
 }
-.register-link {
-  width: 90%;
+.link {
   text-decoration: none;
   color: #CDC7C9;
   margin-top: 10%;
   font-size: 12px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
 }
 </style>

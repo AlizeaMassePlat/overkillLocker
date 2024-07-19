@@ -2,8 +2,8 @@
   <ion-page>
     <ion-content>
       <div class="start-container">
-        <img src="" alt="Logo" />
-        <ion-button expand="full" @click="goToLogin">LET'S GO!</ion-button>
+        <img :src="smartLogo" alt="Logo" />
+        <ButtonComponent type="sm" @click="goToLogin">C'est parti !</ButtonComponent>
       </div>
     </ion-content>
   </ion-page>
@@ -12,6 +12,8 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { IonPage, IonContent, IonButton } from '@ionic/vue';
+import smartLogo from '../../public/SmartLocker.svg';
+import ButtonComponent from '@/components/ButtonComponent.vue';
 
 const router = useRouter();
 
@@ -22,11 +24,14 @@ function goToLogin() {
 
 <style scoped>
 .start-container {
+  padding: 16px;
+  background-color: #2e2c2b;
+  height: 100vh;
+  width: 100vw;
+  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
+  justify-content: space-around;
 }
 </style>

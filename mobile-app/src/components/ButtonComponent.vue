@@ -30,7 +30,7 @@ const handleClick = (event: MouseEvent) => {
 
 <style scoped>
 .btn-lg {
-  border-radius: 8px;
+  --border-radius: 8px;
   --background: #ffa62b;
   width: 310px;
   height: 45px;
@@ -41,8 +41,8 @@ const handleClick = (event: MouseEvent) => {
   margin-top: 34px;
 }
 .btn-sm {
-  border-radius: 8px;
-  background-color: #ffa62b;
+  --border-radius: 8px;
+  --background: #ffa62b;
   width: 180px;
   height: 45px;
   display: flex;
