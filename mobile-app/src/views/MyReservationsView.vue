@@ -1,6 +1,7 @@
 <template>
   <ion-page>
-    <ion-content class="reservations-overlay">
+	<BackArrow @click="$emit('close')" />    
+	<ion-content class="reservations-overlay">
       <div class="reservations-container">
         <h2>Mes réservations</h2>
         <div
@@ -32,22 +33,22 @@ import { useRouter } from "vue-router";
 import { IonPage, IonContent, IonIcon } from "@ionic/vue";
 import equipmentImg from "/equipment.png";
 import lockerImg from "/locker.png";
+import BackArrow from "@/components/ButtonBackArrow.vue";
 import { chevronForward } from "ionicons/icons";
 
 const router = useRouter();
 
 const reservations = ref([
-  { id: 1, number: "N°125689", date: "en cours", status: 1, image: lockerImg },
-  { id: 2, number: "N°125688", date: "12 mai 2024", status: 0, image: lockerImg },
-  { id: 3, number: "N°125687", date: "23 mars 2024", status: 0, image: equipmentImg },
+  { id: 7, number: "N°125689", date: "en cours", status: 1, image: lockerImg },
+  { id: 6, number: "N°125688", date: "12 mai 2024", status: 0, image: lockerImg },
+  { id: 5, number: "N°125687", date: "23 mars 2024", status: 0, image: equipmentImg },
   { id: 4, number: "N°125686", date: "15 janvier 2024", status: 0, image: lockerImg },
-  { id: 5, number: "N°125685", date: "14 janvier 2024", status: 0, image: equipmentImg },
-  { id: 6, number: "N°125684", date: "1 octobre 2023", status: 0, image: lockerImg },
-  { id: 7, number: "N°125683", date: "13 octobre 2023", status: 0, image: lockerImg },
+  { id: 3, number: "N°125685", date: "14 janvier 2024", status: 0, image: equipmentImg },
+  { id: 2, number: "N°125684", date: "1 octobre 2023", status: 0, image: lockerImg },
+  { id: 1, number: "N°125683", date: "13 octobre 2023", status: 0, image: lockerImg },
 ]);
 
 const openReservationDetails = (id) => {
-  console.log(`Opening details for reservation id: ${id}`);
   router.push({ name: 'ReservationDetailView', params: { id } });
 };
 </script>
