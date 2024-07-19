@@ -1,6 +1,6 @@
 <template>
 	<ion-page>
-		<!-- <BackArrow @click="$emit('close')" /> -->
+		<BackArrow @click="$emit('close')" />
 		<ion-content class="reservations-overlay">
 			<div class="reservations-container">
 				<h2>Mes réservations</h2>
@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { IonPage, IonContent, IonIcon } from "@ionic/vue";
-// import BackArrow from "@/components/ButtonBackArrow.vue";
+import BackArrow from "@/components/ButtonBackArrow.vue";
 import equipmentImg from "/equipment.png";
 import lockerImg from "/locker.png";
 import { chevronForward } from "ionicons/icons";
@@ -86,7 +86,7 @@ const reservations = ref([
 	left: 0;
 	top: 10%;
 	width: 100%;
-	height: 80%;
+	height: 90%;
 	background: white;
 	z-index: 20;
 	border-top-left-radius: 20px;
