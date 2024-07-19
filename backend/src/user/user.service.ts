@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -15,8 +15,16 @@ export class UserService {
   ) {}
 
 // -------------------------------------------------------------------
-  async create(createUserDto: CreateUserDto) {
-    return await this.usersRepository.insert(createUserDto);
+  async register(createUserDto: CreateUserDto) {
+    try {
+      const result = await this.usersRepository.insert(createUserDto);
+      const message = `User with ID ${result.identifiers[0].id} successfully created`;
+      return { message };
+    } catch (error) {
+      throw new BadRequestException(`${error}`);
+    }
+
+
   }
 // -------------------------------------------------------------------
 
@@ -28,21 +36,21 @@ export class UserService {
 
 
 // -------------------------------------------------------------------
-  async findOne(id: number):Promise<User> {
+  async findOne(id: string):Promise<User> {
     return await this.usersRepository.findOneBy({id});
   }
 // -------------------------------------------------------------------
 
 
 // -------------------------------------------------------------------
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     return await this.usersRepository.update(id, updateUserDto);
   }  
 // -------------------------------------------------------------------
 
   
 // -------------------------------------------------------------------
-  async remove(id: number): Promise<{ message: string }> {
+  async remove(id: string): Promise<{ message: string }> {
     const result = await this.usersRepository.delete(id);
     if (result.affected === 0) {
       throw new NotFoundException(`User with ID ${id} not found`);
