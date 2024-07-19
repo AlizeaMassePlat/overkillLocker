@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import HomeView from '../views/HomeView.vue';
 import StartView from '../views/StartView.vue';
 import LoginView from '../views/LoginView.vue';
-import RegisterView from '../views/RegisterView.vue';
+import RegisterView from '../views/PasswordView.vue';
 import MapView from '../views/MapView.vue';
 import ReserveView from '../views/ReserveView.vue';
 import MyReservationsView from '../views/MyReservationsView.vue';
@@ -10,6 +10,7 @@ import ReservationDetailView from '../views/ReservationDetailView.vue';
 import AccountView from '../views/AccountView.vue';
 import EditAccountView from '../views/EditAccountView.vue';
 import ReportIncidentView from '../views/ReportIncidentView.vue';
+import PasswordView from '../views/PasswordView.vue';
 
 const routes = [
   {
@@ -28,9 +29,9 @@ const routes = [
     component: LoginView
   },
   {
-    path: '/inscription',
-    name: 'RegisterView',
-    component: RegisterView
+    path: '/motdepasse',
+    name: 'PasswordView',
+    component: PasswordView
   },
   {
     path: '/map', // futur /

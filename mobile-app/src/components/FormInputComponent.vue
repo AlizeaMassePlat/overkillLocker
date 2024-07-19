@@ -4,44 +4,43 @@
 	  <ion-input
 		:type="type"
 		:id="id"
-		v-model="inputValue"
-		@ionInput="emitInput"
-		clearInput
+		:value="modelValue"
+		@input="$emit('update:modelValue', $event.target.value)"
+		
 	  ></ion-input>
 	  <p v-if="error" class="error">{{ error }}</p>
 	</ion-item>
   </template>
   
   <script setup>
-  import { ref, watch, defineProps, defineEmits } from 'vue';
+  import { defineProps, defineEmits } from 'vue';
   import { IonItem, IonLabel, IonInput } from '@ionic/vue';
   
   const props = defineProps({
-	id: String,
-	label: String,
+	id: {
+	  type: String,
+	  required: true,
+	},
+	label: {
+	  type: String,
+	  required: true,
+	},
 	type: {
 	  type: String,
-	  default: 'text'
+	  required: true,
 	},
-	value: [String, Number],
-	error: String
+	modelValue: {
+	  type: String,
+	  required: true,
+	},
+	error: {
+	  type: String,
+	  required: false,
+	},
   });
   
-  const emit = defineEmits(['input']);
-  
-  const inputValue = ref(props.value);
-  
-  // Watch for changes in props.value and update inputValue
-  watch(() => props.value, (newValue) => {
-	inputValue.value = newValue;
-  });
-  
-  // Emit input event with the updated value
-  const emitInput = (event) => {
-	const target = event.target;
-	emit('input', target.value);
-	console.log('FormInput value:', target.value);
-  };
+  const emit = defineEmits(['update:modelValue']);
+
   </script>
   
   <style scoped>
