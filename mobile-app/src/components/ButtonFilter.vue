@@ -37,7 +37,7 @@ ion-fab {
   width: 50px;
   height: 60px;
   left: 300px;
-  top: 200px;
+  top: 170px;
 }
 
 .custom-fab-button {

@@ -25,7 +25,6 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { IonPage, IonContent, IonList, IonItem, IonLabel } from "@ionic/vue";
 import BackArrow from "@/components/ButtonBackArrow.vue";
-import Close from "@/components/ButtonClose.vue";
 
 const router = useRouter();
 

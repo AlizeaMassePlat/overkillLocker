@@ -51,9 +51,10 @@ const routes = [
 				component: MapView,
 			},
 			{
-				path: "reserver",
-				name: "ReserveView",
+				path: "/reserver/:id",
+				name: "Reserver",
 				component: ReserveView,
+				props: true,
 			},
 			{
 				path: "mes-reservations",

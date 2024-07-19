@@ -1,19 +1,21 @@
 <template>
   <ion-page>
     <ion-content :scroll="false">
-      <div class="map-container">
+      <div :class="{ 'blurred': showReserveView }" class="map-container">
         <img :src="mapImage" alt="Map" class="map-image" ref="map" />
         <div
           v-for="pin in pins"
           :key="pin.id"
           class="pin"
+          :class="{ 'blurred': showReserveView }"
           :style="getPinStyle(pin)"
           @click="handlePinClick(pin)"
         >
           {{ pin.number }}
         </div>
+        <Filter />
       </div>
-      <Filter />
+      <ReserveView v-if="showReserveView" @close="closeReserveView" />
     </ion-content>
   </ion-page>
 </template>
@@ -22,7 +24,8 @@
 import { defineComponent, ref } from 'vue';
 import { IonPage, IonContent } from '@ionic/vue';
 import Filter from '@/components/ButtonFilter.vue';
-import mapImage from '../../public/mobileMap.jpg';
+import ReserveView from '@/views/ReserveView.vue';
+import mapImage from '/mobileMap.jpg';
 
 export default defineComponent({
   name: 'CustomMap',
@@ -30,9 +33,11 @@ export default defineComponent({
     IonPage,
     IonContent,
     Filter,
+    ReserveView,
   },
   setup() {
     const map = ref<HTMLImageElement | null>(null);
+    const showReserveView = ref(false);
 
     const pins = ref([
       { id: 1, number: 37, x: 43, y: 25 },
@@ -42,7 +47,11 @@ export default defineComponent({
     ]);
 
     const handlePinClick = (pin) => {
-      alert(`Pin with number ${pin.number} clicked`);
+      showReserveView.value = true;
+    };
+
+    const closeReserveView = () => {
+      showReserveView.value = false;
     };
 
     const getPinStyle = (pin) => {
@@ -58,8 +67,10 @@ export default defineComponent({
       map,
       pins,
       handlePinClick,
+      closeReserveView,
       mapImage,
       getPinStyle,
+      showReserveView,
     };
   },
 });
@@ -79,6 +90,10 @@ export default defineComponent({
   object-fit: cover;
   user-select: none;
   pointer-events: none;
+}
+
+.blurred {
+  filter: blur(1px); 
 }
 
 .pin {

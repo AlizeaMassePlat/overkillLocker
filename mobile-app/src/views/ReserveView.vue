@@ -1,29 +1,46 @@
 <template>
-  <ion-page>
-    <ion-content>
-      <div class="reserve-container">
-        <h2>Would you like to reserve in Building A, location 1?</h2>
-        <p>Number of available lockers:</p>
-        <ion-button expand="full" @click="reserve">RESERVE</ion-button>
-      </div>
-    </ion-content>
-  </ion-page>
+	<ion-page>
+		<BackArrow @click="$emit('close')" />
+		<ion-content class="reserve-overlay">
+			<div class="reserve-container">
+				<h2>Voulez-vous réserver dans le Batiment A, emplacement 1 ?</h2>
+				<p>Nombre de casiers disponibles:<br />37</p>
+				<ButtonComponent type="sm" @click="reserve">Réserver</ButtonComponent>
+			</div>
+		</ion-content>
+	</ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonContent, IonButton } from '@ionic/vue';
+import { IonPage, IonContent } from "@ionic/vue";
+import BackArrow from "@/components/ButtonBackArrow.vue";
+import ButtonComponent from "@/components/ButtonComponent.vue";
 
 function reserve() {
-  // Logic for reservation
-  console.log('Reserve button clicked');
+	console.log("Reserve button clicked");
 }
 </script>
 
 <style scoped>
+.reserve-overlay {
+	position: fixed;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	height: 50%;
+	background: white;
+	z-index: 20;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	overflow: hidden;
+}
+
 .reserve-container {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  text-align: center;
+	border-radius: 20px;
+	display: flex;
+	flex-direction: column;
+	padding: 30px;
+	text-align: center;
+	align-items: center;
 }
 </style>
