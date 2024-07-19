@@ -1,6 +1,9 @@
+import { Options } from '@nestjs/common';
+import { Type } from 'class-transformer';
 import { IsString, IsEmail, IsNumber, Length, IsOptional, IsBoolean, IsDate, IsDefined  } from 'class-validator';
 export class CreateUserDto {
 
+    
 
     @Length(8)
     @IsString()
@@ -17,6 +20,7 @@ export class CreateUserDto {
     @IsEmail()
     @IsString()
     @IsDefined()
+    
     email: string;
 
     @IsOptional()
@@ -36,6 +40,7 @@ export class CreateUserDto {
     is_deleted: boolean = false;
 
     @IsDate()
+    @Type(() => Date)
     create_date: Date;
 
 }
