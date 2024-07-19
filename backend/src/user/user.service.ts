@@ -18,9 +18,9 @@ export class UserService {
   async create(createUserDto: CreateUserDto) {
     return await this.usersRepository.insert(createUserDto);
   }
-  // -------------------------------------------------------------------
+// -------------------------------------------------------------------
 
-  // -------------------------------------------------------------------
+// -------------------------------------------------------------------
   async findAll():Promise<User[]> {
     return await this.usersRepository.find();
   }
@@ -54,7 +54,7 @@ export class UserService {
 
 
 
-  // -------------------------------------------------------------------
+// -------------------------------------------------------------------
   async login(email: string, password: string): Promise<User> {
     const user = await this.usersRepository.createQueryBuilder('user')
       .where('user.email = :email', { email })
@@ -71,6 +71,6 @@ export class UserService {
 
     return user;
   }
-  // -------------------------------------------------------------------
+// -------------------------------------------------------------------
 
 }
