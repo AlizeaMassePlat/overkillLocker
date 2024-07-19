@@ -61,7 +61,7 @@ const routes = [
 				component: MyReservationsView,
 			},
 			{
-				path: "mes-reservations/detail/:id",
+				path: "mes-reservations/:id",
 				name: "ReservationDetailView",
 				component: ReservationDetailView,
 				props: true,
