@@ -4,7 +4,7 @@
 		<ion-content class="overlay-content">
 			<div class="reservation-details-container">
 				<div class="reservation-details">
-					<h2>Réservation n°{{ reservationId }}</h2>
+					<h2>Réservation {{ reservation.number}}</h2>
 					<p>{{ reservation.date }}</p>
 					<img
 						:src="reservation.image"
@@ -57,49 +57,13 @@ const reservation = ref({
 });
 
 const reservationsData = [
-	{ id: 1, number: "N°125689", date: "en cours", status: 1, image: lockerImg },
-	{
-		id: 2,
-		number: "N°125688",
-		date: "12 mai 2024",
-		status: 0,
-		image: lockerImg,
-	},
-	{
-		id: 3,
-		number: "N°125687",
-		date: "23 mars 2024",
-		status: 0,
-		image: equipmentImg,
-	},
-	{
-		id: 4,
-		number: "N°125686",
-		date: "15 janvier 2024",
-		status: 0,
-		image: lockerImg,
-	},
-	{
-		id: 5,
-		number: "N°125685",
-		date: "14 janvier 2024",
-		status: 0,
-		image: equipmentImg,
-	},
-	{
-		id: 6,
-		number: "N°125684",
-		date: "1 octobre 2023",
-		status: 0,
-		image: lockerImg,
-	},
-	{
-		id: 7,
-		number: "N°125683",
-		date: "13 octobre 2023",
-		status: 0,
-		image: lockerImg,
-	},
+	{ id: 7, number: "N°125689", date: "en cours", status: 1, image: lockerImg },
+  { id: 6, number: "N°125688", date: "12 mai 2024", status: 0, image: lockerImg },
+  { id: 5, number: "N°125687", date: "23 mars 2024", status: 0, image: equipmentImg },
+  { id: 4, number: "N°125686", date: "15 janvier 2024", status: 0, image: lockerImg },
+  { id: 3, number: "N°125685", date: "14 janvier 2024", status: 0, image: equipmentImg },
+  { id: 2, number: "N°125684", date: "1 octobre 2023", status: 0, image: lockerImg },
+  { id: 1, number: "N°125683", date: "13 octobre 2023", status: 0, image: lockerImg },
 ];
 
 onMounted(() => {
@@ -132,7 +96,7 @@ function report() {
 	width: 100%;
 	height: 60%;
 	background: white;
-	z-index: 20;
+	z-index: 10;
 	border-top-left-radius: 20px;
 	border-top-right-radius: 20px;
 	overflow: hidden;
