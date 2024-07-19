@@ -16,32 +16,31 @@ export class UsersController {
   }
 
   @Post('/create')
-  async create(@Body() createUserDto: CreateUserDto ) {
+  async controllerCreate(@Body() createUserDto: CreateUserDto ) {
     
     const salt =  await genSalt();
     createUserDto.password =  await hash(createUserDto.password, salt);
     return this.usersService.create(createUserDto);
   }
 
-
-  @Get(':id')
-  findOne(@Param('id') id: number): Promise<User> {
-    return this.usersService.findOne(+id);
+  @Get('/finduserbyid/:id')
+  async controllerFindOne(@Param('id') id: number): Promise<User> {
+    return await this.usersService.findOne(+id);
   }
 
   @Patch('/update/:id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  async controllerUpdate(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return await this.usersService.update(+id, updateUserDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @Delete('/delete/:id')
+  async controllerRemove(@Param('id') id: string) {
+    return await this.usersService.remove(+id);
   }
   
   @Post('/login')
-  login(@Body() loginUserDto: LoginUserDto ) {
-    return this.usersService.login(loginUserDto.email, loginUserDto.password);
+  async controllerLogin(@Body() loginUserDto: LoginUserDto ) {
+    return await this.usersService.login(loginUserDto.email, loginUserDto.password);
   }
   
 }
