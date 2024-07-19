@@ -8,7 +8,7 @@ import { genSalt, hash } from 'bcrypt';
 @Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UserService) {}
-
+  
   @Get()
   findAll() {
     return this.usersService.findAll();
