@@ -1,10 +1,13 @@
-import { Entity, Column, BeforeInsert } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { AbstractEntity } from 'src/database/abstract.entity';
 import { genSalt, hash} from 'bcrypt';
 
 
 @Entity()
-export class User extends AbstractEntity<User> {
+export class User {
+
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column({ length: 255 })
   password: string;
