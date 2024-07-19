@@ -4,7 +4,7 @@
       <div class="map-container">
         <Filter/>
         <p>je suis la map qui me permet de booker</p>
-          <ion-button expand="full" @click="clickPin">Pin</ion-button>
+        <ion-button expand="full" @click="clickPin">Pin</ion-button>
 
         <!-- Map implementation here -->
       </div>
@@ -14,8 +14,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-
-import { IonPage, IonContent } from '@ionic/vue';
+import { IonPage, IonContent, IonButton } from '@ionic/vue';  
 import { onMounted } from 'vue';
 import Filter from "@/components/ButtonFilter.vue";
 
