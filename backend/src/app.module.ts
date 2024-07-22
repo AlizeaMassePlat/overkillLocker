@@ -7,6 +7,7 @@ import { ErrorModule } from './error/error.module';
 import { LogModule } from './log/log.module';
 import { LockerModule } from './locker/locker.module';
 import { GroupLockerModule } from './group_locker/group_locker.module';
+import { ReservationModule } from './reservation/reservation.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { GroupLockerModule } from './group_locker/group_locker.module';
     LogModule,
     LockerModule,
     GroupLockerModule,
+    ReservationModule,
   ],
   controllers: [],
   providers: [],
