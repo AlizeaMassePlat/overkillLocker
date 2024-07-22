@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { CardModule } from './card/card.module';
 import { ErrorModule } from './error/error.module';
 import { LogModule } from './log/log.module';
+import { GroupLockerModule } from './group_locker/group_locker.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { LogModule } from './log/log.module';
     CardModule,
     ErrorModule,
     LogModule,
+    GroupLockerModule,
   ],
   controllers: [],
   providers: [],
