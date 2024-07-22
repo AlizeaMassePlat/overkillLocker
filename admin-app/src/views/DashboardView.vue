@@ -19,7 +19,7 @@ export default {
   name: 'DashboardView',
   components: {
     StatsCard,
-    CampusMap
+    CampusMap,
   }
 };
 </script>
