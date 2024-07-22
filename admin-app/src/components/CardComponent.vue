@@ -1,16 +1,13 @@
 <template>
     <div class="card">
-      <header class="card-header">
+      <div>
         <slot name="header"></slot>
-      </header>
-      <section class="card-body">
-        <slot></slot>
-      </section>
-      <footer class="card-footer">
-        <slot name="footer"></slot>
-      </footer>
+      </div>
+      <div class="card-body">
+        <slot name="body"></slot>
+      </div>
     </div>
-  </template>
+</template>
   
   <script>
   export default {
@@ -19,14 +16,25 @@
   </script>
   
   <style scoped>
-  .card {
-    border: 1px solid #ccc;
+  .card{
+    
+    width: 230px;
+    padding: 10px;
+    height : 120px;
     border-radius: 8px;
-    padding: 16px;
-    background: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    
   }
-  .card-header, .card-footer {
-    margin-bottom: 8px;
+  .card-header {
+    background: #f0f0f0;
+    padding: 10px;
+    font-size: 18px;
+  }
+  .card-body {
+    display: flex;
+    font-size: 32px;
+    justify-content: end;
+    font-weight: bold;
   }
   </style>
   
