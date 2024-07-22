@@ -4,6 +4,7 @@ import { DatabaseModule } from './database/database.module';
 import { UserModule } from './user/user.module';
 import { CardModule } from './card/card.module';
 import { ErrorModule } from './error/error.module';
+import { LogModule } from './log/log.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ErrorModule } from './error/error.module';
     UserModule,
     CardModule,
     ErrorModule,
+    LogModule,
   ],
   controllers: [],
   providers: [],
