@@ -14,6 +14,12 @@ is_open: boolean;
 
 @Column({nullable:false})
 is_delete: boolean;
+
+
+@Column({nullable:false})
+id_group_locker: number;
+
+
 }
 
 // Finir le fichier locker.entity.ts et le dto puis le module pour l'export en bdd
