@@ -4,9 +4,10 @@
     <section class="search_filter_container">
       <p>Filtre</p>
       <select class="filter_status_select" v-model="selected">
-        <option default value="">Tous</option>
-        <option>Résolu</option>
-        <option>A traiter</option>
+        <option value="">Tous</option>
+        <option value="0">A traiter</option>
+        <option value="1">En cours</option>
+        <option value="2">Résolue</option>
       </select>
       <div class="search_bar">
         <img width="15" height="15" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1"/>
@@ -17,7 +18,8 @@
       <table>
         <thead>
           <tr>
-            <th scope="col">Numéro résa.</th>
+            <th scope="col">Numéro err.</th>
+            <th scope="col">Numéro rés.</th>
             <th scope="col">Nom</th>
             <th scope="col">Date</th>
             <th scope="col">Email</th>
@@ -28,17 +30,27 @@
           </tr>
         </thead>
         <tbody>
-          <tr  @click="navigateToIncident(report.id_reservation)" v-for="report in paginatedReports" :key="report.id_reservation" >
-            <td>{{ report.id_reservation }}</td>
-            <td>{{ report.name }}</td>
-            <td>{{ report.date }}</td>
-            <td>{{ report.email }}</td>
-            <td>{{ report.role }}</td>
-            <td>{{ report.message }}</td>
-            <td>{{ report.status }}</td>
+          <tr @click="navigateToIncident(report.id)" v-for="report in paginatedReports" :key="report.id">
+            <td>{{ report.id }}</td>
+            <td>{{ report.reservation.id }}</td>
+            <td>{{ report.user.firstname }} {{ report.user.lastname }}</td>
+            <td>{{ formatDate(report.date_create) }}</td>
+            <td>{{ report.user.email }}</td>
+            <td>{{ report.user.role }}</td>
+            <td>{{ report.body }}</td>
+            <td>
+              <p :class="{
+                'state-to-treat': report.state === 0,
+                'state-in-progress': report.state === 1,
+                'state-resolved': report.state === 2
+              }">
+                <span v-if="report.state === 0">A traiter</span>
+                <span v-else-if="report.state === 1">En cours</span>
+                <span v-else>Résolue</span>
+              </p>
+            </td>
             <td align="center">
-              
-              <button @click="resolveReport(report.id_reservation)">
+              <button @click.stop="resolveReport(report.id)">
                 <img width="20" height="20" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1"/>
               </button>
             </td>
@@ -62,139 +74,29 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router'; 
-
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 const router = useRouter();
+const errors = ref([]);
 const selected = ref('');
 const search = ref('');
 const currentPage = ref(1);
 const itemsPerPage = 8;
 
-const reportsArray = ref([
-  {
-    'id_reservation': 12764,
-    'name': 'Jean Dupont',
-    'date': '2023-07-20',
-    'email': 'jean.dupont@example.com',
-    'role': 'Utilisateur',
-    'message': 'Problème avec la réservation.',
-    'status': 'A traiter',
-  },
-  {
-    'id_reservation': 12765,
-    'name': 'Marie Curie',
-    'date': '2023-07-21',
-    'email': 'marie.curie@example.com',
-    'role': 'Admin',
-    'message': 'Erreur dans la date.',
-    'status': 'Résolu',
-  },
-  {
-    'id_reservation': 12766,
-    'name': 'Albert Einstein',
-    'date': '2023-07-22',
-    'email': 'albert.einstein@example.com',
-    'role': 'Utilisateur',
-    'message': 'Modification des informations.',
-    'status': 'A traiter',
-  },
-  {
-    'id_reservation': 12767,
-    'name': 'Isaac Newton',
-    'date': '2023-07-23',
-    'email': 'isaac.newton@example.com',
-    'role': 'Admin',
-    'message': 'Annulation de la réservation.',
-    'status': 'Résolu',
-  },
-  {
-    'id_reservation': 12768,
-    'name': 'Galileo Galilei',
-    'date': '2023-07-24',
-    'email': 'galileo.galilei@example.com',
-    'role': 'Utilisateur',
-    'message': 'Demande de remboursement.',
-    'status': 'A traiter',
-  },
-  {
-    'id_reservation': 12769,
-    'name': 'Nikola Tesla',
-    'date': '2023-07-25',
-    'email': 'nikola.tesla@example.com',
-    'role': 'Admin',
-    'message': 'Changement de date.',
-    'status': 'Résolu',
-  },
-  {
-    'id_reservation': 12770,
-    'name': 'Charles Darwin',
-    'date': '2023-07-26',
-    'email': 'charles.darwin@example.com',
-    'role': 'Utilisateur',
-    'message': 'Problème de paiement.',
-    'status': 'A traiter',
-  },
-  {
-    'id_reservation': 12771,
-    'name': 'Thomas Edison',
-    'date': '2023-07-27',
-    'email': 'thomas.edison@example.com',
-    'role': 'Admin',
-    'message': 'Réservation en double.',
-    'status': 'Résolu',
-  },
-  {
-    'id_reservation': 12772,
-    'name': 'Leonardo da Vinci',
-    'date': '2023-07-28',
-    'email': 'leonardo.davinci@example.com',
-    'role': 'Utilisateur',
-    'message': 'Erreur de facturation.',
-    'status': 'A traiter',
-  },
-  {
-    'id_reservation': 12773,
-    'name': 'Marie Antoinette',
-    'date': '2023-07-29',
-    'email': 'marie.antoinette@example.com',
-    'role': 'Admin',
-    'message': 'Problème de communication.',
-    'status': 'Résolu',
-  },
-  {
-    'id_reservation': 12774,
-    'name': 'Archimède',
-    'date': '2023-07-30',
-    'email': 'archimede@example.com',
-    'role': 'Utilisateur',
-    'message': 'Problème de connexion.',
-    'status': 'A traiter',
-  },
-  {
-    'id_reservation': 12775,
-    'name': 'Alexander Fleming',
-    'date': '2023-07-31',
-    'email': 'alexander.fleming@example.com',
-    'role': 'Admin',
-    'message': 'Changement d’adresse.',
-    'status': 'Résolu',
-  },
-]);
-
 const filteredReports = computed(() => {
-  let filtered = reportsArray.value;
+  let filtered = errors.value;
 
   if (selected.value) {
-    filtered = filtered.filter(report => report.status === selected.value);
+    filtered = filtered.filter(report => report.state === parseInt(selected.value, 10));
   }
 
   if (search.value) {
     filtered = filtered.filter(report =>
-      Object.values(report).some(val =>
-        String(val).toLowerCase().includes(search.value.toLowerCase())
-      )
+      report.user.firstname.toLowerCase().includes(search.value.toLowerCase()) ||
+      report.user.lastname.toLowerCase().includes(search.value.toLowerCase()) ||
+      report.body.toLowerCase().includes(search.value.toLowerCase())
     );
   }
 
@@ -212,9 +114,13 @@ const paginatedReports = computed(() => {
 });
 
 const resolveReport = (id) => {
-  const report = reportsArray.value.find(r => r.id_reservation === id);
+  const report = errors.value.find(r => r.id === id);
   if (report) {
-    report.status = 'Résolu';
+    if (report.state === 1) {
+      report.state = 2;
+    } else {
+      report.state = 1;
+    }
   }
 };
 
@@ -259,14 +165,35 @@ const pages = computed(() => {
 
 const navigateToIncident = (id) => {
   router.push(`/rapports/incident/${id}`);
-}
+};
 
+const fetchErrors = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/error/all');
+    errors.value = response.data;
+  } catch (error) {
+    console.error('Error fetching errors:', error);
+  }
+};
+
+onMounted(() => {
+  fetchErrors();
+});
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('fr-FR');
+};
 </script>
 
 <style scoped>
 * {
   margin: 0;
   font-family: "Roboto", sans-serif;
+}
+
+h1 {
+  margin-left: 16px;
 }
 
 .search_filter_container {
@@ -305,13 +232,13 @@ const navigateToIncident = (id) => {
 
 table {
   margin: auto;
-  width: 95%;
+  width: calc(100% - 32px);
   border-collapse: collapse;
   margin-top: 16px;
 }
 
 table th, table td {
-  padding: 8px;
+  padding: 10px;
 
 }
 
@@ -327,6 +254,33 @@ tbody tr td button {
   border: none;
   outline: none;
   background: none;
+}
+
+.state-to-treat {
+  text-align: center;
+  background-color: #ffe3e6; /* Rouge pastel */
+  color: #ce1a2c; /* Rouge plus foncé */
+  padding: 8px 0px;
+  border-radius: 12px;
+  font-weight: bold
+}
+
+.state-in-progress {
+  text-align: center;
+  background-color: #d1ecf1; /* Bleu pastel */
+  color: #0c5460; /* Bleu foncé */
+  padding: 8px 0px;
+  border-radius: 12px;
+  font-weight: bold
+}
+
+.state-resolved {
+  text-align: center;
+  background-color: #d4edda; /* Vert pastel */
+  color: #155724; /* Vert foncé */
+  padding: 8px 0px;
+  border-radius: 12px;
+  font-weight: bold
 }
 
 .pagination {
