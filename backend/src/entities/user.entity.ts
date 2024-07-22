@@ -33,6 +33,5 @@ export class User {
   school_prom: string;
 
   @Column()
-  card_number: number; 
-
+  card_number: number;
 }

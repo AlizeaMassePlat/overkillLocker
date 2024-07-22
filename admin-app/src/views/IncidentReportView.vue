@@ -6,11 +6,11 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'IncidentReportView',
-  props: ['id']
-};
+<script setup>
+
+
+
+
 </script>
 
 <style scoped>
