@@ -1,12 +1,12 @@
-import { IsBoolean, IsLatLong, IsNumber } from "class-validator";
+import { IsBoolean, IsNumber, IsString } from "class-validator";
 
 export class CreateLockerDto {
 
     @IsBoolean()
     is_open: boolean;
 
-    @IsLatLong()
-    position: string = null;
+    @IsString()
+    position: string;
 
     @IsNumber()
     state: number;

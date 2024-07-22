@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { LockerService } from './locker.service';
 import { CreateLockerDto } from './dto/create-locker.dto';
 import { UpdateLockerDto } from './dto/update-locker.dto';
+import { BeforeUpdate } from 'typeorm';
 
 @Controller('locker')
 export class LockerController {
@@ -12,6 +13,7 @@ export class LockerController {
     return this.lockerService.create(createLockerDto);
   }
 
+  
   @Get()
   findAll() {
     return this.lockerService.findAll();
@@ -27,8 +29,17 @@ export class LockerController {
     return this.lockerService.update(+id, updateLockerDto);
   }
 
+  @Patch('/isopen/:id')
+  openLocker(@Param('id') id: string, @Body() updateLockerDto: UpdateLockerDto) {
+    return this.lockerService.update(+id, updateLockerDto );
+  }
+
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.lockerService.remove(+id);
   }
+
+  
+
 }
