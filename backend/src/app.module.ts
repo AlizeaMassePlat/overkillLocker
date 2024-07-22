@@ -6,6 +6,7 @@ import { CardModule } from './card/card.module';
 import { ErrorModule } from './error/error.module';
 import { LogModule } from './log/log.module';
 import { LockerModule } from './locker/locker.module';
+import { ReservationModule } from './reservation/reservation.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { LockerModule } from './locker/locker.module';
     ErrorModule,
     LogModule,
     LockerModule,
+    ReservationModule,
   ],
   controllers: [],
   providers: [],
