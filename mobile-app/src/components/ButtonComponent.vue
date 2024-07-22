@@ -42,7 +42,7 @@ const handleClick = (event: MouseEvent) => {
 }
 .btn-sm {
   border-radius: 8px;
-  background-color: #ffa62b;
+  --background: #ffa62b;
   width: 180px;
   height: 45px;
   display: flex;
