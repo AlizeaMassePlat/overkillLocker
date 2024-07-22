@@ -7,7 +7,10 @@
 
 <script>
 export default {
-  name: 'CreateUserView'
+  name: 'CreateUserView',
+  components: {
+    
+  }
 };
 </script>
 
