@@ -3,21 +3,21 @@ import { AbstractEntity } from 'src/database/abstract.entity';
 @Entity()
 export class Locker extends AbstractEntity<Locker> {
 
-@Column({nullable:false})
-state: number;
+    @Column({nullable:false})
+    is_open: boolean;
+    
+    @Column({ length: 255 })
+    position: string;
+    
+    @Column({nullable:false})
+    state: number;
 
-@Column({ length: 255 })
-position: string;
-
-@Column({nullable:false})
-is_open: boolean;
-
-@Column({nullable:false})
-is_delete: boolean;
+    @Column({nullable:false})
+    is_delete: boolean;
 
 
-@Column({nullable:false})
-id_group_locker: number;
+    @Column({nullable:false})
+    id_group_locker: number;
 
 }
 
