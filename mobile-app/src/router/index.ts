@@ -3,7 +3,7 @@ import {
 	createWebHistory,
 } from "@ionic/vue-router";
 import HomeView from "../views/HomeView.vue";
-import MapView from "@/views/MapView.vue";
+import LandingView from "@/views/LandingView.vue";
 import ReserveView from "@/views/ReserveView.vue";
 import StartView from "../views/StartView.vue";
 import LoginView from "../views/LoginView.vue";
@@ -18,8 +18,8 @@ import ReportIncidentView from "@/views/ReportIncidentView.vue";
 const routes = [
 	{
 		path: "/",
-		name: "MapView",
-		component: MapView,
+		name: "LandingView",
+		component: LandingView,
 	},
 	{
 		path: "/home",
@@ -47,13 +47,8 @@ const routes = [
 		children: [
 			{
 				path: "/",
-				name: "MapView",
-				component: MapView,
-			},
-			{
-				path: "reserver",
-				name: "ReserveView",
-				component: ReserveView,
+				name: "LandingView",
+				component: LandingView,
 			},
 			{
 				path: "mes-reservations",
