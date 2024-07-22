@@ -1,26 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException,  } from '@nestjs/common';
 import { CreateLockerDto } from './dto/create-locker.dto';
 import { UpdateLockerDto } from './dto/update-locker.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Locker } from './entities/locker.entity';
 
 @Injectable()
 export class LockerService {
-  create(createLockerDto: CreateLockerDto) {
-    return 'This action adds a new locker';
+
+
+  constructor(
+    @InjectRepository(Locker)
+    private LockerRepository: Repository<Locker>,
+  ) {}
+
+
+  async create(createLockerDto: CreateLockerDto) {
+    try{
+      const result = await this.LockerRepository.insert(createLockerDto);
+      const message = `Locker with ID ${result.identifiers[0].id} successfully created`;
+      return { message };
+    }
+    catch (error) {
+      throw new BadRequestException(`${error}`);
+    }
   }
 
-  findAll() {
-    return `This action returns all locker`;
+
+
+  async findAll() {
+    return await this.LockerRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} locker`;
+  async findOne(id: number):Promise<Locker> {
+    return await this.LockerRepository.findOneBy({id});
   }
 
-  update(id: number, updateLockerDto: UpdateLockerDto) {
-    return `This action updates a #${id} locker`;
+  async update(id: number, updateLockerDto: UpdateLockerDto) {
+    return await this.LockerRepository.update(id, updateLockerDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} locker`;
+  async remove(id: number) {
+    return await this.LockerRepository.delete(id);
   }
+
+
+  
 }
