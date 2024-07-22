@@ -1,6 +1,5 @@
 <template>
   <div>
-    <NavbarComponent />
     <h1>Dashboard</h1>
     <div class="stats">
       <StatsCard title="Users" :value="132" />
@@ -13,7 +12,6 @@
 </template>
 
 <script>
-import NavbarComponent from '../components/NavbarComponent.vue';
 import StatsCard from '../components/StatsCardComponent.vue';
 import CampusMap from '../components/CampusMapComponent.vue';
 
@@ -22,7 +20,6 @@ export default {
   components: {
     StatsCard,
     CampusMap,
-    NavbarComponent
   }
 };
 </script>

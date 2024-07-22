@@ -1,6 +1,5 @@
 <template>
   <div class="users-view">
-    <NavbarComponent />
     <div class="content">
       <button class="back-button">Retour</button>
       <h1>Utilisateurs</h1>
@@ -11,13 +10,11 @@
 </template>
 
 <script>
-import NavbarComponent from '../components/NavbarComponent.vue';
 import UserFormComponent from '../components/UserFormComponent.vue';
 
 export default {
   name: 'UsersView',
   components: {
-    NavbarComponent,
     UserFormComponent
   }
 };
