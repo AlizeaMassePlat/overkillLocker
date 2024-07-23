@@ -10,9 +10,7 @@
   </script>
   
   <style>
-  #app {
   
-  }
   </style>
   
   

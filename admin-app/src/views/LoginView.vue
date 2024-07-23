@@ -19,10 +19,10 @@
     >
     </FormInputComponent>
 
-    <div class="register-link">
-      <router-link to="/register">Mot de passe oublier</router-link>
+    <div class="retrievePwd-link">
+      <router-link to="/retrievePwd">Mot de passe oublier</router-link>
     </div>
-    <ButtonComponent type="lg" @click="login">Login</ButtonComponent>
+    <ButtonComponent type="lg" @click="login" label="Connexion"/>
   </div>
 </template>
 
@@ -70,9 +70,11 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.register-link {
+.retrievePwd-link {
   margin-top: 16px;
   text-align: center;
+  margin-top: 3%;
+  margin-bottom: 3%;
 }
 a{
   color: white;
