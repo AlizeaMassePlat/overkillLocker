@@ -35,11 +35,24 @@ export class LogController {
 
   @Patch('/update/:id')
   async updateLogById(@Param('id') id_log: number, @Body() updateLogDto: UpdateLogDto) {
-    return this.logService.updateLogById(+id_log, updateLogDto);
+    return this.logService.updateLogById(id_log, updateLogDto);
+  }
+
+
+  @Patch('/softdelete/:id')
+  async softDelete(@Param('id') id_log: number, @Body() updateLogDto: UpdateLogDto) {
+    const result = await this.logService.findOne(id_log)
+    if(result.is_delete === false)
+    {
+      updateLogDto.is_delete = true;
+      return this.logService.updateLogById(id_log, updateLogDto);
+    }else {
+      throw new Error('log not found or already deleted')
+    }
   }
 
   @Delete('/delete/:id')
   async deleteLogById(@Param('id') id_log: number) {
-    return this.logService.deleteLogById(+id_log);
+    return this.logService.deleteLogById(id_log);
   }
 }
