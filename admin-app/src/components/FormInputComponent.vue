@@ -1,6 +1,6 @@
 <template>
   <div class="form-input">
-    <p :for="id">{{ label }}</p>
+    <label :for="id">{{ label }}</label>
     <input
       :type="type"
       :id="id"
@@ -19,26 +19,26 @@ export default {
     label: String,
     type: {
       type: String,
-      default: 'text'
+      default: "text",
     },
-    value: [String, Number],
-    error: String
+    value: [String, Number, Date],
+    error: String,
   },
   data() {
     return {
-      inputValue: this.value
+      inputValue: this.value,
     };
   },
   watch: {
     value(newValue) {
       this.inputValue = newValue;
-    }
+    },
   },
   methods: {
     emitInput(event) {
-      this.$emit('input', event.target.value);
-    }
-  }
+      this.$emit("input", event.target.value);
+    },
+  },
 };
 </script>
 

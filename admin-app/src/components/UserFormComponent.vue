@@ -23,8 +23,8 @@
         </div>
         <div class="form-group-inline">
           <div class="form-group">
-            <label class="input-label">Âge</label>
-            <input type="number" v-model="user.age" required />
+            <label class="input-label">Date de naissance</label>
+            <input type="date" v-model="user.date" required />
           </div>
           <div class="form-group">
             <label class="input-label">Genre</label>
@@ -63,7 +63,7 @@ export default {
         prenom: "",
         email: "",
         telephone: "",
-        age: "",
+        date: "",
         genre: "",
         role: "",
       },
@@ -80,10 +80,7 @@ export default {
 
 <style scoped>
 /* Styles pour le formulaire d'utilisateur */
-body {
-  font-family: Arial, sans-serif;
-}
-header {
+h1 {
   text-align: center;
   margin-bottom: 20px;
 }
@@ -131,10 +128,14 @@ select {
   background: none;
   outline: none;
 }
-
 .add-button {
   display: flex;
   justify-content: center;
+}
+input[type="date"] {
+  border: none;
+  background: none;
+  outline: none;
 }
 button.submit-button {
   width: 66%;
