@@ -49,9 +49,6 @@ export default {
 
 <style scoped>
 /* Styles pour la vue principale */
-.users-view {
-  display: flex;
-}
 
 .content {
   flex-grow: 1;

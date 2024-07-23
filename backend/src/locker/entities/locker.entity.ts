@@ -1,24 +1,29 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from 'typeorm';
 import { AbstractEntity } from 'src/database/abstract.entity';
+import { GroupLocker } from 'src/group_locker/entities/group_locker.entity';
+
 @Entity()
 export class Locker extends AbstractEntity<Locker> {
 
-@Column({nullable:false})
-state: number;
+    @Column({nullable:false})
+    state: number;
 
-@Column({ length: 255 })
-position: string;
+    @Column({ length: 255 })
+    position: string;
 
-@Column({nullable:false})
-is_open: boolean;
+    @Column({nullable:false})
+    is_open: boolean;
 
-@Column({nullable:false})
-is_delete: boolean;
+    @Column({nullable:false})
+    is_delete: boolean;
 
+    @Column({
+        type: 'timestamp',
+        default: () => 'CURRENT_TIMESTAMP',
+    })
+    create_date: Date;
 
-@Column({nullable:false})
-id_group_locker: number;
+    @ManyToOne(() => GroupLocker, (GroupLocker) => GroupLocker.lockers)
+    groupLocker: GroupLocker
 
 }
-
-// Finir le fichier locker.entity.ts et le dto puis le module pour l'export en bdd
