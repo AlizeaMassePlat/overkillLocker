@@ -30,7 +30,12 @@ export default {
   align-items: center; 
   font-weight: bold;
   font-size: 20px;
+}
 
+.card-header ::v-deep(header) {
+  /* Ajoutez des styles spécifiques pour le contenu du slot header ici */
+  margin: 0;
+  color: #333;
 }
 
 .card-body img {

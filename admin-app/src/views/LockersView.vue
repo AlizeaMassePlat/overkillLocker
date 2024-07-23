@@ -216,6 +216,7 @@ table {
   width: calc(100% - 32px);
   border-collapse: collapse;
   margin-top: 16px;
+  font-size: 13px;
 }
 
 table th, table td {
@@ -242,7 +243,8 @@ tbody tr td select {
   background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGwxMiAwTDYgOEwwIDB6IiBmaWxsPSIjMDAwIi8+PC9zdmc+');
   background-repeat: no-repeat;
   background-position: right 10px center;
-  background-size: 12px;
+  background-size: 6px;
+  font-size: 10px;
 }
 
 select.state-available {

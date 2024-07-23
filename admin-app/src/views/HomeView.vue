@@ -68,7 +68,7 @@ body {
   display: flex;
   flex-direction: row;
   height: 100vh;
-  overflow: hidden
+  overflow: hidden;
 }
 
 .navContainer {
@@ -78,6 +78,6 @@ body {
 
 .componentContainer {
   width: 80%;
-  padding: 20px;
+  padding: 24px 32px;
 }
 </style>

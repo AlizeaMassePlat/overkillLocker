@@ -1,6 +1,7 @@
 <template>
     <div class="alertBox">
         <div class="alertInput">
+            <p>Message</p>
             <input type="text" v-model="alertMessage">
         </div>
         <div>
@@ -47,11 +48,28 @@ export default {
     gap: 20px;
 }
 
-.alertBox input[type="text"] {
-    height: 40px;
-    width: 500px;
+.alertInput {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 300px;
     border-radius: 8px;
-    border : 1px solid black;
+    border : 1px solid #FFA62B;
+    background: #ECF0FF;
+    padding: 8px 24px;
+}
+
+.alertInput p {
+    margin: 0;
+    font-size: 10.5px;
+    color: #323232;
+}
+
+.alertInput input {
+margin: 0;
+   outline: none;
+   border: none;
+   background: #ECF0FF;
 }
 
 .cbContainer {
