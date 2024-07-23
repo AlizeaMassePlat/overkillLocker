@@ -45,21 +45,22 @@ export default {
   width: 90%;
   display: flex;
   justify-content: start;
-  margin-bottom: 3%;
+  margin-bottom: 2%;
 }
+
 .mainContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
-  
   width: 100%;
 }
 
 .alertContainer, .statsContainer, .mapContainer {
   width: 90%;
-  max-width: 1200px; /* Vous pouvez ajuster cela selon vos besoins */
+  max-width: 1200px;
+  max-height: 12vh;
 }
 
 .statsContainer {
