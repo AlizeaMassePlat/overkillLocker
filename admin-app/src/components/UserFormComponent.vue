@@ -1,117 +1,154 @@
 <template>
-  <div class="user-form">
-    <h2>Ajouter un utilisateur</h2>
-    <form @submit.prevent="handleSubmit">
-      <div class="form-group">
-        <label for="nom">Nom</label>
-        <input type="text" id="nom" v-model="user.nom" />
-      </div>
-      <div class="form-group">
-        <label for="prenom">Prénom</label>
-        <input type="text" id="prenom" v-model="user.prenom" />
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" v-model="user.email" />
-      </div>
-      <div class="form-group">
-        <label for="telephone">Téléphone</label>
-        <input type="tel" id="telephone" v-model="user.telephone" />
-      </div>
-      <div class="form-group">
-        <label for="age">Âge</label>
-        <input type="number" id="age" v-model="user.age" />
-      </div>
-      <div class="form-group">
-        <label for="genre">Genre</label>
-        <select id="genre" v-model="user.genre">
-          <option value="masculin">Masculin</option>
-          <option value="feminin">Féminin</option>
-          <option value="feminin">Autre</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="role">Rôle</label>
-        <select type="text" id="role" v-model="user.role" >
-          <option value="etudiant">Etudiant</option>
-          <option value="prof">Prof</option>
-          <option value="externe">Externe</option>
-        </select>
-      </div>
-      <button type="submit">Ajouter</button>
-    </form>
+  <div>
+    <header>
+      <h1>Ajouter un utilisateur</h1>
+    </header>
+    <main>
+      <form @submit.prevent="handleSubmit" class="form">
+        <div class="form-group">
+          <label class="input-label">Nom</label>
+          <input type="text" v-model="user.nom" required />
+        </div>
+        <div class="form-group">
+          <label class="input-label">Prénom</label>
+          <input type="text" v-model="user.prenom" required />
+        </div>
+        <div class="form-group">
+          <label class="input-label">Email</label>
+          <input type="email" v-model="user.email" required />
+        </div>
+        <div class="form-group">
+          <label class="input-label">Téléphone</label>
+          <input type="tel" v-model="user.telephone" required />
+        </div>
+        <div class="form-group-inline">
+          <div class="form-group">
+            <label class="input-label">Âge</label>
+            <input type="number" v-model="user.age" required />
+          </div>
+          <div class="form-group">
+            <label class="input-label">Genre</label>
+            <select v-model="user.genre" required>
+              <option disabled value="">Sélectionner</option>
+              <option>Masculin</option>
+              <option>Féminin</option>
+              <option>Autre</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="input-label">Rôle</label>
+          <select v-model="user.role" required>
+            <option disabled value="">Sélectionner</option>
+            <option>Étudiant</option>
+            <option>Intervenant</option>
+            <option>Externe</option>
+          </select>
+        </div>
+        <div class="add-button">
+          <button type="submit" class="submit-button">Ajouter</button>
+        </div>
+      </form>
+    </main>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'UserFormComponent',
+  name: "UserFormComponent",
   data() {
     return {
-      user : {
-        nom: '',
-        prenom: '',
-        email: '',
-        telephone: '',
-        age: '',
-        genre: '',
-        role: ''
-      }
-    }
+      user: {
+        nom: "",
+        prenom: "",
+        email: "",
+        telephone: "",
+        age: "",
+        genre: "",
+        role: "",
+      },
+    };
   },
   methods: {
     handleSubmit() {
       // Handle save logic here
-      console.log('Save user', this.nom, this.email);
-    }
-  }
+      console.log("Save user", this.user);
+    },
+  },
 };
 </script>
 
 <style scoped>
 /* Styles pour le formulaire d'utilisateur */
-.user-form {
-  padding: 16px;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  max-width: 400px;
-  margin: auto;
+body {
+  font-family: Arial, sans-serif;
 }
-
-.user-form h2 {
+header {
   text-align: center;
+  margin-bottom: 20px;
 }
-
+.form {
+  max-width: 342px;
+  margin: 0 auto;
+  padding: 20px;
+}
 .form-group {
-  margin-bottom: 16px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-}
-
-.form-group input,
-.form-group select {
-  width: 96%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-button {
-  display: block;
+  margin-bottom: 15px;
+  position: relative;
   width: 100%;
-  padding: 12px;
-  background-color: #ffa62b;
-  color: white;
+  padding: 21px 8px 8px 8px;
+  border: 2px solid #ffdac1;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 16px;
+  margin-top: 10px;
+  background-color: #ecf0ff;
+}
+.form-group-inline {
+  display: flex;
+  justify-content: space-between;
+}
+.form-group-inline .form-group {
+  flex: 1;
+  margin-right: 10px;
+  position: relative;
+}
+.form-group-inline .form-group:last-child {
+  margin-right: 0;
+}
+.input-label {
+  position: absolute;
+  font-size: 10px;
+  top: 4px;
+  color: #98928f;
+}
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+select {
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  background: none;
+  outline: none;
 }
 
-button:hover {
-  background-color: #e59426;
+.add-button {
+  display: flex;
+  justify-content: center;
+}
+button.submit-button {
+  width: 66%;
+  padding: 16px;
+  margin: 8%;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff9c33;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+button.submit-button:hover {
+  background-color: #e08c2d;
 }
 </style>

@@ -36,7 +36,7 @@ export default {
 };
 </script>
 <style scoped>
-.form {
+/* .form {
   padding: 16px;
-}
+} */
 </style>

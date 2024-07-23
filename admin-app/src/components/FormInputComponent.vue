@@ -1,6 +1,6 @@
 <template>
   <div class="form-input">
-    <label :for="id">{{ label }}</label>
+    <p :for="id">{{ label }}</p>
     <input
       :type="type"
       :id="id"
