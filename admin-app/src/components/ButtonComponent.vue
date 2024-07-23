@@ -1,6 +1,6 @@
 <template>
   <button :class="buttonClass" @click="handleClick">
-    <slot></slot>
+    {{ label }}
   </button>
 </template>
 
@@ -10,6 +10,10 @@ export default {
     type: {
       type: String,
       default: 'lg'
+    },
+    label: {
+      type: String,
+      default: 'Button'
     }
   },
   computed: {
@@ -38,7 +42,8 @@ export default {
   justify-content: center;
   align-items: center;
   color: white;
-  margin-top: 34px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 .btn-sm {
   border-radius: 8px;
@@ -49,6 +54,6 @@ export default {
   justify-content: center;
   align-items: center;
   color: white;
-  margin-top: 34px;
-}
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;}
 </style>

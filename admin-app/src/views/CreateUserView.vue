@@ -1,15 +1,14 @@
 <template>
-  <div class="users-view">
-    <div class="content">    
-     <button class="back-button">Retour</button>
-      <UserFormComponent 
-      />
+  <div class="mainContainer">
+    <div class="formContainer">
+      <UserFormComponent />
     </div>
   </div>
 </template>
 
 <script>
-import UserFormComponent from '../components/UserFormComponent.vue';
+import UserFormComponent from '@/components/UserFormComponent.vue';
+
 export default {
   name: 'CreateUserView',
   components: {
@@ -20,6 +19,11 @@ export default {
 </script>
 
 <style scoped>
+.mainContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
 /* Add your styles here */
 .users-view {
   display: flex;

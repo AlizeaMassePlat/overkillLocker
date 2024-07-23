@@ -1,7 +1,8 @@
 import { IsBoolean, IsDate, IsNumber, IsString } from "class-validator";
 import { AbstractEntity } from "src/database/abstract.entity";
-import { Column } from "typeorm";
+import { Column, Entity } from "typeorm";
 
+@Entity()
 export class Log extends AbstractEntity<Log> {
 
     @Column({length:255})

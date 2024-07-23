@@ -3,27 +3,27 @@ import { CreateErrorDto } from './dto/create-error.dto';
 import { UpdateErrorDto } from './dto/update-error.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ErrorEntity } from './entities/error.entity';
+import { Error } from './entities/error.entity';
 import { DeleteErrorDto } from './dto/delete-error.dto';
 
 @Injectable()
 export class ErrorService {
 
   constructor(
-    @InjectRepository(ErrorEntity)
-    private errorRepository: Repository<ErrorEntity>,
+    @InjectRepository(Error)
+    private errorRepository: Repository<Error>,
   ) {}
 
   async create(createErrorDto: CreateErrorDto) {
     return this.errorRepository.insert(createErrorDto);
   }
 
-  findAll() {
+  async findAll(): Promise<Error[]> {
     return this.errorRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} error`;
+    return this.errorRepository.findOneBy({'id': id});
   }
 
   update(id: number, updateErrorDto: UpdateErrorDto) {
@@ -32,5 +32,24 @@ export class ErrorService {
 
   remove(id: number, deleteErrorDto: DeleteErrorDto) {
     return `This action removes a #${id} error`;
+  }
+
+  async findOneWithRelations(id: number) {
+    return this.errorRepository.findOne({
+      where: { id: id },
+      relations: {
+        user:true,
+        reservation: true
+      }
+    });  
+  }
+
+  async findAllWithRelations() {
+    return this.errorRepository.find({
+      relations: {
+          user:true,
+          reservation: true
+      }
+    });
   }
 }
