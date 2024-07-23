@@ -53,11 +53,6 @@ const routes = [
 				component: AccountView,
 			},
 			{
-				path: "mon-compte/editer",
-				name: "EditAccountView",
-				component: EditAccountView,
-			},
-			{
 				path: "signaler-un-incident",
 				name: "ReportIncidentView",
 				component: ReportIncidentView,

@@ -16,7 +16,8 @@
 				@didDismiss="closeBookingsModal"
 				class="bookings-modal"
 				:initial-breakpoint="0.8"
-				:breakpoints="[0, 0.8, 1]">
+				:breakpoints="[0, 0.8, 1]"
+				>
 				<div class="modal-header">
 					<h2>Mes réservations</h2>
 				</div>
@@ -238,9 +239,9 @@ export default defineComponent({
 			router.push("/");
 		};
 
-		// onMounted(() => {
-		// 	isBookingsModalOpen.value = true;
-		// });
+		onMounted(() => {
+			isBookingsModalOpen.value = true;
+		});
 
 		watch(
 			() => route.fullPath,
