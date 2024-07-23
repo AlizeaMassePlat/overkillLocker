@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Error } from 'src/error/entities/error.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class User {
@@ -36,6 +37,8 @@ export class User {
   @Column()
   create_date: Date;
 
+  @OneToMany(() => Error, (error) => error.user)
+  errors: Error[]
 
 }
 
