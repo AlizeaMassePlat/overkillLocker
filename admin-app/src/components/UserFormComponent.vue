@@ -124,6 +124,7 @@ input[type="email"],
 input[type="tel"],
 input[type="number"],
 select {
+  width: 100%s;
   border: none;
   background: none;
   outline: none;
