@@ -2,42 +2,41 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { LockerService } from './locker.service';
 import { CreateLockerDto } from './dto/create-locker.dto';
 import { UpdateLockerDto } from './dto/update-locker.dto';
-import { BeforeUpdate } from 'typeorm';
 
 @Controller('locker')
 export class LockerController {
   constructor(private readonly lockerService: LockerService) {}
 
   @Post()
-  create(@Body() createLockerDto: CreateLockerDto) {
+  controllerCreate(@Body() createLockerDto: CreateLockerDto) {
     return this.lockerService.create(createLockerDto);
   }
 
   
   @Get()
-  findAll() {
+  controllerFindAll() {
     return this.lockerService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  controllerFindOne(@Param('id') id: string) {
     return this.lockerService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLockerDto: UpdateLockerDto) {
-    return this.lockerService.update(+id, updateLockerDto);
+  controllerUpdate(@Param('id') id: string, @Body() updateLockerDto: UpdateLockerDto) {
+    return this.lockerService.updateLocker(+id, updateLockerDto);
   }
 
   @Patch('/isopen/:id')
-  openLocker(@Param('id') id: string, @Body() updateLockerDto: UpdateLockerDto) {
-    return this.lockerService.update(+id, updateLockerDto );
+  controllerOpenLocker(@Param('id') id: string, @Body() updateLockerDto: UpdateLockerDto) {
+    return this.lockerService.updateLocker(+id, updateLockerDto );
   }
 
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.lockerService.remove(+id);
+  controllerDelete(@Param('id') id: string) {
+    return this.lockerService.delete(+id);
   }
 
   
