@@ -8,13 +8,11 @@
 
 <script>
 import UserFormComponent from '@/components/UserFormComponent.vue';
-import NavigationComponent from '@/components/NavigationComponent.vue';
 
 export default {
   name: 'CreateUserView',
   components: {
     UserFormComponent,
-    NavigationComponent
   }
 };
 </script>
