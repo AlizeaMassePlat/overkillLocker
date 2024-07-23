@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
 import { AbstractEntity } from 'src/database/abstract.entity';
+import { Log } from 'src/log/entities/log.entity';
 @Entity()
 export class Locker extends AbstractEntity<Locker> {
 
@@ -15,9 +16,12 @@ is_open: boolean;
 @Column({nullable:false})
 is_delete: boolean;
 
+@Column()
+id_group_locker:number;
 
-@Column({nullable:false})
-id_group_locker: number;
+@OneToMany(() => Log, log => log.id_locker)
+@JoinColumn({ name: 'id_locker' })  // Explicitly specify the column name
+logs: Log[];
 
 }
 
