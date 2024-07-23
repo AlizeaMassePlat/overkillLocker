@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Reservations</h1>
-    <!-- List of reservations here -->
+    <p>COUCOU</p>
   </div>
 </template>
 

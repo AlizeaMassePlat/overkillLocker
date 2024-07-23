@@ -23,11 +23,10 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { IonAvatar, IonContent, IonItem, IonLabel, IonList, IonPage, IonButton } from '@ionic/vue';
-
 const router = useRouter();
 
 function editAccount() {
-  router.push('/account/edit');
+  router.push('mon-compte/editer');
 }
 </script>
 

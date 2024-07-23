@@ -1,34 +1,83 @@
 <template>
-  <div>
-    <ButtonComponent v-model:value="test" :onClick="handleButtonClick" />
-    <p>Test value in parent: {{ test }}</p>
+  <div class="homepage">
+    <div class="navContainer">
+      <NavigationComponent 
+        :logo="require('@/assets/SmartLocker.svg')" 
+        :greyDot="require('@/assets/greyDot.png')"
+        :orangeDot="require('@/assets/orangeDot.png')" 
+        :links="navLinks"
+        :activeLink="activeLink"
+        :deconnexion="require('@/assets/deconnexion.png')"
+        @link-clicked="setComponent"
+      />
+    </div>
+    <div class="componentContainer">
+      <component :is="currentComponent" />
+    </div>  
   </div>
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
-import ButtonComponent from '../components/ButtonComponent.vue'; 
+import NavigationComponent from '@/components/NavigationComponent.vue';
+import Dashboard from '@/views/DashboardView.vue';
+import Reservations from '@/views/ReservationsView.vue';
+import Utilisateurs from '@/views/UsersView.vue';
+import Casiers from '@/views/LockersView.vue';
+import Rapports from '@/views/ReportsView.vue';
 
-export default defineComponent({
-  name: "HomeView",
+export default {
+  name: 'App',
   components: {
-    ButtonComponent
+    NavigationComponent,
+    Dashboard,
+    Reservations,
+    Utilisateurs,
+    Casiers,
+    Rapports,
   },
-  setup() {
-    const test = ref("toto"); 
-
-    const handleButtonClick = () => {
-      console.log('Button clicked in parent component');
-    };
-
+  data() {
     return {
-      test,
-      handleButtonClick,
+      navLinks: [
+        { component: 'Dashboard', label: 'Tableau de bord' },
+        { component: 'Reservations', label: 'Reservations' },
+        { component: 'Utilisateurs', label: 'Utilisateurs' },
+        { component: 'Casiers', label: 'Casiers' },
+        { component: 'Rapports', label: 'Rapports' }
+      ],
+      currentComponent: 'Dashboard',
+      activeLink: 'Dashboard'
     };
   },
-});
+  methods: {
+    setComponent(componentName) {
+      console.log(`Switching to component: ${componentName}`); // Debug output
+      this.currentComponent = componentName;
+      this.activeLink = componentName;
+    }
+  }
+};
 </script>
 
 <style scoped>
-/* Ajoutez vos styles ici */
+html,
+body {
+   margin: 0;
+   padding: 0;
+}
+.homepage {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  overflow: hidden
+}
+
+.navContainer {
+  width: 20%;
+  position: sticky;
+}
+
+.componentContainer {
+  width: 80%;
+  padding: 20px;
+}
 </style>

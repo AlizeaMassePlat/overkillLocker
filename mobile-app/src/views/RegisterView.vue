@@ -26,7 +26,7 @@
         </ion-item>
         <ion-button expand="full" @click="register">REGISTER</ion-button>
         <div class="login-link">
-          <router-link to="/login">Already registered?</router-link>
+          <router-link to="/connexion">Already registered?</router-link>
         </div>
       </div>
     </ion-content>
