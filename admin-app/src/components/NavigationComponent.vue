@@ -11,6 +11,10 @@
           </div>
         </li>
       </ul>
+      <div class="decoContainer">
+        <img :src="deconnexion" alt="deconnexion" />
+        <p>Deconnexion</p>
+      </div>
     </nav>
   </template>
   
@@ -23,6 +27,7 @@
       orangeDot: String,
       links: Array,
       activeLink: String, // New prop to determine active link
+      deconnexion: String
     },
     methods: {
       handleClick(componentName) {
@@ -34,7 +39,7 @@
   
   <style scoped>
   .navigation {
-    background-color: #FFDAC1;
+    background-color: #ECF0FF;
     padding: 10px;
     margin-bottom: 20px;
     display: flex;
@@ -78,6 +83,17 @@
   
   .logoContainer img {
     width: 30%;
+  }
+  .decoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+  .decoContainer img {
+    width: 20px;
+    height: 20px;
   }
   </style>
   

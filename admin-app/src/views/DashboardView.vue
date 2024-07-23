@@ -1,61 +1,72 @@
 <template>
-  <div>
-    <h1>Dashboard</h1>
-    <div class="stats">
-      <CardComponent>
-        <template v-slot:header>
-          <p>Utilisateur</p>
-        </template>
-        <template v-slot:body>
-          <p>2244</p>
-        </template>
-      </CardComponent>
-      <CardComponent>
-        <template v-slot:header>
-          <p>Reservations</p>
-        </template>
-        <template v-slot:body>
-          <p>44</p>
-        </template>
-      </CardComponent>
-      <CardComponent>
-        <template v-slot:header>
-          <p>Casiers</p>
-        </template>
-        <template v-slot:body>
-          <p>120</p>
-        </template>
-      </CardComponent>
-      <CardComponent>
-        <template v-slot:header>
-          <p>Rapports</p>
-        </template>
-        <template v-slot:body>
-          <p>4</p>
-        </template>
-      </CardComponent>
+  <div class="dashboard">
+    <div class="titleContainer">
+      <h1>Dashboard</h1>
     </div>
-
+    <div class="mainContainer">
+      <div class="alertContainer">
+        <AlertInputComponent />
+      </div>
+      <div class="statsContainer">
+        <StatsCardComponent />
+      </div>
+      <div class="mapContainer">
+        <CampusMapComponent />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import CardComponent from '@/components/CardComponent.vue';
+import StatsCardComponent from '@/components/StatsCardComponent.vue';
+import CampusMapComponent from '@/components/CampusMapComponent.vue';
+import AlertInputComponent from '@/components/AlertInputComponent.vue';
 
 export default {
   name: 'DashboardView',
   components: {
-    CardComponent
+    StatsCardComponent,
+    CampusMapComponent,
+    AlertInputComponent
+
   }
- 
+
 };
 </script>
 
 <style scoped>
-.stats {
+.dashboard {
   display: flex;
-  margin-bottom: 20px;
-  justify-content: space-around;
-  
+  flex-direction: column;
+  align-items: center;
 }
+.titleContainer {
+  width: 90%;
+  display: flex;
+  justify-content: start;
+}
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  
+  width: 100%;
+}
+
+.alertContainer, .statsContainer, .mapContainer {
+  width: 90%;
+  max-width: 1200px; /* Vous pouvez ajuster cela selon vos besoins */
+}
+
+.statsContainer {
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+
+.mapContainer {
+  margin-bottom: 3%; /* Ajouté pour un peu d'espacement en bas */
+}
+
 </style>

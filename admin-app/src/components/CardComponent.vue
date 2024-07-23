@@ -17,24 +17,22 @@
   
   <style scoped>
   .card{
-    
     width: 230px;
     padding: 10px;
     height : 120px;
     border-radius: 8px;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;    
   }
   .card-header {
     background: #f0f0f0;
     padding: 10px;
-    font-size: 18px;
+    
   }
   .card-body {
     display: flex;
-    font-size: 32px;
     justify-content: end;
     font-weight: bold;
+    font-size: 22px;
   }
   </style>
   

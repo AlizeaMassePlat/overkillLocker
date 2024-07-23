@@ -7,6 +7,7 @@
         :orangeDot="require('@/assets/orangeDot.png')" 
         :links="navLinks"
         :activeLink="activeLink"
+        :deconnexion="require('@/assets/deconnexion.png')"
         @link-clicked="setComponent"
       />
     </div>
