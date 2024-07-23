@@ -21,7 +21,7 @@
 import NavigationComponent from '@/components/NavigationComponent.vue';
 import Dashboard from '@/views/DashboardView.vue';
 import Reservations from '@/views/ReservationsView.vue';
-import Utilisateur from '@/views/UsersView.vue';
+import Utilisateurs from '@/views/UsersView.vue';
 import Casiers from '@/views/LockersView.vue';
 import Rapports from '@/views/ReportsView.vue';
 
@@ -31,7 +31,7 @@ export default {
     NavigationComponent,
     Dashboard,
     Reservations,
-    Utilisateur,
+    Utilisateurs,
     Casiers,
     Rapports,
   },
@@ -40,12 +40,12 @@ export default {
       navLinks: [
         { component: 'Dashboard', label: 'Tableau de bord' },
         { component: 'Reservations', label: 'Reservations' },
-        { component: 'Utilisateur', label: 'Utilisateur' },
+        { component: 'Utilisateurs', label: 'Utilisateurs' },
         { component: 'Casiers', label: 'Casiers' },
         { component: 'Rapports', label: 'Rapports' }
       ],
-      currentComponent: 'Dashboard', // Set a default component
-      activeLink: 'Dashboard' // Initial active link
+      currentComponent: 'Dashboard',
+      activeLink: 'Dashboard'
     };
   },
   methods: {
