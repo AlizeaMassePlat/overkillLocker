@@ -12,5 +12,5 @@ export class CreateErrorDto {
     date_create:Date
 
     @IsNumber()
-    id_user:number
+    id_user:string
 }

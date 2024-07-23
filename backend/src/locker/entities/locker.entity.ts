@@ -1,24 +1,23 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { AbstractEntity } from 'src/database/abstract.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Reservation } from '../../reservation/entities/reservation.entity';
+
 @Entity()
-export class Locker extends AbstractEntity<Locker> {
+export class Locker {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-@Column({nullable:false})
-state: number;
+  @Column()
+  state: number;
 
-@Column({ length: 255 })
-position: string;
+  @Column()
+  position: string;
 
-@Column({nullable:false})
-is_open: boolean;
+  @Column()
+  is_open: boolean;
 
-@Column({nullable:false})
-is_delete: boolean;
+  @Column()
+  is_delete: boolean;
 
-
-@Column({nullable:false})
-id_group_locker: number;
-
+  @OneToMany(() => Reservation, (reservation) => reservation.locker)
+  reservations: Reservation[];
 }
-
-// Finir le fichier locker.entity.ts et le dto puis le module pour l'export en bdd

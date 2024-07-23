@@ -32,6 +32,6 @@ export class ErrorEntity extends AbstractEntity<Error>{
         nullable:false
         })
     @OneToMany((type) => User, (user) => user.id)
-    id_user:number;
+    id_user:string;
 }
 

@@ -1,30 +1,48 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn
+} from 'typeorm';
 import { AbstractEntity } from 'src/database/abstract.entity';
 import { IsDate } from 'class-validator';
+import { User } from '../../user/entities/user.entity';
+import { Locker } from 'src/locker/entities/locker.entity';
 
 @Entity()
 export class Reservation extends AbstractEntity<Reservation> {
+  @PrimaryGeneratedColumn()
+  id: number;
 
 
     @Column({nullable:false})
-    state: number;
+  state: number;
 
-    @CreateDateColumn()
-    @IsDate()
-    date: Date;
+  @CreateDateColumn()
+  @IsDate()
+  date: Date;
 
-    @Column()
-    reserve_type: string;
+  @Column()
+  reserve_type: string;
 
-    @Column()
-    is_delete: boolean;
+  @Column()
+  is_delete: boolean;
 
-    @Column()
-    id_locker: number;
+  @Column()
+  id_locker: number;
 
-    @Column()
-    id_user: number;
+  @Column()
+  id_user: string;
 
+  @ManyToOne(() => User, (user) => user.reservations)
+  @JoinColumn({ name: 'id_user' })
+  user: User;
+
+  @ManyToOne(() => Locker, (locker) => locker.reservations)
+  @JoinColumn({ name: 'id_locker' })
+  locker: Locker;
 }
 
 

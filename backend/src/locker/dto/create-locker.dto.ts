@@ -1,6 +1,16 @@
+import { IsNotEmpty, IsString, IsBoolean, IsNumber } from 'class-validator';
+
 export class CreateLockerDto {
-    state: number;
-    position: string;
-    is_open: boolean;
-    is_delete: boolean;
+  @IsNumber()
+  readonly state: number;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly position: string;
+
+  @IsBoolean()
+  readonly is_open: boolean;
+
+  @IsBoolean()
+  readonly is_delete: boolean;
 }
