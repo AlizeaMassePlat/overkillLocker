@@ -1,6 +1,6 @@
 <template>
   <div class="form-input">
-    <label :for="id">{{ label }}</label>
+    <label :for="id" position="fixed">{{ label }}</label>
     <input
       :type="type"
       :id="id"
@@ -56,6 +56,7 @@ export default {
   font-size: 14px;
   padding-left: 9px;
   margin-top: 34px;
+  padding-top: 2px;
 }
 .input-field {
   width: 96%;

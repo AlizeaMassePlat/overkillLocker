@@ -2,11 +2,12 @@
   <div class="homepage">
     <div class="navContainer">
       <NavigationComponent 
-        :logo="require('../../public/img/SmartLocker.svg')" 
-        :greyDot="require('../../public/img/greyDot.png')"
-        :orangeDot="require('../../public/img/orangeDot.png')" 
+        :logo="require('@/assets/SmartLocker.svg')" 
+        :greyDot="require('@/assets/greyDot.png')"
+        :orangeDot="require('@/assets/orangeDot.png')" 
         :links="navLinks"
         :activeLink="activeLink"
+        :deconnexion="require('@/assets/deconnexion.png')"
         @link-clicked="setComponent"
       />
     </div>
@@ -66,6 +67,7 @@ export default {
 
 .navContainer {
   width: 20%;
+  position: sticky;
 }
 
 .componentContainer {
