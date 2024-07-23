@@ -73,7 +73,7 @@
   .navList span {
     text-decoration: none;
     color: black;
-    font-size: 18px;
+    font-size: 16px;
   }
   
   .logoContainer {

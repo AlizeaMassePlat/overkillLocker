@@ -4,7 +4,7 @@
             <input type="text" v-model="alertMessage">
         </div>
         <div>
-            <ButtonComponent type="lg" @click="handleAlerte">Alerte</ButtonComponent>
+            <ButtonComponent type="sm" @click="handleAlerte" label="ENVOYER"/>
         </div>
         <div class="cbContainer">
             <input type="checkbox" v-model="alerte">

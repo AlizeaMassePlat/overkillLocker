@@ -39,11 +39,13 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  
 }
 .titleContainer {
   width: 90%;
   display: flex;
   justify-content: start;
+  margin-bottom: 3%;
 }
 .mainContainer {
   display: flex;
