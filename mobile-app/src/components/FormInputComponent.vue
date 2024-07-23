@@ -1,14 +1,14 @@
 <template>
 	<ion-item class="form-input">
-	  <ion-label :for="id" position="fixed">{{ label }}</ion-label>
-	  <ion-input
+	<ion-label :for="id" position="fixed">{{ label }}</ion-label>
+	<ion-input
 		:type="type"
 		:id="id"
 		v-model="inputValue"
 		@ionInput="emitInput"
 		clearInput
-	  ></ion-input>
-	  <p v-if="error" class="error">{{ error }}</p>
+	></ion-input>
+	<p v-if="error" class="error">{{ error }}</p>
 	</ion-item>
   </template>
   
