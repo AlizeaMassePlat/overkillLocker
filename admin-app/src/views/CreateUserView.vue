@@ -15,7 +15,6 @@ export default {
     UserFormComponent,
   }
 };
-
 </script>
 
 <style scoped>
