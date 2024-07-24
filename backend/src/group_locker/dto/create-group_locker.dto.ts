@@ -1,8 +1,8 @@
-import { IsInt, IsString, IsBoolean, IsLatLong, IsNumber } from "class-validator";
+import { IsInt, IsString, IsBoolean, IsLatLong } from "class-validator";
 import { Point } from "typeorm";
 
 export class CreateGroupLockerDto {
-
+    
     @IsLatLong()
     coordinate:Point;
 

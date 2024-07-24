@@ -1,23 +1,8 @@
-import { IsBoolean, IsInt, IsLatLong, IsNumber, IsString } from 'class-validator';
-import { Point } from 'typeorm';
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateGroupLockerDto } from './create-group_locker.dto';
+import { IsNumber } from 'class-validator';
 
-export class UpdateGroupLockerDto {
-   
-    @IsLatLong()
-    coordinate?:Point;
-
-    @IsInt()
-    state?:number;
-
-    @IsString()
-    locker_type?:string;
-
-    @IsInt()
-    locker_count?:number;
-
-    @IsString()
-    name_place?:string;
-
-    @IsBoolean()
-    is_delete?:boolean;
+export class UpdateGroupLockerDto extends PartialType(CreateGroupLockerDto) {
+    @IsNumber()
+    id:number;
 }

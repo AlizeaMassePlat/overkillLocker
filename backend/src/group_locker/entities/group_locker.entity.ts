@@ -1,7 +1,7 @@
-import { IsBoolean, IsInt, IsString } from "class-validator";
+import { IsBoolean, IsInt, IsLatLong, IsString } from "class-validator";
 import { AbstractEntity } from "src/database/abstract.entity";
 import { Locker } from "src/locker/entities/locker.entity";
-import { Column, Entity, OneToMany } from "typeorm";
+import { Column, Entity, OneToMany, Point } from "typeorm";
 
 @Entity()
 export class GroupLocker extends AbstractEntity<GroupLocker> {
