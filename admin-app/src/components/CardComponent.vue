@@ -20,7 +20,6 @@ export default {
 .card {
   width: 200px;
   padding: 10px;
-  height: 120px;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
@@ -31,8 +30,14 @@ export default {
   align-items: center; 
   font-weight: bold;
   font-size: 20px;
-
 }
+
+.card-header ::v-deep(header) {
+  /* Ajoutez des styles spécifiques pour le contenu du slot header ici */
+  margin: 0;
+  color: #333;
+}
+
 .card-body img {
   width: 20px;
   height: 20px;

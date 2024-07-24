@@ -37,7 +37,7 @@ export default {
   border-radius: 8px;
   background-color: #ffa62b;
   width: 310px;
-  height: 45px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,7 +49,7 @@ export default {
   border-radius: 8px;
   background-color: #ffa62b;
   width: 180px;
-  height: 45px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,8 +1,6 @@
 <template>
   <div class="dashboard">
-    <div class="titleContainer">
-      <h1>Dashboard</h1>
-    </div>
+    <h1>Tableau de bord</h1>
     <div class="mainContainer">
       <div class="alertContainer">
         <AlertInputComponent />
@@ -35,40 +33,30 @@ export default {
 </script>
 
 <style scoped>
-.dashboard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  
+* {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
 }
-.titleContainer {
-  width: 90%;
-  display: flex;
-  justify-content: start;
-  margin-bottom: 3%;
-}
+
 .mainContainer {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: column; 
   justify-content: center;
-  gap: 20px;
-  
   width: 100%;
+  margin-top: 32px
 }
 
 .alertContainer, .statsContainer, .mapContainer {
-  width: 90%;
-  max-width: 1200px; /* Vous pouvez ajuster cela selon vos besoins */
+  max-height: 12vh;
 }
 
 .statsContainer {
-  margin-top: 3%;
+  margin-top: 32px;
   margin-bottom: 3%;
 }
 
 .mapContainer {
-  margin-bottom: 3%; /* Ajouté pour un peu d'espacement en bas */
+  margin-top: 16px;
 }
 
 </style>

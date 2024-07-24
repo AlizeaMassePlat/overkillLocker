@@ -59,10 +59,16 @@ export default {
 </script>
 
 <style scoped>
+html,
+body {
+   margin: 0;
+   padding: 0;
+}
 .homepage {
   display: flex;
   flex-direction: row;
   height: 100vh;
+  overflow: hidden;
 }
 
 .navContainer {
@@ -72,6 +78,6 @@ export default {
 
 .componentContainer {
   width: 80%;
-  padding: 20px;
+  padding: 24px 32px;
 }
 </style>

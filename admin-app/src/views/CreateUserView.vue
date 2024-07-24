@@ -15,13 +15,15 @@ export default {
     UserFormComponent,
   }
 };
+
 </script>
 
 <style scoped>
 .mainContainer {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   width: 100%;
 }
-/* Add your styles here */
+
 </style>

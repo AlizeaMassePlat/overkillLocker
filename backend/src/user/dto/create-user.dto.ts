@@ -3,8 +3,6 @@ import { Type } from 'class-transformer';
 import { IsString, IsEmail, IsNumber, Length, IsOptional, IsBoolean, IsDate, IsDefined  } from 'class-validator';
 export class CreateUserDto {
 
-    
-
     @Length(8)
     @IsString()
     password: string;
@@ -20,7 +18,6 @@ export class CreateUserDto {
     @IsEmail()
     @IsString()
     @IsDefined()
-    
     email: string;
 
     @IsOptional()

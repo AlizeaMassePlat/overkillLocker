@@ -1,19 +1,19 @@
 <template>
   <div class="stats">
-      <CardComponent>
+      <CardComponent header="Utilisateur">
         <template v-slot:header>
-          <p>Utilisateur</p>
-          </template>
-          <template v-slot:img>
+          <p class="header_card">Utilisateur</p>
+        </template>
+        <template v-slot:img>
           <img src="@/assets/user.png" alt="user" class="card-image" />
-          </template>
-          <template v-slot:body>
+        </template>
+        <template v-slot:body>
           <p>2244</p>
         </template>
       </CardComponent>
       <CardComponent>
         <template v-slot:header>
-          <p>Reservations</p>
+          <p class="header_card">Reservations</p>
           </template>
           <template v-slot:img>
           <img src="@/assets/resa.png" alt="reservations" class="card-image" />
@@ -24,7 +24,7 @@
       </CardComponent>
       <CardComponent>
         <template v-slot:header>
-          <p>Casiers</p>
+          <p class="header_card">Casiers</p>
           </template>
           <template v-slot:img>
           <img src="@/assets/lock.png" alt="lock" class="card-image" />
@@ -35,7 +35,7 @@
       </CardComponent>
       <CardComponent>
         <template v-slot:header>
-          <p>Rapports</p>
+          <p class="header_card">Rapports</p>
           </template>
           <template v-slot:img>
           <img src="@/assets/priority.png" alt="priority" class="card-image" />
@@ -66,8 +66,14 @@ export default {
   margin-bottom: 10px;
   justify-content: space-between;
 }
+
 .card-image {
   width: 40px;
   height: 40px;
 }
+
+.header_card {
+  margin: 0
+}
+
 </style>
