@@ -2,9 +2,9 @@ import { IsString, IsEmail, IsNumber, Length, IsOptional, IsBoolean, IsDate, IsD
 import { Type } from 'class-transformer';
 
 export enum Gender {
-  Male = 'male',
-  Female = 'female',
-  NonBinary = 'non binary'
+  male = 'male',
+  female = 'female',
+  nonBinary = 'non binary'
 }
 export class CreateUserDto {
   @IsOptional()
@@ -46,7 +46,7 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsNumber()
-  Phone_number?: string;
+  phone_number?: string;
 
   @IsEnum(Gender)
   @IsOptional()

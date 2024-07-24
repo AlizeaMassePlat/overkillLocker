@@ -2,9 +2,9 @@ import { Type } from 'class-transformer';
 import { IsString, IsEmail, IsNumber, Length, IsOptional, IsBoolean, IsDate, IsDefined , IsEnum } from 'class-validator';
 
 export enum Gender {
-    Male = 'male',
-    Female = 'female',
-    NonBinary = 'non binary'
+    male = 'male',
+    female = 'female',
+    nonBinary = 'non binary'
   }
 
 export class UpdateUserDto  {

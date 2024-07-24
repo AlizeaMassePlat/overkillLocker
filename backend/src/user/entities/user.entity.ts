@@ -1,9 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum Gender {
-  Male = 'male',
-  Female = 'female',
-  NonBinary = 'non binary'
+  male = 'male',
+  female = 'female',
+  nonBinary = 'non binary'
 }
 
 @Entity()
@@ -45,7 +45,7 @@ export class User {
   @Column({
     type: 'enum',
     enum: Gender,
-    nullable: true
+    nullable: false
   })
   gender: Gender;
 
