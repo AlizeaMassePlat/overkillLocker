@@ -1,12 +1,12 @@
 import { IsBoolean, IsInt, IsLatLong, IsString } from "class-validator";
 import { AbstractEntity } from "src/database/abstract.entity";
-import { Column, Point } from "typeorm";
-
+import { Column, Entity, Point } from "typeorm";
+@Entity()
 export class GroupLocker extends AbstractEntity<GroupLocker> {
 
     @Column()
     @IsLatLong()
-    coordinate:Point;
+    coordinate:string;
 
     @Column()
     @IsInt()
