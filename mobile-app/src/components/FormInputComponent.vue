@@ -8,13 +8,15 @@
 		label-placement="floating"
 		:helper-text="helper-text"
 		:counter="counter"
+		:v-maskito="v-maskito"
 		:maxlength="maxlength"
-		:error-text="error - text"
+		:error-text="error-text"
 		@ionInput=""
 		@ionBlur=""
 		:placeholder="placeholder"
 		:disabled="disabled"
-		:minlength="minlength">
+		:minlength="minlength"
+		:readonly="readonly">
 	</ion-input>
 </template>
 
