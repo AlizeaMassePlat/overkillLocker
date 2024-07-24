@@ -28,16 +28,36 @@ export class LockerController {
     return this.lockerService.updateLocker(+id, updateLockerDto);
   }
 
-  @Patch('/isopen/:id')
-  controllerOpenLocker(@Param('id') id: string, @Body() updateLockerDto: UpdateLockerDto) {
+  @Patch('/delete/:id')
+  controllerDeleteLocker(@Param('id') id: string, @Body() updateLockerDto: UpdateLockerDto) {
+    updateLockerDto.is_delete = true;
     return this.lockerService.updateLocker(+id, updateLockerDto );
   }
 
-
-  @Delete(':id')
-  controllerDelete(@Param('id') id: string) {
-    return this.lockerService.delete(+id);
+  @Patch('/unDelete/:id')
+  controllerUndeleteLocker(@Param('id') id: string, @Body() updateLockerDto: UpdateLockerDto) {
+    updateLockerDto.is_delete = false;
+    return this.lockerService.updateLocker(+id, updateLockerDto );
   }
+
+  @Patch('/unlock/:id')
+  controllerOpenLocker(@Param('id') id: string, @Body() updateLockerDto: UpdateLockerDto) {
+    updateLockerDto.is_open = true;
+    updateLockerDto.state = 1;
+    return this.lockerService.updateLocker(+id, updateLockerDto );
+  }
+
+  @Patch('/lock/:id')
+  controllerCloseLocker(@Param('id') id: string, @Body() updateLockerDto: UpdateLockerDto) {
+    updateLockerDto.is_open = false;
+    updateLockerDto.state = 0;
+    return this.lockerService.updateLocker(+id, updateLockerDto );
+  }
+
+  // @Delete(':id')
+  // controllerDelete(@Param('id') id: string) {
+  //   return this.lockerService.delete(+id);
+  // }
 
   
 
