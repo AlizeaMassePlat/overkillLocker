@@ -1,26 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateGroupLockerDto } from './dto/create-group_locker.dto';
 import { UpdateGroupLockerDto } from './dto/update-group_locker.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { GroupLocker } from './entities/group_locker.entity';
+import { Point, Repository } from 'typeorm';
 
 @Injectable()
 export class GroupLockerService {
-  create(createGroupLockerDto: CreateGroupLockerDto) {
-    return 'This action adds a new groupLocker';
+
+  constructor(
+    @InjectRepository(GroupLocker)
+    private groupLockerRepository: Repository<GroupLocker>
+  ) {}
+
+  async createGroupLocker(createGroupLockerDto: CreateGroupLockerDto) {
+    return this.groupLockerRepository.insert(createGroupLockerDto);
   }
 
   findAll() {
-    return `This action returns all groupLocker`;
+    return this.groupLockerRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} groupLocker`;
+  findGroupLockerById(id: number) {
+    return this.groupLockerRepository.findOneBy({id});
+  }
+
+  async findGroupLockerByCoordinates(coordinates: Point) {
+    try {
+      console.log(coordinates);
+      const result =  this.groupLockerRepository.createQueryBuilder("group_locker")
+      .select('group_locker.id')
+      .addSelect('group_locker.state')
+      .addSelect('group_locker.coordinate')
+      .addSelect('group_locker.locker_type')
+      .addSelect('group_locker.locker_count')
+      .addSelect('group_locker.name_place')
+      .where('coordinate=:coordinates', {coordinates})
+      .getRawOne();
+
+      return result;
+
+    }catch (error) {
+      throw new NotFoundException(`Group locker not found try different coordinates ${coordinates.coordinates}`)
+    }
   }
 
   update(id: number, updateGroupLockerDto: UpdateGroupLockerDto) {
-    return `This action updates a #${id} groupLocker`;
+    return this.groupLockerRepository.update(id, updateGroupLockerDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} groupLocker`;
+  delete(id: number) {
+    return this.groupLockerRepository.delete(id);
   }
 }
