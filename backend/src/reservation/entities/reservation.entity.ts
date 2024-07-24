@@ -4,6 +4,11 @@ import { IsDate } from 'class-validator';
 import { User } from 'src/user/entities/user.entity';
 import { Locker } from 'src/locker/entities/locker.entity';
 
+export enum Reserve_type {
+    web = 'web',
+    card = 'card'
+}
+
 @Entity()
 export class Reservation extends AbstractEntity<Reservation> {
 
@@ -15,8 +20,13 @@ export class Reservation extends AbstractEntity<Reservation> {
     @IsDate()
     date: Date;
 
-    @Column()
-    reserve_type: string;
+    @Column({
+        type: 'enum',
+        enum: Reserve_type,
+        nullable: false
+    })
+    reserve_type: Reserve_type;
+
 
     @Column()
     is_delete: boolean;
