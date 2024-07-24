@@ -31,11 +31,11 @@
         <tbody>
           <tr v-for="locker in paginatedLockers" :key="locker.id">
             <td>{{ locker.id }}</td>
-            <td>{{ locker.location }}</td>
-            <td>{{ locker.position }}</td>
+            <td>{{ locker.groupLocker.coordinate }}</td>
+            <td>{{ locker.groupLocker.name_place }}</td>
             <td>{{ locker.position }}</td>
             <td>{{ formatDate(locker.create_date) }}</td>
-            <td>{{ locker.type }}</td>
+            <td>{{ locker.groupLocker.locker_type }}</td>
             <td align="center">
               <select v-model="locker.state" :class="getStateClass(locker.state)">
                 <option :value="0">Disponible</option>
@@ -82,8 +82,8 @@ const filteredLockers = computed(() => {
 
   if (search.value) {
     filtered = filtered.filter(locker =>
-      locker.location.toLowerCase().includes(search.value.toLowerCase()) ||
-      locker.type.toLowerCase().includes(search.value.toLowerCase())
+      locker.groupLocker.name_place.toLowerCase().includes(search.value.toLowerCase()) ||
+      locker.groupLocker.locker_type.toLowerCase().includes(search.value.toLowerCase())
     );
   }
 
@@ -165,6 +165,9 @@ const getStateClass = (state) => {
     3: 'state-repairing'
   }[state];
 };
+
+console.log(lockers)
+
 </script>
 
 
