@@ -70,6 +70,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import axios from "axios";
 import { IonPage, IonContent, IonTextarea, IonInput } from "@ionic/vue";
 
 import BackArrow from "@/components/ButtonBackArrow.vue";
@@ -81,30 +82,44 @@ import ModalComponent from "@/components/ModalComponent.vue";
 import Close from "@/components/ButtonClose.vue";
 
 const incident = ref({
-	title: "",
-	state: "",
-	body: "",
+  title: "",
+  state: "",
+  body: "",
+  id_user: 1, 
+  date_create: new Date()
 });
 
 const selectState = ref([
-	{ value: "1", label: "Casier sale" },
-	{ value: "2", label: "Équipement manquant" },
-	{ value: "3", label: "Fermeture cassée" },
-	{ value: "4", label: "Autre" },
+  { value: "1", label: "Casier sale" },
+  { value: "2", label: "Équipement manquant" },
+  { value: "3", label: "Fermeture cassée" },
+  { value: "4", label: "Autre" },
 ]);
 
 const isModalOpen = ref(false);
 
-const reportIncident = () => {
-	console.log("Incident reporté:", {
-		title: incident.value.title,
-		state: incident.value.state,
-		body: incident.value.body,
-	});
-	isModalOpen.value = true;
+const reportIncident = async () => {
+  try {
+    const response = await axios.post('http://localhost:3000/error/create', {
+      title: incident.value.title,
+      state: Number(incident.value.state), 
+      body: incident.value.body,
+      id_user: incident.value.id_user,
+      date_create: incident.value.date_create.toISOString(),
+    });
+    console.log('Incident reporté:', response.data);
+    isModalOpen.value = true;
+  } catch (error) {
+    console.error('Erreur lors de la création de l\'incident:', error);
+  }
 };
 
+const closeModal = () => {
+  isModalOpen.value = false;
+};
 </script>
+
+
 
 <style scoped>
 .support-overlay {
