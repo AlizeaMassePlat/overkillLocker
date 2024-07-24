@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateGroupLockerDto } from './dto/create-group_locker.dto';
 import { UpdateGroupLockerDto } from './dto/update-group_locker.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -32,19 +32,16 @@ export class GroupLockerService {
 
   async findGroupLockerByCoordinates(coordinates: string) {
     try {
-      console.log(coordinates);
-      return  this.groupLockerRepository.createQueryBuilder("group_locker")
-      .select('group_locker.id')
-      .addSelect('group_locker.state')
-      .addSelect('group_locker.coordinate')
-      .addSelect('group_locker.locker_type')
-      .addSelect('group_locker.locker_count')
-      .addSelect('group_locker.name_place')
-      .where('coordinate=:coordinates', {coordinates})
-      .getRawOne();
-
-    }catch (error) {
-      throw new NotFoundException(`Group locker not found try different coordinates ${coordinates}`)
+      const groupLocker = await this.groupLockerRepository.createQueryBuilder("group_locker")
+        .where('group_locker.coordinate = :coordinates', { coordinates })
+        .getRawOne();
+      if (!groupLocker) {
+        throw new NotFoundException(`Group locker not found with coordinates: ${coordinates}`);
+      }
+      return groupLocker;
+    } catch (error) {
+        console.error('Unexpected error occurred:', error);
+        throw new InternalServerErrorException('An unexpected error occurred');
     }
   }
 

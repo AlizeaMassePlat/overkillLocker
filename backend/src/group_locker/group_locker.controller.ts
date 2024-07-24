@@ -19,8 +19,8 @@ export class GroupLockerController {
   }
 
   @Get('/coordinate')
-  async findGroupLockerByCoordinates(@Body() coordinate: string) {
-    return await this.groupLockerService.findGroupLockerByCoordinates(coordinate);
+  async findGroupLockerByCoordinates(@Body() data: string) {       
+    return await this.groupLockerService.findGroupLockerByCoordinates(data['coordinate']);
   }
 
   @Get(':id')
@@ -34,7 +34,7 @@ export class GroupLockerController {
   }
 
   @Patch('/softdelete/:id')
-  async softDelete(@Param('id') id_group_locker:number, updateGroupLockerDto:UpdateGroupLockerDto) {
+  async softDelete(@Param('id') id_group_locker:number, @Body() updateGroupLockerDto:UpdateGroupLockerDto) {
     updateGroupLockerDto.is_delete = true;
     return await this.groupLockerService.update(id_group_locker, updateGroupLockerDto);
   } 
