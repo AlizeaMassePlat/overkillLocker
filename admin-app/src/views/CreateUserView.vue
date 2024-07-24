@@ -1,16 +1,28 @@
 <template>
-  <div>
-    <h1>Create User</h1>
-    <!-- User creation form here -->
+  <div class="mainContainer">
+    <div class="formContainer">
+      <UserFormComponent />
+    </div>
   </div>
 </template>
 
 <script>
+import UserFormComponent from '@/components/UserFormComponent.vue';
+
 export default {
-  name: 'CreateUserView'
+  name: 'CreateUserView',
+  components: {
+    UserFormComponent,
+  }
 };
 </script>
 
 <style scoped>
-/* Add your styles here */
+.mainContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
 </style>

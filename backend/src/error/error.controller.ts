@@ -18,8 +18,13 @@ export class ErrorController {
     return this.errorService.findAll();
   }
 
+  @Get('/all')
+  findErrorUsers() {
+    return this.errorService.findAllWithRelations();
+  }
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.errorService.findOne(+id);
   }
 
@@ -31,5 +36,10 @@ export class ErrorController {
   @Delete('/delete/:id')
   remove(@Param('id') id: string, @Body() deleteErrorDto: DeleteErrorDto) {
     return this.errorService.remove(+id, deleteErrorDto);
+  }
+
+  @Get('incident/:id')
+  findErrorUser(@Param('id') id: number) {
+    return this.errorService.findOneWithRelations(id);
   }
 }

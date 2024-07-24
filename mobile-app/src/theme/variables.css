@@ -1,2 +1,29 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+:root {
+  font-family: "Roboto", sans-serif;
+
+  --ion-color-custom-tab-hover: #ffa62b; 
+  --ion-color-custom-tab-selected: #ffa62b; 
+  
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    span {
+        font-size: 12px;
+    }
+}

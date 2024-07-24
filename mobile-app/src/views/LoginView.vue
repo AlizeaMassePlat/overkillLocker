@@ -1,59 +1,144 @@
 <template>
   <ion-page>
-    <ion-content>
       <div class="login-container">
-        <h2>Happy to see you again</h2>
-        <form-input-component
-          id="email"
-          label="Email"
-          type="email"
-          v-model="email"
-          :error="emailError">
-        </form-input-component>
+        <h2>Heureux de vous revoir</h2>
+          <ion-input
+            class="custom"
+            ref="emailInput"
+            type="email"
+            fill="outline"
+            label="Email"
+            label-placement="floating"
+            placeholder="smart@locker.fr"
+            :value="email"
+            @ionInput="validateEmail"
+            @ionBlur="markTouched"
+            :error-text="emailError"
+          >
+            <ion-icon
+              v-if="emailTouched"
+              slot="end"
+              :icon="emailValid ? checkmarkCircle : closeCircle"
+              :color="emailValid ? 'success' : 'danger'"
+              aria-hidden="true"
+            ></ion-icon>
+          </ion-input>
 
-        <form-input-component
-          id="password"
-          label="Mot de passe"
-          type="password"
-          v-model="password"
-          :error="passwordError">
-        </form-input-component>
+          <ion-input
+            class="custom"
+            ref="passwordInput"
+            :type="showPassword ? 'text' : 'password'"
+            fill="outline"
+            label="Mot de passe"
+            label-placement="floating"
+            placeholder="Mot de passe"
+            :value="password"
+            @ionInput="updatePassword"
+            @ionFocus="passwordFocused = true"
+            @ionBlur="passwordFocused = false"
+          >
+            <ion-button
+              v-if="passwordFocused"
+              slot="end"
+              fill="clear"
+              @mousedown.prevent="togglePasswordVisibility"
+            >
+              <ion-icon
+                :icon="showPassword ? eyeOff : eye"
+                slot="icon-only"
+              ></ion-icon>
+            </ion-button>
+          </ion-input>
 
-        <ButtonComponent type="lg" @click="login">Login</ButtonComponent>
-        <div class="register-link">
-          <router-link to="/register">Not registered yet?</router-link>
+        <ButtonComponent type="lg" @click="login">Connexion</ButtonComponent>
+        <div class="link">
+          <router-link to="/motdepasse">Mot de passe oublié ?</router-link>
         </div>
       </div>
-    </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import ButtonComponent from '@/components/ButtonComponent.vue';
-import FormInputComponent from '@/components/FormInputComponent.vue';
+import { ref } from "vue";
+import { IonInput, IonItem, IonButton, IonIcon, IonPage } from "@ionic/vue";
+import { eye, eyeOff, checkmarkCircle, closeCircle } from "ionicons/icons";
+import ButtonComponent from "@/components/ButtonComponent.vue";
+import FormInputComponent from "@/components/FormInputComponent.vue";
 
-const email = ref('');
-const password = ref('');
-const emailError = ref('');
-const passwordError = ref('');
+const email = ref("");
+const password = ref("");
+const emailError = ref("");
+const showPassword = ref(false);
+const emailTouched = ref(false);
+const emailValid = ref(false);
+const passwordFocused = ref(false);
 
-function login() {
-  // Logic for login
-  console.log('Login with', email.value, password.value);
-}
+const validateEmail = (event: Event) => {
+  const value = (event.target as HTMLInputElement).value;
+  email.value = value;
+
+  const emailPattern =
+    /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  emailValid.value = emailPattern.test(value);
+
+  emailTouched.value = true;
+  emailError.value = emailValid.value ? "" : "Email invalide";
+};
+
+const markTouched = () => {
+  emailTouched.value = true;
+};
+
+const updatePassword = (event: Event) => {
+  password.value = (event.target as HTMLInputElement).value;
+};
+
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value;
+};
+
+const login = async () => {
+  console.log("Login clicked", {
+    email: email.value,
+    password: password.value,
+  });
+  // Add your login logic here
+};
 </script>
 
 <style scoped>
 .login-container {
-  padding: 16px;
-  background-color: #2e2c2b;
+  color: #e5e1e2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   height: 100vh;
-  width: 100vw;
-  color: white;
+  padding: 20px;
+  background-color: #212121;
+  gap: 40px;
 }
-.register-link {
-  margin-top: 16px;
-  text-align: center;
+
+ion-input.custom {
+  width: 310px;
+  height: 45px;
+  --color: #fff;
+  --placeholder-color: #ddd;
+  --placeholder-opacity: 0.8;
+  --highlight-color-focused: #ffa62b;
+}
+
+ion-icon {
+  color: #ffa62b;
+}
+
+.link a {
+  text-decoration: none;
+  color: #a8a5a6;
+  margin-top: -20px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 </style>

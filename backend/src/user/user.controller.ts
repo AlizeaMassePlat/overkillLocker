@@ -30,9 +30,11 @@ export class UsersController {
 
   @Patch('/update/:id')
   async controllerUpdate(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    const salt =  await genSalt();
-    updateUserDto.password = await hash(updateUserDto.password, salt);
-
+    if(updateUserDto.password)
+    {
+      const salt =  await genSalt();
+      updateUserDto.password =  await hash(updateUserDto.password, salt);
+    }
     return await this.usersService.update(id, updateUserDto);
   }
 

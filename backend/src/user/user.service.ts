@@ -11,7 +11,7 @@ export class UserService {
 
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private userRepository: Repository<User>,
   ) {}
 
 // -------------------------------------------------------------------
@@ -36,14 +36,14 @@ export class UserService {
 
 // -------------------------------------------------------------------
   async findAll():Promise<User[]> {
-    return await this.usersRepository.find();
+    return await this.userRepository.find();
   }
 // -------------------------------------------------------------------
 
 
 // -------------------------------------------------------------------
   async findOne(id: string):Promise<User> {
-    return await this.usersRepository.findOneBy({id});
+    return await this.userRepository.findOneBy({id});
   }
 // -------------------------------------------------------------------
 
@@ -69,7 +69,7 @@ async update(id: string, updateUserDto: UpdateUserDto) {
   
 // -------------------------------------------------------------------
   async remove(id: string): Promise<{ message: string }> {
-    const result = await this.usersRepository.delete(id);
+    const result = await this.userRepository.delete(id);
     if (result.affected === 0) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
@@ -82,7 +82,7 @@ async update(id: string, updateUserDto: UpdateUserDto) {
 
 // -------------------------------------------------------------------
   async login(email: string, password: string): Promise<User> {
-    const user = await this.usersRepository.createQueryBuilder('user')
+    const user = await this.userRepository.createQueryBuilder('user')
       .where('user.email = :email', { email })
       .getOne();
 
