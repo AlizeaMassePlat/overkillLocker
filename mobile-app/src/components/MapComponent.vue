@@ -9,34 +9,41 @@
       @click="pinClicked(pin)">
       {{ pin.number }}
     </div>
-    <Filter />
+    <ButtonFilter />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import Filter from '@/components/ButtonFilter.vue';
+import { defineComponent, ref, CSSProperties } from 'vue';
+import ButtonFilter from '@/components/ButtonFilter.vue';
 import mapImage from '/mobileMap.jpg';
+
+interface Pin {
+  id: number;
+  number: number;
+  x: number;
+  y: number;
+}
 
 export default defineComponent({
   name: 'MapComponent',
   components: {
-    Filter,
+    ButtonFilter,
   },
   setup(_, { emit }) {
     const map = ref<HTMLImageElement | null>(null);
-    const pins = ref([
+    const pins = ref<Pin[]>([
       { id: 1, number: 37, x: 43, y: 25 },
       { id: 2, number: 12, x: 33, y: 50 },
       { id: 3, number: 21, x: 60, y: 70 },
       { id: 4, number: 28, x: 80, y: 66 },
     ]);
 
-    const pinClicked = (pin) => {
+    const pinClicked = (pin: Pin) => {
       emit('pin-clicked', pin);
     };
 
-    const getPinStyle = (pin) => {
+    const getPinStyle = (pin: Pin): CSSProperties => {
       return {
         position: 'absolute',
         top: `${pin.y}%`,

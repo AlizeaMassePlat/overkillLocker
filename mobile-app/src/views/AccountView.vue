@@ -13,10 +13,10 @@
         <ion-content class="profile-overlay">
           <div class="profile-container" v-if="currentUser">
             <ion-avatar class="avatar">
-              <img :src="currentUser.gravatarUrl" alt="Avatar" />
+              <img :src="currentUser?.gravatarUrl" alt="Avatar" />
             </ion-avatar>
-            <h2>{{ currentUser.name }}</h2>
-            <p>{{ currentUser.email }} | {{ currentUser.phone }}</p>
+            <h2>{{ currentUser?.name }}</h2>
+            <p>{{ currentUser?.email }} | {{ currentUser?.phone }}</p>
             <div class="profile-actions">
               <div class="action-box">
                 <ion-item button @click="openEditProfileModal">
@@ -51,7 +51,7 @@
               <div class="action-box standalone">
                 <ion-item button @click="signOut">
                   <ion-icon slot="start" :icon="logOutOutline"></ion-icon>
-                  <ion-label>Déconnexion</ion-label>
+                  <ion-label>Déconnexion</ion-item>
                 </ion-item>
               </div>
             </div>
@@ -68,15 +68,15 @@
             <!-- Add your edit profile form or content here -->
             <ion-item>
               <ion-label>Nom</ion-label>
-              <ion-input v-model="currentUser.name"></ion-input>
+              <ion-input v-model="currentUser?.name"></ion-input>
             </ion-item>
             <ion-item>
               <ion-label>Email</ion-label>
-              <ion-input v-model="currentUser.email"></ion-input>
+              <ion-input v-model="currentUser?.email"></ion-input>
             </ion-item>
             <ion-item>
               <ion-label>Téléphone</ion-label>
-              <ion-input v-model="currentUser.phone"></ion-input>
+              <ion-input v-model="currentUser?.phone"></ion-input>
             </ion-item>
             <ButtonComponent @click="saveProfile">Sauvegarder</ButtonComponent>
           </div>
@@ -85,6 +85,7 @@
     </ion-content>
   </ion-page>
 </template>
+
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
@@ -119,7 +120,7 @@ const users = ref([
   },
 ]);
 
-const currentUser = computed(() => users.value.find((user) => user.id === currentUserId));
+const currentUser = computed(() => users.value.find((user) => user.id === currentUserId) || { name: '', email: '', phone: '', gravatarUrl: '' });
 
 const isProfileModalOpen = ref(true);
 const isEditProfileModalOpen = ref(false);
@@ -182,6 +183,7 @@ watch(
   }
 );
 </script>
+
 
 <style scoped>
 .profile-overlay, .edit-profile-overlay {

@@ -1,11 +1,12 @@
 version: '3'
 
 services:
+
   vue-app:
     build:
       context: C:\Users\RYZEN\Desktop\Locker\admin-app
     ports:
-      - "8080:80"
+      - "8082:80"
     networks:
       - app-network
 
@@ -14,8 +15,39 @@ services:
       context: C:\Users\RYZEN\Desktop\Locker\backend
     ports:
       - "3000:3000"
+    depends_on:
+      - db
+    env_file:
+      - ./backend/.env
     networks:
       - app-network
+    
+  db:
+    image: mysql:5.7
+    ports:
+      - "3307:3306" 
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: locker_db
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+volumes:
+  db_data:
 
 networks:
   app-network:
