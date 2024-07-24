@@ -52,19 +52,9 @@ export class User {
   })
   gender: Gender;
 
-  @Column({ nullable: true })
-  age: number;
 
-  @Column({ nullable: true })
-  phone_number: string;
 
-  @Column({
-    type: 'enum',
-    enum: Gender,
-    nullable: false
-  })
-  gender: Gender;
-
+ 
   @Column({ default: 0})
   is_deleted: boolean;
 

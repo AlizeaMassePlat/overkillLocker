@@ -4,9 +4,6 @@ import { UpdateLockerDto } from './dto/update-locker.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Locker } from './entities/locker.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Locker } from './entities/locker.entity';
 
 @Injectable()
 export class LockerService {
