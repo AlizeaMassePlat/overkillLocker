@@ -22,6 +22,7 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Accept',
   });
+
   await app.listen(3000);
 }
 bootstrap();
