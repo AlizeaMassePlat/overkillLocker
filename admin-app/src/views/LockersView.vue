@@ -72,7 +72,12 @@
 
     <!-- Agrandir le parc -->
     <section v-else>
-      <V2MapComponent :showList="showList" @update:showList="showList = $event" v-if="!showReports" />
+      <div v-if="isv2">
+        <V2MapComponent :showList="showList" @update:showList="showList = $event" v-if="!showReports" />
+      </div>
+      <div v-else>
+        <CampusMapComponent />
+      </div>
     </section>
   </div>
 </template>
@@ -81,6 +86,7 @@
 import { computed, onMounted, ref } from 'vue';
 import axios from 'axios';
 import V2MapComponent from '@/components/v2MapComponent.vue';
+import CampusMapComponent from '@/components/CampusMapComponent.vue';
 
 const lockers = ref([]);
 const selected = ref('');

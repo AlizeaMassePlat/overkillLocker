@@ -41,8 +41,9 @@
             @dragend="() => onDragEnd(index)"
           >
             <mgl-popup>
-              <h1>Marker {{ index + 1 }}</h1>
-              <p>Information about Marker {{ index + 1 }}</p>
+              <h3>Bâtiment {{  index + 1 }}</h3>
+              <p>Zone {{ index + 1 }}</p>
+              <p>Nombre de casiers : 10</p>
             </mgl-popup>
           </mgl-marker>
         </mgl-map>
