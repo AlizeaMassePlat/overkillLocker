@@ -36,21 +36,21 @@ export class UserService {
 
 
 // -------------------------------------------------------------------
-  async findOne(id: string):Promise<User> {
+  async findOne(id: number):Promise<User> {
     return await this.userRepository.findOneBy({id});
   }
 // -------------------------------------------------------------------
 
 
 // -------------------------------------------------------------------
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
     return await this.userRepository.update(id, updateUserDto);
   }  
 // -------------------------------------------------------------------
 
   
 // -------------------------------------------------------------------
-  async remove(id: string): Promise<{ message: string }> {
+  async remove(id: number): Promise<{ message: string }> {
     const result = await this.userRepository.delete(id);
     if (result.affected === 0) {
       throw new NotFoundException(`User with ID ${id} not found`);

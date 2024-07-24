@@ -7,34 +7,43 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ReservationService {
-
   constructor(
     @InjectRepository(Reservation)
     private reservationRepository: Repository<Reservation>,
   ) {}
 
-  create(createReservationDto: CreateReservationDto) {
-    return 'This action adds a new reservation';
+  async create(createReservationDto: CreateReservationDto) {
+    const reservation = this.reservationRepository.create(createReservationDto);
+    return this.reservationRepository.save(reservation);
   }
 
-  findAll() {
+  async findAll() {
     return this.reservationRepository.find({
-      relations: {
-        user: true,
-        locker: true
-      }
+      relations: ['user', 'locker'],
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} reservation`;
+  async findOne(id: number) {
+    return this.reservationRepository.findOne({
+      where: { id },
+      relations: ['user', 'locker'],
+    });
   }
 
-  update(id: number, updateReservationDto: UpdateReservationDto) {
-    return `This action updates a #${id} reservation`;
+  async findAllByUserId(user_id: number) {
+    return this.reservationRepository.find({
+      where: { user: { id: user_id } as any }, // Cast to any to avoid type mismatch
+      relations: ['user', 'locker'],
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} reservation`;
+  async update(id: number, updateReservationDto: UpdateReservationDto) {
+    await this.reservationRepository.update(id, updateReservationDto);
+    return this.findOne(id);
+  }
+
+  async remove(id: number) {
+    const reservation = await this.findOne(id);
+    return this.reservationRepository.remove(reservation);
   }
 }

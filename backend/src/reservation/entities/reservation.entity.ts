@@ -9,25 +9,25 @@ export class Reservation extends AbstractEntity<Reservation> {
 
 
     @Column({nullable:false})
-    state: number;
+  state: number;
 
     @CreateDateColumn()
     @IsDate()
-    date: Date;
+  date: Date;
+
+  @Column()
+  reserve_type: string;
 
     @Column()
-    reserve_type: string;
-
-    @Column()
-    is_delete: boolean;
+  is_delete: boolean;
 
     @ManyToOne(() => User, (user) => user.reservations)
     @JoinColumn({ name: 'id_user' })
     user: User;
-  
-    @ManyToOne(() => Locker, (locker) => locker.reservations)
+
+  @ManyToOne(() => Locker, (locker) => locker.reservations)
     @JoinColumn({ name: 'id_locker' })
-    locker: Locker;
+  locker: Locker;
 
 }
 

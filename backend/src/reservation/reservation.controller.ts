@@ -22,6 +22,11 @@ export class ReservationController {
     return this.reservationService.findOne(+id);
   }
 
+  @Get('user/:user_id')
+  findAllByUserId(@Param('user_id') user_id: string) {
+    return this.reservationService.findAllByUserId(+user_id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateReservationDto: UpdateReservationDto) {
     return this.reservationService.update(+id, updateReservationDto);
