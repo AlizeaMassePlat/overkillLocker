@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  vue-app:
+    build:
+      context: C:\Users\RYZEN\Desktop\Locker\admin-app
+    ports:
+      - "8080:80"
+    networks:
+      - app-network
+
+  nestjs-app:
+    build:
+      context: C:\Users\RYZEN\Desktop\Locker\backend
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
