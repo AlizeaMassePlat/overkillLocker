@@ -24,12 +24,12 @@ export class UsersController {
   }
 
   @Get('/finduserbyid/:id')
-  async controllerFindOne(@Param('id') id: string): Promise<User> {
+  async controllerFindOne(@Param('id') id: number): Promise<User> {
     return await this.usersService.findOne(id);
   }
 
   @Patch('/update/:id')
-  async controllerUpdate(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  async controllerUpdate(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     if(updateUserDto.password)
     {
       const salt =  await genSalt();
@@ -39,7 +39,7 @@ export class UsersController {
   }
 
   @Delete('/delete/:id')
-  async controllerRemove(@Param('id') id: string) {
+  async controllerRemove(@Param('id') id: number) {
     return await this.usersService.remove(id);
   }
   

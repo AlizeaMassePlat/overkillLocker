@@ -7,7 +7,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn
 export class User {
 
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id: number;
 
   @Column({ length: 255 })
   password: string;
