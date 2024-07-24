@@ -49,7 +49,7 @@
                 <td>{{ reservation.locker.id }}</td>
                 <td>{{ reservation.user.lastname }}</td>
                 <td>{{ reservation.user.firstname }}</td>
-                <td>{{ reservation.email }}</td>
+                <td>{{ reservation.user.email }}</td>
                 <td>{{ formatDate(reservation.date) }}</td>
                 <td>{{ reservation.reserve_type }}</td>
                 <td>

@@ -125,17 +125,16 @@
 
 					<FormInputComponent
 						class="editable custom profile-modal-item"
-            ref="phoneInput"
+						ref="phoneInput"
 						type="text"
-						fill="outline" 
-            label="Téléphone"
+						fill="outline"
+						label="Téléphone"
 						label-placement="floating"
 						error-text=""
 						helper-text=""
 						v-maskito="phoneOptions"
 						v-model="phone"
-						placeholder="00 00 00 00 00"
-            />
+						placeholder="00 00 00 00 00" />
 
 					<FormSelectComponent
 						ref="genderSelect"
@@ -149,6 +148,16 @@
 					<ButtonComponent type="lg" id="updateBtn" @click="updateProfile"
 						>Mettre à jour</ButtonComponent
 					>
+				</div>
+			</ModalComponent>
+
+			<ModalComponent
+				:is-open="isModalOpen"
+				@didDismiss="closeModal"
+				class="confirmation-modal">
+				<div class="confirmation-modal-content">
+					<Close @click="closeModal" />
+					<h2>Profil complété !</h2>
 				</div>
 			</ModalComponent>
 		</ion-content>
@@ -165,7 +174,7 @@ import {
 	IonIcon,
 	IonLabel,
 	IonAvatar,
-  IonToggle
+	IonToggle,
 } from "@ionic/vue";
 import {
 	createOutline,
@@ -179,11 +188,12 @@ import {
 import BackArrow from "@/components/ButtonBackArrow.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
 import ButtonComponent from "@/components/ButtonComponent.vue";
+import Close from "@/components/ButtonClose.vue"
 import FormInputComponent from "@/components/FormInputComponent.vue";
 import FormSelectComponent from "@/components/FormSelectComponent.vue";
 import md5 from "md5";
 import MapComponent from "@/components/MapComponent.vue";
-import { maskito as vMaskito } from '@maskito/vue';
+import { maskito as vMaskito } from "@maskito/vue";
 
 const router = useRouter();
 
@@ -197,7 +207,7 @@ const users = ref([
 		firstname: "Jane",
 		name: "Doe",
 		email: "smart@locker.fr",
-		phone: "06 62 34 56 78",
+		phone: null,
 		promotion: "Bachelor 2",
 		age: null,
 		gender: null,
@@ -210,7 +220,7 @@ const users = ref([
 		firstname: "John",
 		name: "Smith",
 		email: "john@example.com",
-		phone: "07 12 34 56 78",
+		phone: null,
 		promotion: "Start Web",
 		age: null,
 		gender: null,
@@ -236,6 +246,8 @@ const closeProfileModal = () => {
 	isProfileModalOpen.value = false;
 };
 
+const isModalOpen = ref(false);
+
 const updateProfile = async () => {
 	currentUser.value.age = age.value;
 	currentUser.value.gender = selectedGender.value;
@@ -248,24 +260,42 @@ const updateProfile = async () => {
 		gender: selectedGender.value,
 	});
 	closeProfileModal();
+	isModalOpen.value = true;
 };
 
-
 const goToReservationsView = () => {
-  router.push({ name: 'BookingsView' });
+	router.push({ name: "BookingsView" });
 };
 
 const goToSupportView = () => {
-  router.push({ name: 'ReportIncidentView' });
+	router.push({ name: "ReportIncidentView" });
+};
+
+const closeModal = () => {
+	isModalOpen.value = false;
 };
 
 const signOut = () => {
-  router.push({ name: 'LoginView' });
+	router.push({ name: "LoginView" });
 };
 
-
 const phoneOptions = {
-	mask: [/\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/],
+	mask: [
+		/\d/,
+		/\d/,
+		" ",
+		/\d/,
+		/\d/,
+		" ",
+		/\d/,
+		/\d/,
+		" ",
+		/\d/,
+		/\d/,
+		" ",
+		/\d/,
+		/\d/,
+	],
 	elementPredicate: (el: HTMLIonInputElement) => {
 		return new Promise((resolve) => {
 			requestAnimationFrame(async () => {
@@ -357,6 +387,24 @@ ion-select.editable {
 }
 
 #updateBtn {
-  margin-top: 10px;
+	margin-top: 10px;
+}
+
+.confirmation-modal {
+	--height: 20%;
+	--width: 80%;
+	--border-radius: 16px;
+	--box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+	--margin: auto;
+}
+
+.confirmation-modal-content {
+	background: white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 10px;
+	padding-top: 50px;
 }
 </style>

@@ -47,7 +47,10 @@
                 <td>{{ user.lastname }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.school_prom }}</td>
-                <td>{{ user.role }}</td>
+                <td>
+                  <p v-if="user.role == 1">Equipe péda.</p>
+                  <p v-else>Etudiant</p>
+                </td>
                 <td>{{ user.card_number }}</td>
                 <td align="center">
                   <button @click="editUser(user.id)">
