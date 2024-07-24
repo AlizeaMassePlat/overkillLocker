@@ -3,9 +3,6 @@ import { Locker } from "src/locker/entities/locker.entity";
 
 export class CreateLogDto {
 
-    @IsNumber()
-    id:number;
-
     @IsString()
     title:string;
 
