@@ -1,13 +1,20 @@
 <template>
   <div>
     <h1>Create Reservation</h1>
-    <!-- Reservation creation form here -->
+    <div>
+      <CampusMapComponent />
+    </div>
   </div>
 </template>
 
 <script>
+import CampusMapComponent from '@/components/CampusMapComponent.vue';
+
 export default {
-  name: 'CreateReservationView'
+  name: 'CreateReservationView',
+  components: {
+    CampusMapComponent
+  }
 };
 </script>
 
