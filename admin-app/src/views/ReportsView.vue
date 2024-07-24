@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h1>Rapports</h1>
-    <section class="search_filter_container">
+    <h1 v-if="showReports">Rapports</h1>
+    <button class="back" @click="isShowReports(true)" v-if="!showReports">Retour</button>
+
+    <section class="search_filter_container" v-if="showReports">
       <p>Filtre</p>
       <select class="filter_status_select" v-model="selected">
         <option value="">Tous</option>
@@ -14,7 +16,7 @@
         <input v-model="search" type="text" placeholder="Rechercher..." />
       </div>
     </section>
-    <section>
+    <section v-if="showReports">
       <table>
         <thead>
           <tr>
@@ -45,7 +47,7 @@
                 <option :value="2">Résolue</option>
               </select>
             </td>
-            <td @click="navigateToIncident(report.id)">
+            <td @click="showUniqueReport(report.id)">
               <i class="fa-solid fa-eye"></i>            
             </td>
           </tr>
@@ -64,20 +66,26 @@
         <button @click="nextPage" :disabled="currentPage === totalPages" class="page-btn">»</button>
       </div>
     </section>
+    <section v-else>
+      <IncidentReportView :id="currentReportId" />
+    </section>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 import axios from 'axios';
+import IncidentReportView from './IncidentReportView.vue';
 
-const router = useRouter();
 const errors = ref([]);
 const selected = ref('');
 const search = ref('');
 const currentPage = ref(1);
 const itemsPerPage = 8;
+
+const currentReportId = ref(0);
+
+const showReports = ref(true)
 
 const filteredReports = computed(() => {
   let filtered = errors.value;
@@ -147,9 +155,6 @@ const pages = computed(() => {
   return pages;
 });
 
-const navigateToIncident = (id) => {
-  router.push(`/rapports/incident/${id}`);
-};
 
 const fetchErrors = async () => {
   try {
@@ -175,6 +180,15 @@ const getStateClass = (state) => {
     1: 'state-in-progress',
     2: 'state-resolved',
   }[state];
+};
+
+const isShowReports = (value) => {
+  showReports.value = value
+}
+
+const showUniqueReport = (value) => {
+  currentReportId.value = value
+  showReports.value = false
 };
 
 </script>
@@ -309,6 +323,17 @@ select.state-resolved {
 
 .page-btn:not(.active):hover {
   background-color: #f1f1f1;
+}
+
+.back {
+  margin: 16px;
+  background-color: #FFA62B;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
 }
 
 </style>

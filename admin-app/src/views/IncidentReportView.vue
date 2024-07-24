@@ -1,19 +1,6 @@
 <template>
   <div class="main_container">
-    <div class="navContainer">
-      <NavigationComponent 
-        :logo="require('../../public/img/SmartLocker.svg')" 
-        :greyDot="require('../../public/img/greyDot.png')"
-        :orangeDot="require('../../public/img/orangeDot.png')" 
-        :links="navLinks"
-        :activeLink="activeLink"
-        @link-clicked="setComponent"
-      />
-    </div>
     <div class="component_container">
-      <button class="back" @click="goBack">Retour</button>
-      <!-- <h1>Rapport</h1> -->
-
       
       <div v-if="error && error.user">
         <div class="sub_component_container">
@@ -69,26 +56,21 @@
 </template>
 
 <script setup>
-import NavigationComponent from '@/components/NavigationComponent.vue';
-import { onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { onMounted, ref, defineProps } from 'vue';
 import axios from 'axios';
 
-const route = useRoute();
-const router = useRouter();  // Import the router
-const id = ref(route.params.id);
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+});
+
 const error = ref(null);  // Initialiser error à null pour vérifier la présence des données plus tard
-const navLinks = [
-  { component: 'Dashboard', label: 'Tableau de bord' },
-  { component: 'Reservations', label: 'Reservations' },
-  { component: 'Utilisateur', label: 'Utilisateur' },
-  { component: 'Casiers', label: 'Casiers' },
-  { component: 'Rapports', label: 'Rapports' }
-]
 
 const fetchErrors = async () => {
   try {
-    const response = await axios.get(`http://localhost:3000/error/incident/${id.value}`);
+    const response = await axios.get(`http://localhost:3000/error/incident/${props.id}`);
     console.log('API Response:', response.data);  // Debug log
     error.value = response.data;
   } catch (err) {
@@ -105,9 +87,7 @@ const formatDate = (dateString) => {
   return date.toLocaleDateString('fr-FR');
 };
 
-const goBack = () => {
-  router.go(-1);  // Method to go back in the browser history
-};
+
 
 </script>
 
@@ -124,30 +104,15 @@ const goBack = () => {
   overflow: hidden;
 }
 
-.navContainer {
-  width: 20%;
-}
-
 .component_container {
-  width: 80%;
+  width: 100%;
 }
 
 .sub_component_container {
-  width: 80vw;
+  width: 100%;
   justify-content: center;
   display: flex;
   flex-direction: column;
-}
-
-.back {
-  margin: 16px;
-  background-color: #FFA62B;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 8px;
-  display: inline-block;
-  border: none;
-  cursor: pointer;
 }
 
 h1 {

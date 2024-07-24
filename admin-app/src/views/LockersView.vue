@@ -1,21 +1,30 @@
 <template>
-  <div>
-    <h1>Lockers</h1>
-    <section class="search_filter_container">
-      <p>Filtre</p>
-      <select class="filter_status_select" v-model="selected">
-        <option value="">Tous</option>
-        <option value="0">Disponible</option>
-        <option value="1">Réservé</option>
-        <option value="2">En panne</option>
-        <option value="3">Réparation</option>
-      </select>
-      <div class="search_bar">
-        <img width="15" height="15" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1"/>
-        <input v-model="search" type="text" placeholder="Rechercher..." />
+  <div >
+    <h1>Casiers</h1>
+
+    <!-- Liste de tous les casiers -->
+
+    <section class="search_filter_container" v-if="showList">
+      <div class="search_filter_content">
+        <p>Filtre</p>
+        <select class="filter_status_select" v-model="selected">
+          <option value="">Tous</option>
+          <option value="0">Disponible</option>
+          <option value="1">Réservé</option>
+          <option value="2">En panne</option>
+          <option value="3">Réparation</option>
+        </select>
+        <div class="search_bar">
+          <img width="15" height="15" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1"/>
+          <input v-model="search" type="text" placeholder="Rechercher..." />
+        </div>
+      </div>
+      <div>
+        <p @click="setshowList" class="action">+ Agrandir le parc</p>
       </div>
     </section>
-    <section>
+
+    <section v-if="showList">
       <table>
         <thead>
           <tr>
@@ -60,18 +69,26 @@
         <button @click="nextPage" :disabled="currentPage === totalPages" class="page-btn">»</button>
       </div>
     </section>
+
+    <!-- Agrandir le parc -->
+    <section v-else>
+      <V2MapComponent :showList="showList" @update:showList="showList = $event" v-if="!showReports" />
+    </section>
   </div>
 </template>
 
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import axios from 'axios';
+import V2MapComponent from '@/components/v2MapComponent.vue';
 
 const lockers = ref([]);
 const selected = ref('');
 const search = ref('');
 const currentPage = ref(1);
 const itemsPerPage = 8;
+
+const showList = ref(true);
 
 const filteredLockers = computed(() => {
   let filtered = lockers.value;
@@ -166,7 +183,9 @@ const getStateClass = (state) => {
   }[state];
 };
 
-console.log(lockers)
+const setshowList = () => {
+  showList.value = false
+};
 
 </script>
 
@@ -186,6 +205,12 @@ h1 {
   margin-left: 16px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.search_filter_content {
+  display: flex;
+  align-items: center
 }
 
 .search_filter_container p {
@@ -298,6 +323,17 @@ select.state-repairing {
 
 .page-btn:not(.active):hover {
   background-color: #f1f1f1;
+}
+
+.action {
+  border-radius: 8px;
+  background-color: #ffa62b;
+  color: white;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  padding: 8px 24px;
+  font-size: 14px;
+  cursor: pointer;
 }
 </style>
 
