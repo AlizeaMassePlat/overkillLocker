@@ -22,6 +22,11 @@ export class CardController {
     return this.cardService.findOneCard(id);
   }
 
+  @Get('/notUsed')
+  findNotUsed() {
+    return this.cardService.findNotUsed();
+  }
+
 
   @Patch('/update/:id')
   update(@Param('id') id: number, @Body() updateCardDto: UpdateCardDto) {
