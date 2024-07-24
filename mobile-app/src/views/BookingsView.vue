@@ -6,22 +6,11 @@
 				v-if="isBookingsModalOpen"
 				:is-open="isBookingsModalOpen"
 				@click="navigateToRoot" />
-			<BackArrow
-				v-if="isBookingDetailModalOpen"
-				:is-open="isBookingDetailModalOpen"
-				@click="openBookingsModal" />
 
-			<ModalComponent
-				:is-open="isBookingsModalOpen"
-				@didDismiss="closeBookingsModal"
-				class="bookings-modal"
-				:initial-breakpoint="0.8"
-				:breakpoints="[0, 0.8, 1]"
-				>
-				<div class="modal-header">
-					<h2>Mes réservations</h2>
-				</div>
-				<div class="bookings-list">
+				<div class="bookings-container">
+					<div class="modal-header">
+						<h2>Mes réservations</h2>
+					</div>
 					<div
 						v-for="booking in bookings"
 						:key="booking.id"
@@ -40,7 +29,6 @@
 						<ion-icon :icon="chevronForward" class="chevron-icon"></ion-icon>
 					</div>
 				</div>
-			</ModalComponent>
 
 			<ModalComponent
 				:is-open="isBookingDetailModalOpen"
@@ -273,6 +261,22 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+.bookings-container {
+	position: fixed;
+	left: 0;
+	top: 10%;
+	width: 100%;
+	background: white;
+	z-index: 2000;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	overflow-y: auto;
+	height: 90%;
+		padding-right: 16px;
+	padding-left: 16px;
+}
+
 .modal-header {
 	display: flex;
 	align-items: center;
@@ -284,10 +288,6 @@ export default defineComponent({
 	padding: 20px;
 }
 
-.bookings-list {
-	padding-right: 16px;
-	padding-left: 16px;
-}
 
 .booking-item {
 	display: flex;
