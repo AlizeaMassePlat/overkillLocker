@@ -34,6 +34,10 @@ export class UserService {
   }
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+  async count():Promise<number> {
+    return await this.userRepository.count();
+  }
 
 // -------------------------------------------------------------------
   async findOne(id: string):Promise<User> {
