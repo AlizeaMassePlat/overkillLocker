@@ -18,6 +18,11 @@ export class LogController {
     return this.logService.findAll();
   }
 
+  @Get('/count')
+  async countLogs() {
+    return this.logService.count();
+  }
+
   @Get(':id')
   async findLog(@Param('id') id_log: number) {
     return this.logService.findOne(id_log);

@@ -21,6 +21,8 @@
     "@capacitor/status-bar": "latest",
     "@ionic/vue": "^8.0.0",
     "@ionic/vue-router": "^8.0.0",
+    "@maskito/core": "^3.0.0",
+    "@maskito/vue": "^3.0.0",
     "axios": "^1.7.2",
     "ionicons": "^7.0.0",
     "js-md5": "^0.8.3",

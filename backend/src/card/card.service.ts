@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Card } from './entities/card.entity';
@@ -16,24 +16,40 @@ export class CardService {
     private userRepository: Repository<User>
   ) {}
 
-  create(createCardDto: CreateCardDto) {
-    return 'This action adds a new card';
+
+  async create(createCardDto: CreateCardDto) {
+
+    const card_exists = await this.cardRepository.createQueryBuilder("card")
+    .where('card.card_identifier=:card', {card: createCardDto.card_identifier})
+    .getExists();
+
+    if(!card_exists)
+    {
+      return this.cardRepository.insert(createCardDto);
+    }else {
+
+      throw new ConflictException(`Card with identifier ${createCardDto.card_identifier} already in database`);
+    }
   }
 
-  findAll() {
+  async findCards() {
     return this.cardRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} card`;
+  async findOneCard(id: number) {
+    return this.cardRepository.findOneBy({id});
   }
 
-  update(id: number, updateCardDto: UpdateCardDto) {
-    return `This action updates a #${id} card`;
+  async updateCard(id: number, updateCardDto: UpdateCardDto) {
+    return this.cardRepository.update(id, updateCardDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} card`;
+  async deleteCard(id: number) {
+    return this.cardRepository.delete(id);
+  }
+
+  async assignCard(id_user, id_card) {
+    
   }
 
   async findNotUsed(): Promise<Card[]> {

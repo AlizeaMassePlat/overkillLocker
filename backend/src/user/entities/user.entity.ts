@@ -1,5 +1,6 @@
 import { Card } from 'src/card/entities/card.entity';
 import { Error } from 'src/error/entities/error.entity';
+import { Reservation } from 'src/reservation/entities/reservation.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity()
@@ -47,6 +48,9 @@ export class User {
   @OneToOne(() => Card, card => card.user)
   @JoinColumn({ name: 'card_number' })
   card: Card;
+
+  @OneToMany(() => Reservation, (reservation) => reservation.user)
+  reservations: Reservation[];
 }
 
 

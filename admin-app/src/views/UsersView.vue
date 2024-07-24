@@ -1,30 +1,31 @@
 <template>
-  <div class="users-view">
+  <div>
+    <h1>Utilisateurs</h1>
     <div class="content">
-      <div class="buttonContainer">
-        <div v-if="showCreateUser" class="left-button">
-          <ButtonComponent type="sm" @click="hideCreateUserForm" label="Retour" />
-        </div>
-        <div class="right-button">
-          <ButtonComponent v-if="!showCreateUser" type="sm" label="+ Ajouter un utilisateur" @click="showCreateUserForm" />
-        </div>
+      <div v-if="showCreateUser">
+        <ButtonComponent type="sm" @click="hideCreateUserForm" label="Retour" />
       </div>
       <div v-if="showCreateUser">
         <CreateUserView />
       </div>
       <div v-else>
         <section class="search_filter_container">
-          <p>Filtre</p>
-          <select class="filter_role_select" v-model="selectedRole">
-            <option value="">Tous</option>
-            <option value="admin">Admin</option>
-            <option value="user">User</option>
-            <option value="guest">Invités</option>
-            <option value="pedagogic">Pedagogique</option>
-          </select>
-          <div class="search_bar">
-            <img width="15" height="15" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1"/>
-            <input v-model="search" type="text" placeholder="Rechercher..." />
+          <div class="search_filter_content">
+            <p>Filtre</p>
+            <select class="filter_role_select" v-model="selectedRole">
+              <option value="">Tous</option>
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+              <option value="guest">Invités</option>
+              <option value="pedagogic">Pedagogique</option>
+            </select>
+            <div class="search_bar">
+              <img width="15" height="15" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1"/>
+              <input v-model="search" type="text" placeholder="Rechercher..." />
+            </div>
+          </div>
+          <div>
+            <p class="action" @click="showCreateUserForm">+ ajouter un utilisateur</p>
           </div>
         </section>
         <section class="tableContainer">
@@ -42,9 +43,15 @@
             </thead>
             <tbody>
               <tr v-for="user in paginatedUsers" :key="user.id">
-                <td>{{ user.firstname }} {{ user.lastname }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.role }}</td>
+                <td>{{ user.school_prom }}</td>
+                <td>
+                  <p v-if="user.role == 1">Equipe péda.</p>
+                  <p v-else>Etudiant</p>
+                </td>
+                <td>{{ user.card_number }}</td>
                 <td align="center">
                   <button @click="editUser(user.id)">
                     <img width="20" height="20" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1"/>
@@ -72,16 +79,14 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue';
+import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
-import UsersTableComponent from '@/components/UsersTableComponent.vue';
 import CreateUserView from '@/views/CreateUserView.vue';
 import axios from 'axios';
 
 export default {
   name: 'UsersView',
   components: {
-    UsersTableComponent,
     ButtonComponent,
     CreateUserView
   },
@@ -151,7 +156,7 @@ export default {
     hideCreateUserForm() {
       this.showCreateUser = false;
     },
-    editUser(id) {
+    editUser() {
       // Navigate to edit user view or perform edit action
     },
     prevPage() {
@@ -169,7 +174,7 @@ export default {
     },
     async fetchUsers() {
       try {
-        const response = await axios.get('http://localhost:3000/users/all');
+        const response = await axios.get('http://localhost:3000/user');
         this.users = response.data;
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -181,7 +186,12 @@ export default {
   }
 };
 </script>
+
 <style scoped>
+* {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
 /* Styles for the main view */
 .users-view {
   display: flex;
@@ -189,7 +199,6 @@ export default {
 
 .content {
   flex-grow: 1;
-  padding: 20px;
 }
 
 .buttonContainer {
@@ -199,29 +208,25 @@ export default {
   align-items: center;
 }
 
-.left-button {
-  order: 1;
-}
-
-.right-button {
-  order: 2;
-  margin-left: auto;
-}
-
 .back-button:hover {
   background-color: #e59426;
 }
 
 .tableContainer {
-  margin-top: 10%;
+  margin-top: 16px;
 }
 
-/* Styles for search filter container */
 .search_filter_container {
-  margin-top: 16px;
-  margin-bottom: 16px;
+  margin-top: 64px;
+  margin-left: 16px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.search_filter_content {
+  display: flex;
+  align-items: center
 }
 
 .search_filter_container p {
@@ -279,5 +284,75 @@ export default {
 .page-btn:not(.active):hover {
   background-color: #f1f1f1;
 }
+
+table {
+  margin: auto;
+  width: calc(100% - 32px);
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+table th, table td {
+  padding: 10px;
+  text-align: left;
+}
+
+table tr {
+  text-align: left;
+}
+
+tbody tr:nth-child(odd){
+  background-color: #FFDAC1;
+}
+
+tbody tr td button {
+  border: none;
+  outline: none;
+  background: none;
+}
+
+tbody tr td select {
+  text-align: center;
+  padding: 8px 32px 8px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  border: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGwxMiAwTDYgOEwwIDB6IiBmaWxsPSIjMDAwIi8+PC9zdmc+');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 6px;
+  font-size: 10px;
+}
+
+select.state-to-treat {
+  background-color: #ffe3e6; /* Rouge pastel */
+  color: #ce1a2c; /* Rouge plus foncé */
+}
+
+select.state-in-progress {
+  background-color: #d1ecf1; /* Bleu pastel */
+  color: #0c5460; /* Bleu foncé */
+}
+
+select.state-resolved {
+  background-color: #d4edda; /* Vert pastel */
+  color: #155724; /* Vert foncé */
+}
+
+.action {
+  border-radius: 8px;
+  background-color: #ffa62b;
+  color: white;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  padding: 8px 24px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+
 </style>
 
