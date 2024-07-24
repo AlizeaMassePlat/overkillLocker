@@ -29,7 +29,7 @@ export class GroupLocker extends AbstractEntity<GroupLocker> {
     @IsBoolean()
     is_delete:boolean;
 
-    @OneToMany(() => Locker, (locker) => locker.id_group_locker)
+    @OneToMany(() => Locker, (locker) => locker.groupLocker)
     lockers: Locker[]
   
 }
