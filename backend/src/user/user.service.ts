@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException, BadRequestException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -17,13 +17,19 @@ export class UserService {
 // -------------------------------------------------------------------
   async register(createUserDto: CreateUserDto) {
     try {
+      // Vérifier si un utilisateur avec cet email existe déjà
+      const user = await this.usersRepository.findOneBy({ email: createUserDto.email });
+      
+      if (user) {
+        throw new ConflictException(`User with email ${createUserDto.email} already exists`);
+      }
+      // Insérer le nouvel utilisateur
       const result = await this.usersRepository.insert(createUserDto);
       const message = `User with ID ${result.identifiers[0].id} successfully created`;
       return { message };
     } catch (error) {
-      throw new BadRequestException(`${error}`);
+      throw new BadRequestException(`${error.message}`);
     }
-
 
   }
 // -------------------------------------------------------------------
@@ -43,9 +49,21 @@ export class UserService {
 
 
 // -------------------------------------------------------------------
-  async update(id: string, updateUserDto: UpdateUserDto) {
-    return await this.usersRepository.update(id, updateUserDto);
-  }  
+async update(id: string, updateUserDto: UpdateUserDto) {
+  try {
+    const user = await this.usersRepository.findOneBy({ id });
+    
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    await this.usersRepository.update(id, updateUserDto);
+    const message = `User with ID ${id} successfully updated`;
+    return { message };
+  } catch (error) {
+    throw new BadRequestException(`${error}`);
+  }
+}
+
 // -------------------------------------------------------------------
 
   
