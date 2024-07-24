@@ -6,8 +6,8 @@ import { Column, Entity, OneToMany, Point } from "typeorm";
 @Entity()
 export class GroupLocker extends AbstractEntity<GroupLocker> {
 
-    @Column({ type: 'json', nullable: true })
-    coordinate: object; 
+    @Column({ length:255 })
+    coordinate: String; 
 
     @Column()
     @IsInt()

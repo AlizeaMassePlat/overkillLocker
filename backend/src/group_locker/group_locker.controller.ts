@@ -31,4 +31,9 @@ export class GroupLockerController {
   remove(@Param('id') id: string) {
     return this.groupLockerService.remove(+id);
   }
+
+  @Get('/find/all')
+  findAllWithRelat(){
+    return this.groupLockerService.findAllRelations();
+  }
 }

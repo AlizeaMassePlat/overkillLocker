@@ -9,7 +9,7 @@
         <StatsCardComponent />
       </div>
       <div class="mapContainer">
-        <CampusMapComponent />
+        <V2MapComponent :needHeader="false" mapSize="50vh" />
       </div>
     </div>
   </div>
@@ -17,16 +17,15 @@
 
 <script>
 import StatsCardComponent from '@/components/StatsCardComponent.vue';
-import CampusMapComponent from '@/components/CampusMapComponent.vue';
 import AlertInputComponent from '@/components/AlertInputComponent.vue';
+import V2MapComponent from '@/components/v2MapComponent.vue';
 
 export default {
   name: 'DashboardView',
   components: {
     StatsCardComponent,
-    CampusMapComponent,
-    AlertInputComponent
-
+    AlertInputComponent,
+    V2MapComponent
   }
 
 };
