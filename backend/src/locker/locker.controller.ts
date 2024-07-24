@@ -17,6 +17,11 @@ export class LockerController {
     return this.lockerService.findAll();
   }
 
+  @Get('/count')
+  async ControllerCount(){
+    return await this.lockerService.count();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.lockerService.findOne(+id);

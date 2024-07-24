@@ -15,7 +15,10 @@ export class UsersController {
   findAll() {
     return this.usersService.findAll();
   }
-
+  @Get('/count')
+  async ControllerCount(){
+    return await this.usersService.count();
+  }
   @Post('/register')
   async controllerCreate(@Body() createUserDto: CreateUserDto ) {
     const salt =  await genSalt();
