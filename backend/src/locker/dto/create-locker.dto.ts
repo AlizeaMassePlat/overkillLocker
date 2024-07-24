@@ -1,7 +1,10 @@
-import { IsBoolean, IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsNumber, IsString, IsOptional} from "class-validator";
 
 export class CreateLockerDto {
 
+    @IsNumber()
+    id: number;
+  
     @IsBoolean()
     is_open: boolean;
 
@@ -13,5 +16,10 @@ export class CreateLockerDto {
 
     @IsBoolean()
     is_delete: boolean;
+
+
+    @IsNumber()
+    id_group_locker: number;
+
 
 }
