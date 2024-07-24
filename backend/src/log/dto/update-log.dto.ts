@@ -1,8 +1,8 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateLogDto } from './create-log.dto';
-import { IsInt } from 'class-validator';
+import { IsInt, IsNumber } from 'class-validator';
 
 export class UpdateLogDto extends PartialType(CreateLogDto) {
-    @IsInt()
+    @IsNumber()
     id:number
 }
