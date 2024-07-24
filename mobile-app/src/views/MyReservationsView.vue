@@ -43,3 +43,4 @@ function viewDetails(id: string) {
 	padding: 16px;
 }
 </style>
+
