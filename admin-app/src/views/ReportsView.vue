@@ -26,11 +26,11 @@
             <th scope="col">Rôle</th>
             <th scope="col">Message</th>
             <th scope="col">Status</th>
-            <th scope="col" align="center">Actions</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          <tr @click="navigateToIncident(report.id)" v-for="report in paginatedReports" :key="report.id">
+          <tr v-for="report in paginatedReports" :key="report.id">
             <td>{{ report.id }}</td>
             <td>{{ report.reservation.id }}</td>
             <td>{{ report.user.firstname }} {{ report.user.lastname }}</td>
@@ -39,20 +39,14 @@
             <td>{{ report.user.role }}</td>
             <td>{{ report.body }}</td>
             <td>
-              <p :class="{
-                'state-to-treat': report.state === 0,
-                'state-in-progress': report.state === 1,
-                'state-resolved': report.state === 2
-              }">
-                <span v-if="report.state === 0">A traiter</span>
-                <span v-else-if="report.state === 1">En cours</span>
-                <span v-else>Résolue</span>
-              </p>
+              <select v-model="report.state" :class="getStateClass(report.state)">
+                <option :value="0">A traiter</option>
+                <option :value="1">En cours</option>
+                <option :value="2">Résolue</option>
+              </select>
             </td>
-            <td align="center">
-              <button @click.stop="resolveReport(report.id)">
-                <img width="20" height="20" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1"/>
-              </button>
+            <td @click="navigateToIncident(report.id)">
+              <i class="fa-solid fa-eye"></i>            
             </td>
           </tr>
         </tbody>
@@ -113,16 +107,6 @@ const paginatedReports = computed(() => {
   return filteredReports.value.slice(start, end);
 });
 
-const resolveReport = (id) => {
-  const report = errors.value.find(r => r.id === id);
-  if (report) {
-    if (report.state === 1) {
-      report.state = 2;
-    } else {
-      report.state = 1;
-    }
-  }
-};
 
 const prevPage = () => {
   if (currentPage.value > 1) {
@@ -184,6 +168,15 @@ const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleDateString('fr-FR');
 };
+
+const getStateClass = (state) => {
+  return {
+    0: 'state-to-treat',
+    1: 'state-in-progress',
+    2: 'state-resolved',
+  }[state];
+};
+
 </script>
 
 <style scoped>
@@ -235,11 +228,12 @@ table {
   width: calc(100% - 32px);
   border-collapse: collapse;
   margin-top: 16px;
+  font-size: 13px;
 }
 
 table th, table td {
   padding: 10px;
-
+  text-align: left;
 }
 
 table tr {
@@ -256,31 +250,35 @@ tbody tr td button {
   background: none;
 }
 
-.state-to-treat {
+tbody tr td select {
   text-align: center;
+  padding: 8px 32px 8px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  border: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGwxMiAwTDYgOEwwIDB6IiBmaWxsPSIjMDAwIi8+PC9zdmc+');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 6px;
+  font-size: 10px;
+}
+
+select.state-to-treat {
   background-color: #ffe3e6; /* Rouge pastel */
   color: #ce1a2c; /* Rouge plus foncé */
-  padding: 8px 0px;
-  border-radius: 12px;
-  font-weight: bold
 }
 
-.state-in-progress {
-  text-align: center;
+select.state-in-progress {
   background-color: #d1ecf1; /* Bleu pastel */
   color: #0c5460; /* Bleu foncé */
-  padding: 8px 0px;
-  border-radius: 12px;
-  font-weight: bold
 }
 
-.state-resolved {
-  text-align: center;
+select.state-resolved {
   background-color: #d4edda; /* Vert pastel */
   color: #155724; /* Vert foncé */
-  padding: 8px 0px;
-  border-radius: 12px;
-  font-weight: bold
 }
 
 .pagination {

@@ -38,7 +38,9 @@
               </div>
               <div>
                 <p>Etat</p>
-                <p>{{ error.state }}</p>
+                <p v-if="error.state === 0">A traiter</p>
+                <p v-else-if="error.state === 1">En cours</p>
+                <p v-else-if="error.state === 2">Résolue</p>
               </div>
               <div>
                 <p>Date</p>
@@ -156,7 +158,7 @@ h1 {
 .report_incident_container {
   background-color: #f1f1f1;
   border: 2px solid #e3e0df;
-  margin: 32px auto;
+  margin: 16px auto;
   border-radius: 10px;
   padding: 32px;
 }
@@ -173,6 +175,7 @@ h1 {
   justify-content: center;
   margin-top: 24px;
   gap: 16px;
+  font-size: 13px;
 }
 
 .grid_incident div {
@@ -186,12 +189,17 @@ h1 {
 }
 
 .grid_incident div:nth-child(7), .grid_incident div:nth-child(8) {
-  height: 230px;
+  height: 200px;
+}
+
+.grid_incident div p:nth-child(1) {
+  font-size: 11px;
+  color: #808080;
 }
 
 .grid_incident div img {
   align-self: baseline;
-  height: 200px;
+  height: 170px;
   object-fit: contain;
 }
 

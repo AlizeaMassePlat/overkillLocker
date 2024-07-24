@@ -31,11 +31,11 @@
         <tbody>
           <tr v-for="locker in paginatedLockers" :key="locker.id">
             <td>{{ locker.id }}</td>
-            <td>{{ locker.location }}</td>
-            <td>{{ locker.position }}</td>
+            <td>{{ locker.groupLocker.coordinate }}</td>
+            <td>{{ locker.groupLocker.name_place }}</td>
             <td>{{ locker.position }}</td>
             <td>{{ formatDate(locker.create_date) }}</td>
-            <td>{{ locker.type }}</td>
+            <td>{{ locker.groupLocker.locker_type }}</td>
             <td align="center">
               <select v-model="locker.state" :class="getStateClass(locker.state)">
                 <option :value="0">Disponible</option>
@@ -82,8 +82,8 @@ const filteredLockers = computed(() => {
 
   if (search.value) {
     filtered = filtered.filter(locker =>
-      locker.location.toLowerCase().includes(search.value.toLowerCase()) ||
-      locker.type.toLowerCase().includes(search.value.toLowerCase())
+      locker.groupLocker.name_place.toLowerCase().includes(search.value.toLowerCase()) ||
+      locker.groupLocker.locker_type.toLowerCase().includes(search.value.toLowerCase())
     );
   }
 
@@ -165,6 +165,9 @@ const getStateClass = (state) => {
     3: 'state-repairing'
   }[state];
 };
+
+console.log(lockers)
+
 </script>
 
 
@@ -216,6 +219,7 @@ table {
   width: calc(100% - 32px);
   border-collapse: collapse;
   margin-top: 16px;
+  font-size: 13px;
 }
 
 table th, table td {
@@ -242,7 +246,8 @@ tbody tr td select {
   background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGwxMiAwTDYgOEwwIDB6IiBmaWxsPSIjMDAwIi8+PC9zdmc+');
   background-repeat: no-repeat;
   background-position: right 10px center;
-  background-size: 12px;
+  background-size: 6px;
+  font-size: 10px;
 }
 
 select.state-available {

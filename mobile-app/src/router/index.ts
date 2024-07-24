@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
-import HomeView from "../views/HomeView.vue";
 import StartView from "../views/StartView.vue";
+import LandingView from "@/views/LandingView.vue";
 import LoginView from "../views/LoginView.vue";
-import ReserveView from "../views/ReserveView.vue";
-import MyReservationsView from "../views/MyReservationsView.vue";
+import TabsComponent from "@/components/TabsComponent.vue";
+import BookingsView from "../views/BookingsView.vue";
 import AccountView from "../views/AccountView.vue";
 import ReportIncidentView from "../views/ReportIncidentView.vue";
 import PasswordView from "../views/PasswordView.vue";
@@ -11,8 +11,8 @@ import PasswordView from "../views/PasswordView.vue";
 const routes = [
 	{
 		path: "/",
-		name: "HomeView",
-		component: HomeView,
+		name: "LandingView",
+		component: LandingView,
 	},
 	{
 		path: "/demarrer",
@@ -31,26 +31,30 @@ const routes = [
 	},
 
 	{
-		path: "/reserver",
-		name: "ReserveView",
-		component: ReserveView,
-	},
-	{
-		path: "/mes-reservations",
-		name: "MyReservationsView",
-		component: MyReservationsView,
-	},
-	
-	{
-		path: "/mon-compte",
-		name: "AccountView",
-		component: AccountView,
-	},
-	
-	{
-		path: "/signaler-un-incident",
-		name: "ReportIncidentView",
-		component: ReportIncidentView,
+		path: "/",
+		component: TabsComponent,
+		children: [
+			{
+				path: "/",
+				name: "LandingView",
+				component: LandingView,
+			},
+			{
+				path: "/mes-reservations",
+				name: "BookingsView",
+				component: BookingsView,
+			},
+			{
+				path: "/mon-compte",
+				name: "AccountView",
+				component: AccountView,
+			},
+			{
+				path: "/signaler-un-incident",
+				name: "ReportIncidentView",
+				component: ReportIncidentView,
+			},
+		],
 	},
 ];
 
