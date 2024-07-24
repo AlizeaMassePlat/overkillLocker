@@ -1,16 +1,20 @@
-import { IsString, IsNumber, IsDate } from 'class-validator';
+import { IsDate, IsNumber, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
 
-export class CreateErrorDto { 
+export class CreateErrorDto {
+  @IsString()
+  title: string;
 
-    @IsString()
-    title:string;
+  @IsString()
+  body: string;
 
-    @IsString()
-    body:string;
+  @IsNumber()
+  state: number;
 
-    @IsDate()
-    date_create:Date
+  @IsNumber()
+  id_user: number;
 
-    @IsNumber()
-    id_user:number
+  @IsDate()
+  @Type(() => Date)
+  date_create: Date;
 }
