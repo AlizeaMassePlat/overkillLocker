@@ -17,7 +17,7 @@ export class CardController {
     return this.cardService.findCards();
   }
 
-  @Get(':id')
+  @Get('/find/:id')
   findOne(@Param('id') id: number) {
     return this.cardService.findOneCard(id);
   }
@@ -32,12 +32,4 @@ export class CardController {
   remove(@Param('id') id: number) {
     return this.cardService.deleteCard(id);
   }
-
-  @Patch('/assign/:id')
-  assignCard(@Param('id') id_user:number, @Body() id_card) {
-    
-
-
-    return this.cardService.assignCard(id_user, id_card);
-  } 
 }

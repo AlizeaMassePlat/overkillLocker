@@ -1,7 +1,7 @@
 <template>
   <ion-page>
       <div class="login-container">
-        <h2>Heureux de vous revoir</h2>
+        <h2>Bienvenue !</h2>
           <ion-input
             class="custom"
             ref="emailInput"
@@ -50,10 +50,34 @@
             </ion-button>
           </ion-input>
 
-        <ButtonComponent type="lg" @click="login">Connexion</ButtonComponent>
-        <div class="link">
-          <router-link to="/motdepasse">Mot de passe oublié ?</router-link>
-        </div>
+          <ion-input
+            class="custom"
+            ref="confirmPasswordInput"
+            :type="showPassword ? 'text' : 'password'"
+            fill="outline"
+            label="Confirmer le mot de passe"
+            label-placement="floating"
+            placeholder="Confirmer le mot de passe"
+            :value="confirmPassword"
+            @ionInput="updateConfirmPassword"
+            @ionFocus="confirmPasswordFocused = true"
+            @ionBlur="confirmPasswordFocused = false"
+          >
+            <ion-button
+              v-if="confirmPasswordFocused"
+              slot="end"
+              fill="clear"
+              @mousedown.prevent="togglePasswordVisibility"
+            >
+              <ion-icon
+                :icon="showPassword ? eyeOff : eye"
+                slot="icon-only"
+              ></ion-icon>
+            </ion-button>
+          </ion-input>
+
+        <ButtonComponent type="lg" @click="register">Définir mon mot de passe</ButtonComponent>
+        
       </div>
   </ion-page>
 </template>
@@ -63,15 +87,16 @@ import { ref } from "vue";
 import { IonInput, IonItem, IonButton, IonIcon, IonPage } from "@ionic/vue";
 import { eye, eyeOff, checkmarkCircle, closeCircle } from "ionicons/icons";
 import ButtonComponent from "@/components/ButtonComponent.vue";
-import FormInputComponent from "@/components/FormInputComponent.vue";
 
 const email = ref("");
 const password = ref("");
+const confirmPassword = ref("");
 const emailError = ref("");
 const showPassword = ref(false);
 const emailTouched = ref(false);
 const emailValid = ref(false);
 const passwordFocused = ref(false);
+const confirmPasswordFocused = ref(false);
 
 const validateEmail = (event: Event) => {
   const value = (event.target as HTMLInputElement).value;
@@ -93,16 +118,25 @@ const updatePassword = (event: Event) => {
   password.value = (event.target as HTMLInputElement).value;
 };
 
+const updateConfirmPassword = (event: Event) => {
+  confirmPassword.value = (event.target as HTMLInputElement).value;
+};
+
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
 };
 
-const login = async () => {
-  console.log("Login clicked", {
+const register = async () => {
+  if (password.value !== confirmPassword.value) {
+    alert("Les mots de passe ne correspondent pas.");
+    return;
+  }
+
+  console.log("Register clicked", {
     email: email.value,
     password: password.value,
   });
-  // Add your login logic here
+  // Add your registration logic here
 };
 </script>
 

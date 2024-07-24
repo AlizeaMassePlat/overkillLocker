@@ -24,11 +24,7 @@ export class Locker extends AbstractEntity<Locker> {
     })
     create_date: Date;
 
-    @Column()
-    id_group_locker:number;
-
-    @OneToMany(() => Log, log => log.id_locker)
-    @JoinColumn({ name: 'id_locker' })  // Explicitly specify the column name
-    logs: Log[];
+    @ManyToOne(() => GroupLocker, (GroupLocker) => GroupLocker.lockers)
+    groupLocker: GroupLocker
 
 }

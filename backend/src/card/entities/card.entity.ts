@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, IsNull } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, IsNull, OneToOne } from 'typeorm';
 import { AbstractEntity } from 'src/database/abstract.entity';
-import { IsBoolean, isBoolean, IsInt, IsNumber, IsString } from 'class-validator';
+import { User } from 'src/user/entities/user.entity';
+import { IsBoolean, isBoolean, IsNumber, IsString } from 'class-validator';
 
 @Entity()
 export class Card {
@@ -19,5 +20,8 @@ export class Card {
 
   @Column()
   @IsBoolean()
-  is_delete: boolean;
+  is_deleted: boolean;
+
+  @OneToOne(() => User, user => user.card)
+  user: User;
 }

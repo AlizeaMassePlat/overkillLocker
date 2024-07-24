@@ -1,5 +1,6 @@
+import { Card } from 'src/card/entities/card.entity';
 import { Error } from 'src/error/entities/error.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -25,21 +26,27 @@ export class User {
   @Column({ length: 255 })
   role: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, nullable:true })
   school_prom: string;
 
-  @Column()
+  @Column({ nullable: true })
   card_number: number;
 
-  @Column()
+  @Column({ default: 0})
   is_deleted: boolean;
 
-  @Column()
+  @Column({
+      type: 'timestamp',
+      default: () => 'CURRENT_TIMESTAMP',
+  })
   create_date: Date;
 
   @OneToMany(() => Error, (error) => error.user)
-  errors: Error[]
+  errors: Error[];
 
+  @OneToOne(() => Card, card => card.user)
+  @JoinColumn({ name: 'card_number' })
+  card: Card;
 }
 
 

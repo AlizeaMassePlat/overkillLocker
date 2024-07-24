@@ -1,17 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Card } from './entities/card.entity';
+import { User } from '../user/entities/user.entity'; // Assurez-vous que le chemin est correct
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Card } from './entities/card.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class CardService {
-
   constructor(
     @InjectRepository(Card)
-    private cardRepository: Repository<Card>
+    private cardRepository: Repository<Card>,
+
+    @InjectRepository(User)
+    private userRepository: Repository<User>
   ) {}
+
 
   async create(createCardDto: CreateCardDto) {
 
@@ -23,7 +27,8 @@ export class CardService {
     {
       return this.cardRepository.insert(createCardDto);
     }else {
-      throw new Error('Card identifier already in database');
+
+      throw new ConflictException(`Card with identifier ${createCardDto.card_identifier} already in database`);
     }
   }
 
@@ -45,5 +50,19 @@ export class CardService {
 
   async assignCard(id_user, id_card) {
     
+  }
+
+  async findNotUsed(): Promise<Card[]> {
+    // Trouver les cartes déjà attribuées
+    const usedCardIds = await this.userRepository.createQueryBuilder('user')
+      .select('user.card_number')
+      .where('user.card_number IS NOT NULL')
+      .getRawMany()
+      .then(results => results.map(result => result.user_card_number));
+  
+    // Trouver les cartes non attribuées
+    return this.cardRepository.createQueryBuilder('card')
+      .where('card.id NOT IN (:...usedCardIds)', { usedCardIds })
+      .getMany();
   }
 }

@@ -13,5 +13,5 @@ export class UpdateCardDto {
 
     @IsOptional()
     @IsBoolean()
-    is_delete?: boolean;
+    is_deleted?: boolean;
 }
