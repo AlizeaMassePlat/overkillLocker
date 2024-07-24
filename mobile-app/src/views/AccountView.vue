@@ -271,6 +271,10 @@ const goToSupportView = () => {
 	router.push({ name: "ReportIncidentView" });
 };
 
+const closeModal = () => {
+	isModalOpen.value = false;
+};
+
 const signOut = () => {
 	router.push({ name: "LoginView" });
 };

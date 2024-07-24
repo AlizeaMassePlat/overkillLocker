@@ -20,6 +20,9 @@
 
 <script setup lang="ts">
 import { defineProps, defineEmits } from "vue";
+import {
+	IonInput
+} from "@ionic/vue";
 
 const props = defineProps({
 	modelValue: String,
