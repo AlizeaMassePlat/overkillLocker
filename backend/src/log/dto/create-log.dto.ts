@@ -1,16 +1,26 @@
-import { IsBoolean, IsInt, IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsDate, IsDateString, IsInt, IsNumber, IsString } from "class-validator";
+import { Locker } from "src/locker/entities/locker.entity";
 
 export class CreateLogDto {
 
+    @IsNumber()
+    id:number;
+
     @IsString()
-    log:string;
+    title:string;
+
+    @IsString()
+    body:string
     
     @IsNumber()
-    status:number;
+    state:number;
+
+    @IsDateString()
+    create_date:string;
 
     @IsBoolean()
     is_delete:boolean;
 
-    @IsInt()
-    id_locker:number
+    @IsNumber()
+    id_locker:number;
 }
