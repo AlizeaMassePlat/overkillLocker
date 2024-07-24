@@ -7,8 +7,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
 
+  // Allowed origins
   const allowedOrigins = ['http://localhost:8080', 'http://localhost:5173'];
 
+  // Configure CORS
   app.enableCors({
     origin: (origin, callback) => {
       if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
