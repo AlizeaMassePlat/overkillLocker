@@ -70,7 +70,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 import { IonPage, IonContent, IonTextarea, IonInput } from "@ionic/vue";
 
 import BackArrow from "@/components/ButtonBackArrow.vue";
@@ -105,11 +104,6 @@ const reportIncident = () => {
 	isModalOpen.value = true;
 };
 
-const router = useRouter();
-
-const closeModal = () => {
-	router.push({ name: "LandingView" });
-};
 </script>
 
 <style scoped>
