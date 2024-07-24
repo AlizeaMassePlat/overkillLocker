@@ -2,11 +2,12 @@
   <div class="homepage">
     <div class="navContainer">
       <NavigationComponent 
-        :logo="require('../../public/img/SmartLocker.svg')" 
-        :greyDot="require('../../public/img/greyDot.png')"
-        :orangeDot="require('../../public/img/orangeDot.png')" 
+        :logo="require('@/assets/SmartLocker.svg')" 
+        :greyDot="require('@/assets/greyDot.png')"
+        :orangeDot="require('@/assets/orangeDot.png')" 
         :links="navLinks"
         :activeLink="activeLink"
+        :deconnexion="require('@/assets/deconnexion.png')"
         @link-clicked="setComponent"
       />
     </div>
@@ -20,7 +21,7 @@
 import NavigationComponent from '@/components/NavigationComponent.vue';
 import Dashboard from '@/views/DashboardView.vue';
 import Reservations from '@/views/ReservationsView.vue';
-import Utilisateur from '@/views/UsersView.vue';
+import Utilisateurs from '@/views/UsersView.vue';
 import Casiers from '@/views/LockersView.vue';
 import Rapports from '@/views/ReportsView.vue';
 
@@ -30,7 +31,7 @@ export default {
     NavigationComponent,
     Dashboard,
     Reservations,
-    Utilisateur,
+    Utilisateurs,
     Casiers,
     Rapports,
   },
@@ -39,12 +40,12 @@ export default {
       navLinks: [
         { component: 'Dashboard', label: 'Tableau de bord' },
         { component: 'Reservations', label: 'Reservations' },
-        { component: 'Utilisateur', label: 'Utilisateur' },
+        { component: 'Utilisateurs', label: 'Utilisateurs' },
         { component: 'Casiers', label: 'Casiers' },
         { component: 'Rapports', label: 'Rapports' }
       ],
-      currentComponent: 'Dashboard', // Set a default component
-      activeLink: 'Dashboard' // Initial active link
+      currentComponent: 'Dashboard',
+      activeLink: 'Dashboard'
     };
   },
   methods: {
@@ -58,18 +59,25 @@ export default {
 </script>
 
 <style scoped>
+html,
+body {
+   margin: 0;
+   padding: 0;
+}
 .homepage {
   display: flex;
   flex-direction: row;
   height: 100vh;
+  overflow: hidden;
 }
 
 .navContainer {
   width: 20%;
+  position: sticky;
 }
 
 .componentContainer {
   width: 80%;
-  padding: 20px;
+  padding: 24px 32px;
 }
 </style>

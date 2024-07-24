@@ -1,66 +1,52 @@
 <template>
-	<ion-item class="form-input">
-	<ion-label :for="id" position="fixed">{{ label }}</ion-label>
 	<ion-input
+		:label="label"
+		label-placement="floating"
+		class="custom"
 		:type="type"
-		:id="id"
-		v-model="inputValue"
-		@ionInput="emitInput"
-		clearInput
-	></ion-input>
-	<p v-if="error" class="error">{{ error }}</p>
-	</ion-item>
-  </template>
-  
-  <script setup>
-  import { ref, watch, defineProps, defineEmits } from 'vue';
-  import { IonItem, IonLabel, IonInput } from '@ionic/vue';
-  
-  const props = defineProps({
-	id: String,
+		:value="modelValue"
+		:fill="fill"
+		:maxlength="maxlength"
+		:readonly="readonly"
+		:placeholder="placeholder"
+		:counter="counter"
+		:auto-grow="autoGrow"
+		:rows="rows"
+		:error-text="errorText"
+		:helper-text="helperText"
+		@ionInput="$emit('update:modelValue', $event.target.value)">
+	</ion-input>
+</template>
+
+<script setup lang="ts">
+import { defineProps, defineEmits } from "vue";
+import {
+	IonInput
+} from "@ionic/vue";
+
+const props = defineProps({
+	modelValue: String,
+	type: String,
+	fill: String,
 	label: String,
-	type: {
-	  type: String,
-	  default: 'text'
-	},
-	value: [String, Number],
-	error: String
-  });
-  
-  const emit = defineEmits(['input']);
-  
-  const inputValue = ref(props.value);
-  
-  // Watch for changes in props.value and update inputValue
-  watch(() => props.value, (newValue) => {
-	inputValue.value = newValue;
-  });
-  
-  // Emit input event with the updated value
-  const emitInput = (event) => {
-	const target = event.target;
-	emit('input', target.value);
-	console.log('FormInput value:', target.value);
-  };
-  </script>
-  
-  <style scoped>
-  .form-input {
-	border-radius: 8px;
-	--background: white;
-	width: 310px;
-	height: 45px;
-	display: flex;
-	justify-content: left;
-	align-items: center;
-	color: #212121;
-	font-size: 14px;
-	margin-top: 34px;
-  }
-  
-  .error {
-	color: red;
-	font-size: 12px;
-  }
-  </style>
-  
+	errorText: String,
+	helperText: String,
+	counter: Boolean,
+	maxlength: Number,
+	readonly: Boolean,
+	placeholder: String,
+	autoGrow: Boolean,
+	rows: Number,
+});
+
+const emit = defineEmits(["update:modelValue"]);
+</script>
+
+<style scoped>
+ion-input.custom {
+	--color: #000; 
+	--placeholder-color: #ddd;
+	--placeholder-opacity: 0.8;
+	--highlight-color-focused: #ffa62b;
+}
+</style>

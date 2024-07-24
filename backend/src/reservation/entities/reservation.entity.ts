@@ -1,14 +1,7 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
-  CreateDateColumn
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { AbstractEntity } from 'src/database/abstract.entity';
 import { IsDate } from 'class-validator';
-import { User } from '../../user/entities/user.entity';
+import { User } from 'src/user/entities/user.entity';
 import { Locker } from 'src/locker/entities/locker.entity';
 
 @Entity()

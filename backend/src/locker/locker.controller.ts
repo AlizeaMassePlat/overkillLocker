@@ -31,4 +31,5 @@ export class LockerController {
   remove(@Param('id') id: number) {
     return this.lockerService.remove(+id);
   }
+
 }

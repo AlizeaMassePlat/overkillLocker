@@ -17,9 +17,9 @@ export class UsersController {
   }
 
   @Post('/register')
-  async controllerCreate(@Body() createUserDto: CreateUserDto ) {
-    const salt =  await genSalt();
-    createUserDto.password =  await hash(createUserDto.password, salt);
+  async controllerCreate(@Body() createUserDto: CreateUserDto) {
+    const salt = await genSalt();
+    createUserDto.password = await hash(createUserDto.password, salt);
     return this.usersService.register(createUserDto);
   }
 
@@ -29,7 +29,14 @@ export class UsersController {
   }
 
   @Patch('/update/:id')
-  async controllerUpdate(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  async controllerUpdate(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    if (updateUserDto.password) {
+      const salt = await genSalt();
+      updateUserDto.password = await hash(updateUserDto.password, salt);
+    }
     return await this.usersService.update(id, updateUserDto);
   }
 
@@ -39,8 +46,10 @@ export class UsersController {
   }
   
   @Post('/login')
-  async controllerLogin(@Body() loginUserDto: LoginUserDto ) {
-    return await this.usersService.login(loginUserDto.email, loginUserDto.password);
+  async controllerLogin(@Body() loginUserDto: LoginUserDto) {
+    return await this.usersService.login(
+      loginUserDto.email,
+      loginUserDto.password,
+    );
   }
-  
 }

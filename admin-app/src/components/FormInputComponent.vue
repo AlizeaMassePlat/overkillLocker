@@ -1,6 +1,6 @@
 <template>
   <div class="form-input">
-    <label :for="id">{{ label }}</label>
+    <label :for="id" position="fixed">{{ label }}</label>
     <input
       :type="type"
       :id="id"
@@ -19,26 +19,26 @@ export default {
     label: String,
     type: {
       type: String,
-      default: 'text'
+      default: "text",
     },
-    value: [String, Number],
-    error: String
+    value: [String, Number, Date],
+    error: String,
   },
   data() {
     return {
-      inputValue: this.value
+      inputValue: this.value,
     };
   },
   watch: {
     value(newValue) {
       this.inputValue = newValue;
-    }
+    },
   },
   methods: {
     emitInput(event) {
-      this.$emit('input', event.target.value);
-    }
-  }
+      this.$emit("input", event.target.value);
+    },
+  },
 };
 </script>
 
@@ -56,6 +56,7 @@ export default {
   font-size: 14px;
   padding-left: 9px;
   margin-top: 34px;
+  padding-top: 2px;
 }
 .input-field {
   width: 96%;

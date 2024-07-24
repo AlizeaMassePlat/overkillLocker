@@ -43,4 +43,5 @@ export class LockerService {
     }
     await this.lockerRepository.remove(locker);
   }
+
 }

@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Reservation } from '../../reservation/entities/reservation.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import { GroupLocker } from 'src/group_locker/entities/group_locker.entity';
 
 @Entity()
 export class Locker {
@@ -18,6 +19,16 @@ export class Locker {
   @Column()
   is_delete: boolean;
 
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  create_date: Date;
+  
+  @ManyToOne(() => GroupLocker, (GroupLocker) => GroupLocker.lockers)
+  groupLocker: GroupLocker
+  
   @OneToMany(() => Reservation, (reservation) => reservation.locker)
   reservations: Reservation[];
+
 }

@@ -1,50 +1,38 @@
 <template>
-  <ion-modal :is-open="visible" @didDismiss="close">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>
-          <slot name="header">Default Header</slot>
-        </ion-title>
-        <ion-buttons slot="end">
-          <ion-button @click="close">X</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <section class="modal-body">
-        <slot>Default Body</slot>
-      </section>
+  <ion-modal :is-open="isOpen" @didDismiss="closeModal" class="custom-modal">
+    <ion-content class="modal-content">
+      <slot></slot>
     </ion-content>
-    <ion-footer>
-      <ion-toolbar>
-        <slot name="footer">
-          <ion-button expand="full" @click="close">Close</ion-button>
-        </slot>
-      </ion-toolbar>
-    </ion-footer>
   </ion-modal>
 </template>
 
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue';
-import { IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonFooter } from '@ionic/vue';
+import { IonModal, IonContent } from '@ionic/vue';
 
 const props = defineProps({
-  visible: {
-    type: Boolean,
-    default: false
-  }
+  isOpen: Boolean,
+  title: String
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['didDismiss']);
 
-function close() {
-  emit('close');
-}
+const closeModal = () => {
+  emit('didDismiss');
+};
 </script>
 
 <style scoped>
-.modal-body {
-  padding: 16px;
+.custom-modal {
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.modal-content {
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 </style>
