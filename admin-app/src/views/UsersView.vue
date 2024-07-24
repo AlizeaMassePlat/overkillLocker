@@ -1,30 +1,31 @@
 <template>
-  <div class="users-view">
+  <div>
+    <h1>Utilisateurs</h1>
     <div class="content">
-      <div class="buttonContainer">
-        <div v-if="showCreateUser" class="left-button">
-          <ButtonComponent type="sm" @click="hideCreateUserForm" label="Retour" />
-        </div>
-        <div class="right-button">
-          <ButtonComponent v-if="!showCreateUser" type="sm" label="+ Ajouter un utilisateur" @click="showCreateUserForm" />
-        </div>
+      <div v-if="showCreateUser">
+        <ButtonComponent type="sm" @click="hideCreateUserForm" label="Retour" />
       </div>
       <div v-if="showCreateUser">
         <CreateUserView />
       </div>
       <div v-else>
         <section class="search_filter_container">
-          <p>Filtre</p>
-          <select class="filter_role_select" v-model="selectedRole">
-            <option value="">Tous</option>
-            <option value="admin">Admin</option>
-            <option value="user">User</option>
-            <option value="guest">Invités</option>
-            <option value="pedagogic">Pedagogique</option>
-          </select>
-          <div class="search_bar">
-            <img width="15" height="15" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1"/>
-            <input v-model="search" type="text" placeholder="Rechercher..." />
+          <div class="search_filter_content">
+            <p>Filtre</p>
+            <select class="filter_role_select" v-model="selectedRole">
+              <option value="">Tous</option>
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+              <option value="guest">Invités</option>
+              <option value="pedagogic">Pedagogique</option>
+            </select>
+            <div class="search_bar">
+              <img width="15" height="15" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1"/>
+              <input v-model="search" type="text" placeholder="Rechercher..." />
+            </div>
+          </div>
+          <div>
+            <p class="action" @click="showCreateUserForm">+ ajouter un utilisateur</p>
           </div>
         </section>
         <section class="tableContainer">
@@ -46,7 +47,10 @@
                 <td>{{ user.lastname }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.school_prom }}</td>
-                <td>{{ user.role }}</td>
+                <td>
+                  <p v-if="user.role == 1">Equipe péda.</p>
+                  <p v-else>Etudiant</p>
+                </td>
                 <td>{{ user.card_number }}</td>
                 <td align="center">
                   <button @click="editUser(user.id)">
@@ -182,7 +186,12 @@ export default {
   }
 };
 </script>
+
 <style scoped>
+* {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
 /* Styles for the main view */
 .users-view {
   display: flex;
@@ -190,7 +199,6 @@ export default {
 
 .content {
   flex-grow: 1;
-  padding: 20px;
 }
 
 .buttonContainer {
@@ -200,29 +208,25 @@ export default {
   align-items: center;
 }
 
-.left-button {
-  order: 1;
-}
-
-.right-button {
-  order: 2;
-  margin-left: auto;
-}
-
 .back-button:hover {
   background-color: #e59426;
 }
 
 .tableContainer {
-  margin-top: 32px;
+  margin-top: 16px;
 }
 
-/* Styles for search filter container */
 .search_filter_container {
-  margin-top: 16px;
-  margin-bottom: 16px;
+  margin-top: 64px;
+  margin-left: 16px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.search_filter_content {
+  display: flex;
+  align-items: center
 }
 
 .search_filter_container p {
@@ -285,7 +289,6 @@ table {
   margin: auto;
   width: calc(100% - 32px);
   border-collapse: collapse;
-  margin-top: 16px;
   font-size: 13px;
 }
 
@@ -338,5 +341,18 @@ select.state-resolved {
   background-color: #d4edda; /* Vert pastel */
   color: #155724; /* Vert foncé */
 }
+
+.action {
+  border-radius: 8px;
+  background-color: #ffa62b;
+  color: white;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  padding: 8px 24px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+
 </style>
 

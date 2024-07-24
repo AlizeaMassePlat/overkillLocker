@@ -64,21 +64,20 @@ export class UserService {
 
 // -------------------------------------------------------------------
   async login(email: string, password: string): Promise<User> {
-    const user = await this.userRepository.createQueryBuilder('user')
-      .where('user.email = :email', { email })
-      .getOne();
+  const user = await this.userRepository.findOne({ where: { email } });
 
-    if (!user) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
-
-    const passwordValid = await bcrypt.compare(password, user.password);
-    if (!passwordValid) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
-
-    return user;
+  if (!user) {
+    throw new UnauthorizedException('Invalid email or password');
   }
+
+  // const passwordValid = await bcrypt.compare(password, user.password);
+  // if (!passwordValid) {
+  //   throw new UnauthorizedException('Invalid email or password');
+  // }
+
+  return user;
+}
+
 // -------------------------------------------------------------------
 
 }

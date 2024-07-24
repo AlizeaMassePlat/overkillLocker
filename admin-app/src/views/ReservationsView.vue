@@ -1,29 +1,31 @@
 <template>
-  <div class="reservations-view">
+  <div>
+    <h1>Réservations</h1>
     <div class="content">
-      <div class="buttonContainer">
-        <div v-if="showCreateReservation" class="left-button">
-          <ButtonComponent type="sm" @click="hideCreateReservationForm" label="Retour" />
-        </div>
-        <div class="right-button">
-          <ButtonComponent v-if="!showCreateReservation" type="sm" label="+ Ajouter une réservation" @click="showCreateReservationForm" />
-        </div>
+      <div v-if="showCreateReservation">
+        <ButtonComponent type="sm" @click="hideCreateReservationForm" label="Retour" />
       </div>
+     
       <div v-if="showCreateReservation">
         <CreateReservationView />
       </div>
       <div v-else>
         <section class="search_filter_container">
-          <p>Filtre</p>
-          <select class="filter_status_select" v-model="selectedStatus">
-            <option value="">Tous</option>
-            <option value="0">En attente</option>
-            <option value="1">Confirmée</option>
-            <option value="2">Annulée</option>
-          </select>
-          <div class="search_bar">
-            <img width="15" height="15" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1"/>
-            <input v-model="search" type="text" placeholder="Rechercher..." />
+          <div class="search_filter_content">
+            <p>Filtre</p>
+            <select class="filter_status_select" v-model="selectedStatus">
+              <option value="">Tous</option>
+              <option value="0">En attente</option>
+              <option value="1">Confirmée</option>
+              <option value="2">Annulée</option>
+            </select>
+            <div class="search_bar">
+              <img width="15" height="15" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1"/>
+              <input v-model="search" type="text" placeholder="Rechercher..." />
+            </div>
+          </div>
+          <div>
+            <p @click="showCreateReservationForm" class="action" >+ Ajouter une réservation</p>
           </div>
         </section>
         <section class="tableContainer">
@@ -44,20 +46,20 @@
             <tbody>
               <tr v-for="reservation in paginatedReservations" :key="reservation.id">
                 <td>{{ reservation.id }}</td>
-                <td>{{ reservation.idcasier }}</td>
-                <td>{{ reservation.nom }}</td>
-                <td>{{ reservation.prenom }}</td>
-                <td>{{ reservation.email }}</td>
+                <td>{{ reservation.locker.id }}</td>
+                <td>{{ reservation.user.lastname }}</td>
+                <td>{{ reservation.user.firstname }}</td>
+                <td>{{ reservation.user.email }}</td>
                 <td>{{ formatDate(reservation.date) }}</td>
-                <td>{{ reservation.type }}</td>
+                <td>{{ reservation.reserve_type }}</td>
                 <td>
                   <p :class="{
-                    'state-pending': reservation.status === 0,
-                    'state-confirmed': reservation.status === 1,
-                    'state-cancelled': reservation.status === 2
+                    'state-pending': reservation.state === 1,
+                    'state-confirmed': reservation.state === 2,
+                    'state-cancelled': reservation.state === 3
                   }">
-                    <span v-if="reservation.status === 0">En attente</span>
-                    <span v-else-if="reservation.status === 1">Confirmée</span>
+                    <span v-if="reservation.state === 1">En attente</span>
+                    <span v-else-if="reservation.state === 2">Confirmée</span>
                     <span v-else>Annulée</span>
                   </p>
                 </td>
@@ -185,6 +187,7 @@ export default {
       try {
         const response = await axios.get('http://localhost:3000/reservation');
         this.reservations = response.data;
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching reservations:', error);
       }
@@ -198,9 +201,14 @@ export default {
     this.fetchReservations();
   }
 };
+
 </script>
 
 <style scoped>
+* {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
 /* Styles for the main view */
 .reservations-view {
   display: flex;
@@ -208,7 +216,6 @@ export default {
 
 .content {
   flex-grow: 1;
-  padding: 20px;
 }
 
 .buttonContainer {
@@ -232,15 +239,20 @@ export default {
 }
 
 .tableContainer {
-  margin-top: 10%;
+  margin-top: 16px;
 }
 
-/* Styles for search filter container */
 .search_filter_container {
-  margin-top: 16px;
-  margin-bottom: 16px;
+  margin-top: 64px;
+  margin-left: 16px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.search_filter_content {
+  display: flex;
+  align-items: center
 }
 
 .search_filter_container p {
@@ -321,6 +333,74 @@ export default {
 
 .page-btn:not(.active):hover {
   background-color: #f1f1f1;
+}
+
+table {
+  margin: auto;
+  width: calc(100% - 32px);
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+table th, table td {
+  padding: 10px;
+  text-align: left;
+}
+
+table tr {
+  text-align: left;
+}
+
+tbody tr:nth-child(odd){
+  background-color: #FFDAC1;
+}
+
+tbody tr td button {
+  border: none;
+  outline: none;
+  background: none;
+}
+
+tbody tr td select {
+  text-align: center;
+  padding: 8px 32px 8px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  border: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGwxMiAwTDYgOEwwIDB6IiBmaWxsPSIjMDAwIi8+PC9zdmc+');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 6px;
+  font-size: 10px;
+}
+
+select.state-to-treat {
+  background-color: #ffe3e6; /* Rouge pastel */
+  color: #ce1a2c; /* Rouge plus foncé */
+}
+
+select.state-in-progress {
+  background-color: #d1ecf1; /* Bleu pastel */
+  color: #0c5460; /* Bleu foncé */
+}
+
+select.state-resolved {
+  background-color: #d4edda; /* Vert pastel */
+  color: #155724; /* Vert foncé */
+}
+
+.action {
+  border-radius: 8px;
+  background-color: #ffa62b;
+  color: white;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  padding: 8px 24px;
+  font-size: 14px;
+  cursor: pointer;
 }
 </style>
 
