@@ -17,7 +17,7 @@ export class CardController {
     return this.cardService.findAll();
   }
 
-  @Get(':id')
+  @Get('/find/:id')
   findOne(@Param('id') id: string) {
     return this.cardService.findOne(+id);
   }
@@ -30,5 +30,10 @@ export class CardController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.cardService.remove(+id);
+  }
+
+  @Get('/notUsed')
+  findNotUsed() {
+    return this.cardService.findNotUsed();
   }
 }
