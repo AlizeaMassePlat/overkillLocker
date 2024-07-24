@@ -17,18 +17,23 @@ export class GroupLockerService {
     return this.groupLockerRepository.insert(createGroupLockerDto);
   }
 
-  findAll() {
-    return this.groupLockerRepository.find();
+  async findAll() {
+    try {
+      return await this.groupLockerRepository.find();
+    }catch(error) {
+      console.error('Error findAll():', error)
+      console.error(error.stack)
+    }
   }
 
-  findGroupLockerById(id: number) {
-    return this.groupLockerRepository.findOneBy({id});
+  async findGroupLockerById(id: number) {
+    return await this.groupLockerRepository.find({where: {id}});
   }
 
-  async findGroupLockerByCoordinates(coordinates: Point) {
+  async findGroupLockerByCoordinates(coordinates: string) {
     try {
       console.log(coordinates);
-      const result =  this.groupLockerRepository.createQueryBuilder("group_locker")
+      return  this.groupLockerRepository.createQueryBuilder("group_locker")
       .select('group_locker.id')
       .addSelect('group_locker.state')
       .addSelect('group_locker.coordinate')
@@ -38,18 +43,16 @@ export class GroupLockerService {
       .where('coordinate=:coordinates', {coordinates})
       .getRawOne();
 
-      return result;
-
     }catch (error) {
-      throw new NotFoundException(`Group locker not found try different coordinates ${coordinates.coordinates}`)
+      throw new NotFoundException(`Group locker not found try different coordinates ${coordinates}`)
     }
   }
 
-  update(id: number, updateGroupLockerDto: UpdateGroupLockerDto) {
-    return this.groupLockerRepository.update(id, updateGroupLockerDto);
+  async update(id: number, updateGroupLockerDto: UpdateGroupLockerDto) {
+    return await this.groupLockerRepository.update(id, updateGroupLockerDto);
   }
 
-  delete(id: number) {
-    return this.groupLockerRepository.delete(id);
+  async delete(id: number) {
+    return await this.groupLockerRepository.delete(id);
   }
 }

@@ -19,7 +19,7 @@ export class GroupLockerController {
   }
 
   @Get('/coordinate')
-  async findGroupLockerByCoordinates(@Body() coordinate: Point) {
+  async findGroupLockerByCoordinates(@Body() coordinate: string) {
     return await this.groupLockerService.findGroupLockerByCoordinates(coordinate);
   }
 
