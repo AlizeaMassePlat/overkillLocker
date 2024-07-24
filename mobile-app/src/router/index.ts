@@ -1,30 +1,19 @@
-import {
-	createRouter,
-	createWebHistory,
-} from "@ionic/vue-router";
-import HomeView from "../views/HomeView.vue";
-import MapView from "@/views/MapView.vue";
-import ReserveView from "@/views/ReserveView.vue";
+import { createRouter, createWebHistory } from "@ionic/vue-router";
 import StartView from "../views/StartView.vue";
+import LandingView from "@/views/LandingView.vue";
 import LoginView from "../views/LoginView.vue";
-import RegisterView from "../views/RegisterView.vue";
 import TabsComponent from "@/components/TabsComponent.vue";
-import MyReservationsView from "../views/MyReservationsView.vue";
+import BookingsView from "../views/BookingsView.vue";
+import AccountView from "../views/AccountView.vue";
+import ReportIncidentView from "../views/ReportIncidentView.vue";
+import PasswordView from "../views/PasswordView.vue";
 import ReservationDetailView from "@/views/ReservationDetailView.vue";
-import AccountView from "@/views/AccountView.vue";
-import EditAccountView from "@/views/EditAccountView.vue";
-import ReportIncidentView from "@/views/ReportIncidentView.vue";
 
 const routes = [
 	{
 		path: "/",
-		name: "MapView",
-		component: MapView,
-	},
-	{
-		path: "/home",
-		name: "HomeView",
-		component: HomeView,
+		name: "LandingView",
+		component: LandingView,
 	},
 	{
 		path: "/demarrer",
@@ -37,28 +26,24 @@ const routes = [
 		component: LoginView,
 	},
 	{
-		path: "/inscription",
-		name: "RegisterView",
-		component: RegisterView,
+		path: "/motdepasse",
+		name: "PasswordView",
+		component: PasswordView,
 	},
+
 	{
 		path: "/",
 		component: TabsComponent,
 		children: [
 			{
 				path: "/",
-				name: "MapView",
-				component: MapView,
+				name: "LandingView",
+				component: LandingView,
 			},
 			{
-				path: "reserver",
-				name: "ReserveView",
-				component: ReserveView,
-			},
-			{
-				path: "mes-reservations",
-				name: "MyReservationsView",
-				component: MyReservationsView,
+				path: "/mes-reservations",
+				name: "BookingsView",
+				component: BookingsView,
 			},
 			{
 				path: "mes-reservations/:id",
@@ -67,17 +52,12 @@ const routes = [
 				props: true,
 			},
 			{
-				path: "mon-compte",
+				path: "/mon-compte",
 				name: "AccountView",
 				component: AccountView,
 			},
 			{
-				path: "mon-compte/editer",
-				name: "EditAccountView",
-				component: EditAccountView,
-			},
-			{
-				path: "signaler-un-incident",
+				path: "/signaler-un-incident",
 				name: "ReportIncidentView",
 				component: ReportIncidentView,
 			},
