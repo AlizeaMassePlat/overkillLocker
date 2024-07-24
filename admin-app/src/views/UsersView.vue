@@ -185,7 +185,6 @@ export default {
 </script>
 
 <style scoped>
-
 * {
   margin: 0;
   font-family: "Roboto", sans-serif;
@@ -350,5 +349,7 @@ select.state-resolved {
   font-size: 14px;
   cursor: pointer;
 }
+
+
 </style>
 

@@ -18,7 +18,12 @@ export class ReservationService {
   }
 
   findAll() {
-    return this.reservationRepository.find();
+    return this.reservationRepository.find({
+      relations: {
+        user: true,
+        locker: true
+      }
+    });
   }
 
   findOne(id: number) {

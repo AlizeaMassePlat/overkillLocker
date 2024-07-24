@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, On
 import { AbstractEntity } from 'src/database/abstract.entity';
 import { GroupLocker } from 'src/group_locker/entities/group_locker.entity';
 import { Log } from 'src/log/entities/log.entity';
+import { Reservation } from 'src/reservation/entities/reservation.entity';
 
 @Entity()
 export class Locker extends AbstractEntity<Locker> {
@@ -26,5 +27,8 @@ export class Locker extends AbstractEntity<Locker> {
 
     @ManyToOne(() => GroupLocker, (GroupLocker) => GroupLocker.lockers)
     groupLocker: GroupLocker
+
+    @OneToMany(() => Reservation, (reservation) => reservation.locker)
+    reservations: Reservation[];
 
 }
