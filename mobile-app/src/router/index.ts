@@ -1,16 +1,12 @@
-import {
-	createRouter,
-	createWebHistory,
-} from "@ionic/vue-router";
+import { createRouter, createWebHistory } from "@ionic/vue-router";
 import StartView from "../views/StartView.vue";
 import LandingView from "@/views/LandingView.vue";
 import LoginView from "../views/LoginView.vue";
-import RegisterView from "../views/RegisterView.vue";
 import TabsComponent from "@/components/TabsComponent.vue";
 import BookingsView from "../views/BookingsView.vue";
-import AccountView from "@/views/AccountView.vue";
-import EditAccountView from "@/views/EditAccountView.vue";
-import ReportIncidentView from "@/views/ReportIncidentView.vue";
+import AccountView from "../views/AccountView.vue";
+import ReportIncidentView from "../views/ReportIncidentView.vue";
+import PasswordView from "../views/PasswordView.vue";
 
 const routes = [
 	{
@@ -29,10 +25,11 @@ const routes = [
 		component: LoginView,
 	},
 	{
-		path: "/inscription",
-		name: "RegisterView",
-		component: RegisterView,
+		path: "/motdepasse",
+		name: "PasswordView",
+		component: PasswordView,
 	},
+
 	{
 		path: "/",
 		component: TabsComponent,
@@ -43,17 +40,17 @@ const routes = [
 				component: LandingView,
 			},
 			{
-				path: "mes-reservations",
+				path: "/mes-reservations",
 				name: "BookingsView",
 				component: BookingsView,
 			},
 			{
-				path: "mon-compte",
+				path: "/mon-compte",
 				name: "AccountView",
 				component: AccountView,
 			},
 			{
-				path: "signaler-un-incident",
+				path: "/signaler-un-incident",
 				name: "ReportIncidentView",
 				component: ReportIncidentView,
 			},
