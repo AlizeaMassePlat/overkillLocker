@@ -25,7 +25,7 @@ export class GroupLocker extends AbstractEntity<GroupLocker> {
     @IsString()
     name_place:string;
 
-    @Column()
+    @Column({ default:false})
     @IsBoolean()
     is_delete:boolean;
 
