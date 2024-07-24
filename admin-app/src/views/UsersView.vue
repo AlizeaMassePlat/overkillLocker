@@ -42,9 +42,12 @@
             </thead>
             <tbody>
               <tr v-for="user in paginatedUsers" :key="user.id">
-                <td>{{ user.firstname }} {{ user.lastname }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
                 <td>{{ user.email }}</td>
+                <td>{{ user.school_prom }}</td>
                 <td>{{ user.role }}</td>
+                <td>{{ user.card_number }}</td>
                 <td align="center">
                   <button @click="editUser(user.id)">
                     <img width="20" height="20" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1"/>
@@ -72,16 +75,14 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue';
+import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
-import UsersTableComponent from '@/components/UsersTableComponent.vue';
 import CreateUserView from '@/views/CreateUserView.vue';
 import axios from 'axios';
 
 export default {
   name: 'UsersView',
   components: {
-    UsersTableComponent,
     ButtonComponent,
     CreateUserView
   },
@@ -151,7 +152,7 @@ export default {
     hideCreateUserForm() {
       this.showCreateUser = false;
     },
-    editUser(id) {
+    editUser() {
       // Navigate to edit user view or perform edit action
     },
     prevPage() {
@@ -169,7 +170,7 @@ export default {
     },
     async fetchUsers() {
       try {
-        const response = await axios.get('http://localhost:3000/users/all');
+        const response = await axios.get('http://localhost:3000/user');
         this.users = response.data;
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -213,7 +214,7 @@ export default {
 }
 
 .tableContainer {
-  margin-top: 10%;
+  margin-top: 32px;
 }
 
 /* Styles for search filter container */
@@ -278,6 +279,64 @@ export default {
 
 .page-btn:not(.active):hover {
   background-color: #f1f1f1;
+}
+
+table {
+  margin: auto;
+  width: calc(100% - 32px);
+  border-collapse: collapse;
+  margin-top: 16px;
+  font-size: 13px;
+}
+
+table th, table td {
+  padding: 10px;
+  text-align: left;
+}
+
+table tr {
+  text-align: left;
+}
+
+tbody tr:nth-child(odd){
+  background-color: #FFDAC1;
+}
+
+tbody tr td button {
+  border: none;
+  outline: none;
+  background: none;
+}
+
+tbody tr td select {
+  text-align: center;
+  padding: 8px 32px 8px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  border: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGwxMiAwTDYgOEwwIDB6IiBmaWxsPSIjMDAwIi8+PC9zdmc+');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 6px;
+  font-size: 10px;
+}
+
+select.state-to-treat {
+  background-color: #ffe3e6; /* Rouge pastel */
+  color: #ce1a2c; /* Rouge plus foncé */
+}
+
+select.state-in-progress {
+  background-color: #d1ecf1; /* Bleu pastel */
+  color: #0c5460; /* Bleu foncé */
+}
+
+select.state-resolved {
+  background-color: #d4edda; /* Vert pastel */
+  color: #155724; /* Vert foncé */
 }
 </style>
 

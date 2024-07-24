@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue';
+import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import CreateReservationView from '@/views/CreateReservationView.vue';
 import axios from 'axios';
@@ -165,7 +165,7 @@ export default {
     hideCreateReservationForm() {
       this.showCreateReservation = false;
     },
-    editReservation(id) {
+    editReservation() {
       // Navigate to edit reservation view or perform edit action
     },
     prevPage() {
@@ -183,7 +183,7 @@ export default {
     },
     async fetchReservations() {
       try {
-        const response = await axios.get('http://localhost:3000/reservations/all');
+        const response = await axios.get('http://localhost:3000/reservation');
         this.reservations = response.data;
       } catch (error) {
         console.error('Error fetching reservations:', error);
