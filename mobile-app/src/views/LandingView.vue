@@ -27,9 +27,12 @@
           <Close @click="closeSummaryModal" />
           <h2>Félicitations !</h2>
           <p>
-            Vous avez réservé<br />1 casier<br />bâtiment A<br />emplacement B
+            Vous avez réservé<br />1 casier<br />bâtiment {{ reservation?.building }}<br />emplacement {{ reservation?.position }}
           </p>
-          <img :src="qrCode" alt="QR Code" class="qr-code" />
+          <Qrcode v-if="qrData" :value="qrData" class="qr-code" />
+          <div v-else>
+            <p>Chargement de la réservation...</p>
+          </div>
           <p>code pin : <strong>4567</strong></p>
         </div>
       </ModalComponent>
@@ -45,7 +48,16 @@ import BackArrow from "@/components/ButtonBackArrow.vue";
 import ButtonComponent from "@/components/ButtonComponent.vue";
 import Close from "@/components/ButtonClose.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
-import qrCode from "/qrcode.png";
+import axios from 'axios';
+import Qrcode from '@chenfengyuan/vue-qrcode';
+
+// Define a type for the pin
+interface Pin {
+  id: number;
+  number: number;
+  x: number;
+  y: number;
+}
 
 export default defineComponent({
   name: "LandingView",
@@ -57,13 +69,17 @@ export default defineComponent({
     ButtonComponent,
     Close,
     ModalComponent,
+    Qrcode,
   },
   setup() {
     const isBookModalOpen = ref(false);
     const isSummaryModalOpen = ref(false);
-    const selectedPin = ref(null);
+    const selectedPin = ref<Pin | null>(null); 
 
-    const handlePinClicked = (pin) => {
+    const reservation = ref<any>(null);
+    const qrData = ref<string>(''); 
+
+    const handlePinClicked = (pin: Pin) => { 
       selectedPin.value = pin;
       isBookModalOpen.value = true;
     };
@@ -73,9 +89,32 @@ export default defineComponent({
       selectedPin.value = null;
     };
 
-    const openSummaryModal = () => {
+    const openSummaryModal = async () => {
       isBookModalOpen.value = false;
       isSummaryModalOpen.value = true;
+      try {
+        // Récupération de la réservation
+        const reservationResponse = await axios.get('http://localhost:3000/reservation/7');
+        reservation.value = reservationResponse.data;
+
+        // Mise à jour de l'état du casier
+        const lockerId = reservationResponse.data.id_locker; // Récupérer l'ID du casier depuis la réponse de réservation
+        await axios.patch(`http://localhost:3000/locker/${lockerId}`, {
+          is_open: false,
+        });
+
+        // Récupération des données du casier mis à jour
+        const lockerResponse = await axios.get(`http://localhost:3000/locker/${lockerId}`);
+        qrData.value = JSON.stringify(lockerResponse.data); // Mettre à jour qrData avec les informations du casier
+
+        // Vérification des données
+        console.log('Réponse de la réservation :', reservationResponse.data);
+        console.log('Réponse du casier mis à jour :', lockerResponse.data);
+        console.log('qrData:', qrData.value);
+
+      } catch (error) {
+        console.error('Erreur lors de la récupération ou de la mise à jour:', error);
+      }
     };
 
     const closeSummaryModal = () => {
@@ -90,7 +129,8 @@ export default defineComponent({
       closeModal,
       openSummaryModal,
       closeSummaryModal,
-      qrCode,
+      reservation,
+      qrData,
     };
   },
 });
@@ -135,8 +175,8 @@ export default defineComponent({
 }
 
 .qr-code {
-  width: 150px;
-  height: 150px;
+  width: 170px !important;
+  height: 170px !important;
   margin: 20px 0;
 }
 </style>

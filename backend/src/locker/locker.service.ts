@@ -1,40 +1,47 @@
-import { Injectable } from '@nestjs/common';
-import { CreateLockerDto } from './dto/create-locker.dto';
-import { UpdateLockerDto } from './dto/update-locker.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Locker } from './entities/locker.entity';
+import { UpdateLockerDto } from './dto/update-locker.dto';
+import { CreateLockerDto } from './dto/create-locker.dto';
 
 @Injectable()
 export class LockerService {
-
   constructor(
     @InjectRepository(Locker)
-    private lockerRepository: Repository<Locker>,
+    private readonly lockerRepository: Repository<Locker>,
   ) {}
 
-  create(createLockerDto: CreateLockerDto) {
-    return 'This action adds a new locker';
+  async create(createLockerDto: CreateLockerDto): Promise<Locker> {
+    const locker = this.lockerRepository.create(createLockerDto);
+    return this.lockerRepository.save(locker);
   }
 
-  findAll() {
-    return this.lockerRepository.find({
-      relations: {
-        groupLocker:true
-      }
-    });
+  async findAll(): Promise<Locker[]> {
+    return this.lockerRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} locker`;
+  async findOne(id: number): Promise<Locker> {
+    const locker = await this.lockerRepository.findOneBy({ id });
+    if (!locker) {
+      throw new NotFoundException(`Locker with ID ${id} not found`);
+    }
+    return locker;
   }
 
-  update(id: number, updateLockerDto: UpdateLockerDto) {
-    return `This action updates a #${id} locker`;
+  async update(id: number, updateLockerDto: UpdateLockerDto): Promise<Locker> {
+    const locker = await this.findOne(id);
+
+    Object.assign(locker, updateLockerDto);
+    return this.lockerRepository.save(locker);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} locker`;
+  async remove(id: number): Promise<void> {
+    const locker = await this.findOne(id);
+    if (!locker) {
+      throw new NotFoundException(`Locker with ID ${id} not found`);
+    }
+    await this.lockerRepository.remove(locker);
   }
 
 }
