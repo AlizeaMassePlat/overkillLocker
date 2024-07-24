@@ -7,6 +7,7 @@ import BookingsView from "../views/BookingsView.vue";
 import AccountView from "../views/AccountView.vue";
 import ReportIncidentView from "../views/ReportIncidentView.vue";
 import PasswordView from "../views/PasswordView.vue";
+import ReservationDetailView from "@/views/ReservationDetailView.vue";
 
 const routes = [
 	{
@@ -43,6 +44,12 @@ const routes = [
 				path: "/mes-reservations",
 				name: "BookingsView",
 				component: BookingsView,
+			},
+			{
+				path: "mes-reservations/:id",
+				name: "ReservationDetailView",
+				component: ReservationDetailView,
+				props: true,
 			},
 			{
 				path: "/mon-compte",
