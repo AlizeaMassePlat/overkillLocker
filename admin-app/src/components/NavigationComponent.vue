@@ -2,6 +2,7 @@
     <nav class="navigation">
       <div class="logoContainer">
         <img :src="logo" alt="Logo" />
+        <p class="current_user">JD</p>
       </div>
       <ul>
         <li v-for="link in links" :key="link.label" @click="handleClick(link.component)">
@@ -35,9 +36,9 @@
       }
     }
   };
-  </script>
+</script>
   
-  <style scoped>
+<style scoped>
   .navigation {
     background-color: #ECF0FF;
     padding: 10px;
@@ -45,7 +46,7 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    gap: 5%;
+    gap: 8px;
   }
   
   .navigation ul {
@@ -60,7 +61,7 @@
   .navList {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 24px;
     cursor: pointer;
     padding-left: 5%;
   }
@@ -73,24 +74,43 @@
   .navList span {
     text-decoration: none;
     color: black;
-    font-size: 16px;
+    font-size: 14px;
   }
   
   .logoContainer {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 24px;
     margin-bottom: 20px;
   }
   
   .logoContainer img {
-    width: 30%;
+    height: 80px;
+    object-fit: contain;
   }
+
+  .current_user {
+    background-color: rgb(45, 125, 45);
+    border-radius: 50%;
+    height: 55px;
+    width: 55px;
+    text-align: center;
+    line-height: 55px;
+    font-size: 24px;
+    color: white;
+    margin: 0 16px 0 0;
+  }
+
   .decoContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
     gap: 10px;
+    font-size: 14px;
   }
+
   .decoContainer img {
     width: 20px;
     height: 20px;

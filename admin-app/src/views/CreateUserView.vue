@@ -21,6 +21,8 @@ export default {
 .mainContainer {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   width: 100%;
 }
+
 </style>
