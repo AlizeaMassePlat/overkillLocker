@@ -3,6 +3,12 @@ import { Error } from 'src/error/entities/error.entity';
 import { Reservation } from 'src/reservation/entities/reservation.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 
+export enum Gender {
+  male = 'male',
+  female = 'female',
+  nonBinary = 'non binary'
+}
+
 @Entity()
 export class User {
 
@@ -12,16 +18,16 @@ export class User {
   @Column({ length: 255 })
   password: string;
 
-  @Column({ length: 255 , nullable:true})
+  @Column({ length: 255, nullable: true })
   firstname: string;
 
-  @Column({ length: 255, nullable:true })
+  @Column({ length: 255, nullable: true })
   lastname: string;
 
-  @Column({ unique: true, nullable:false })
+  @Column({ unique: true, nullable: false })
   email: string;
 
-  @Column({ length: 255, nullable:true })
+  @Column({ length: 255, nullable: true })
   adress: string;
 
   @Column({ length: 255 })
@@ -33,6 +39,22 @@ export class User {
   @Column({ nullable: true })
   card_number: number;
 
+  @Column({ nullable: true })
+  age: number;
+
+  @Column({ nullable: true })
+  phone_number: string;
+
+  @Column({
+    type: 'enum',
+    enum: Gender,
+    nullable: false
+  })
+  gender: Gender;
+
+
+
+ 
   @Column({ default: 0})
   is_deleted: boolean;
 
@@ -52,5 +74,3 @@ export class User {
   @OneToMany(() => Reservation, (reservation) => reservation.user)
   reservations: Reservation[];
 }
-
-

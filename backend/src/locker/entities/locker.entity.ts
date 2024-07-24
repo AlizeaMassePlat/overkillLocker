@@ -5,7 +5,10 @@ import { Log } from 'src/log/entities/log.entity';
 import { Reservation } from 'src/reservation/entities/reservation.entity';
 
 @Entity()
-export class Locker extends AbstractEntity<Locker> {
+export class Locker {
+
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @Column({nullable:false})
     state: number;

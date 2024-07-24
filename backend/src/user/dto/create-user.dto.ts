@@ -1,44 +1,64 @@
-import { Options } from '@nestjs/common';
+import { IsString, IsEmail, IsNumber, Length, IsOptional, IsBoolean, IsDate, IsDefined, IsEnum } from 'class-validator';
 import { Type } from 'class-transformer';
-import { IsString, IsEmail, IsNumber, Length, IsOptional, IsBoolean, IsDate, IsDefined  } from 'class-validator';
+
+export enum Gender {
+  male = 'male',
+  female = 'female',
+  nonBinary = 'non binary'
+}
 export class CreateUserDto {
+  @IsOptional()
+  @IsString()
+  id?: string;
 
-    @Length(8)
-    @IsString()
-    password: string;
+  @Length(8)
+  @IsString()
+  password: string;
 
-    @IsOptional()
-    @IsString()
-    firstname: string = null;
+  @IsOptional()
+  @IsString()
+  firstname?: string;
 
-    @IsOptional()
-    @IsString()
-    lastname: string = null;
+  @IsOptional()
+  @IsString()
+  lastname?: string;
 
     @IsEmail()
     @IsString()
     @IsDefined()
     email: string;
 
-    @IsOptional()
-    @IsString()
-    adress: string = null;
+  @IsOptional()
+  @IsString()
+  adress?: string;
 
-    @IsString()
-    role: string;
+  @IsString()
+  role: string;
 
-    @IsString()
-    school_prom: string;
+  @IsString()
+  school_prom: string;
 
-    @IsNumber()
-    card_number: number;
+  @IsNumber()
+  card_number: number;
 
-    @IsBoolean()
-    is_deleted: boolean = false;
+  @IsOptional()
+  @IsNumber()
+  age?: number;
 
-    @IsDate()
-    @Type(() => Date)
-    create_date: Date;
+  @IsOptional()
+  @IsNumber()
+  phone_number?: string;
 
+  @IsEnum(Gender)
+  @IsOptional()
+  gender?: Gender;
+
+  @IsBoolean()
+  @IsOptional()
+  is_deleted?: boolean;
+
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  create_date?: Date;
 }
-
