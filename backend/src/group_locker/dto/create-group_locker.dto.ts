@@ -3,7 +3,7 @@ import { Point } from "typeorm";
 
 export class CreateGroupLockerDto {
     
-    @IsLatLong()
+    @IsString()
     coordinate:String;
 
     @IsInt()

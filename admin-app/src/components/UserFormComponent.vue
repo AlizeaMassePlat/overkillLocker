@@ -58,17 +58,19 @@
 </template>
 
 <script setup>
+import emailjs from '@emailjs/browser';
+
 import { onMounted, ref } from 'vue';
 import ButtonComponent from './ButtonComponent.vue';
 import axios from 'axios';
 
 const user = ref({
-  nom: "max",
-  prenom: "max",
-  email: "max@gmail.com",
-  adress: "Rue Marseille",
+  nom: "",
+  prenom: "",
+  email: "",
+  adress: "",
   school_prom: "",
-  role: "0",
+  role: "",
   card_number: ""
 });
 
@@ -91,27 +93,71 @@ const handleSubmit = async () => {
 
   console.log("Submitted user:", user.value);
 
-  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+[]{}|;:',.<>?/";
   let password = "";
-  for (let i = 0; i < 10; i++) {
-    const randomIndex = Math.floor(Math.random() * charset.length);
-    password += charset[randomIndex];
+
+  if (user.value.role == 0){
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+[]{}|;:',.<>?/";
+
+    for (let i = 0; i < 10; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      password += charset[randomIndex];
+    }
   }
+  
 
   try {
 
-    let response = await axios.post('http://localhost:3000/user/register', {
-      password: password,
-      firstname: user.value.prenom,
-      lastname: user.value.nom,
+    // let response = await axios.post('http://localhost:3000/user/register', {
+    //   password: password,
+    //   firstname: user.value.prenom,
+    //   lastname: user.value.nom,
+    //   email: user.value.email,
+    //   adress: user.value.adress,
+    //   role: user.value.role,
+    //   school_prom: user.value.school_prom,
+    //   card_number: Number(user.value.card_number),
+    //   create_date:  new Date().toISOString()
+    // });
+    //   // Réinitialiser l'objet utilisateur après la soumission réussie
+    //   user.value = {
+    //   nom: "",
+    //   prenom: "",
+    //   email: "",
+    //   adress: "",
+    //   school_prom: "",
+    //   role: "",
+    //   card_number: ""
+    // };  
+
+     // Envoyer un email avec les données du formulaire
+     emailjs.send('service_0lfcycr', 'template_n0hcafs', {
+      nom: user.value.nom,
+      prenom: user.value.prenom,
       email: user.value.email,
       adress: user.value.adress,
-      role: user.value.role,
       school_prom: user.value.school_prom,
-      card_number: Number(user.value.card_number),
-      create_date:  new Date().toISOString()
-    });
-    console.log(response);
+      card_number: user.value.card_number,
+      password: password
+    }, 'sYqakW5UnfOl9Am04')
+    .then(
+      (response) => {
+        console.log('SUCCESS!', response);
+        // Réinitialiser l'objet utilisateur après la soumission réussie
+        user.value = {
+          nom: "",
+          prenom: "",
+          email: "",
+          adress: "",
+          school_prom: "",
+          role: "",
+          card_number: ""
+        };
+      },
+      (error) => {
+        console.log('FAILED...', error);
+      }
+    );
+    // console.log(response);
   } catch (error) {
     console.log(error);
   }
@@ -125,6 +171,7 @@ h1 {
 }
 
 .form {
+  margin-top: 16px;
   width: 400px;
   margin: 0 auto;
   padding: 0 20px;

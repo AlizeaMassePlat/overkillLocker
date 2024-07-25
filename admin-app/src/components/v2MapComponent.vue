@@ -2,17 +2,14 @@
   <div class="map-container">
     <div class="header-container" v-if="needHeader">
       <button class="back" @click="handleBackClick" v-if="!showReports">Retour</button>
-      <!-- Affiche le bouton "Enregistrer" et "Ajouter une zone" si le mode draggable est activé -->
       <div class="actions" v-if="draggable">
         <button @click="handleAddMarker" class="action">+ Poser un curseur</button>
         <button @click="handleSave" class="action">Enregistrer</button>
       </div>
-      <!-- Affiche le bouton "+ Ajouter une zone" si le mode draggable n'est pas activé -->
       <p v-else @click="setIsAddingZone" class="action">+ Ajouter une zone</p>
     </div>
 
     <div class="map">
-      <!-- Bandeau de mode édition -->
       <div v-if="draggable" class="edit-mode-banner">
         Mode édition
       </div>
@@ -33,7 +30,7 @@
         <mgl-marker
           v-for="(marker, index) in markers"
           :key="index"
-          :coordinates="marker.coordinates"
+          v-model:coordinates="marker.coordinates"
           :draggable="draggable"
           @dragstart="() => onDragStart(index)"
           @drag="() => onDrag(index)"
@@ -41,13 +38,13 @@
           :color="getMarkerColor(marker.type)"
         >
           <div v-if="!draggable">
-            <mgl-popup >
+            <mgl-popup>
               <h3>Bâtiment : {{  marker.place }}</h3>
               <p>Type : {{  marker.type }}</p>
               <p>Nombre de casiers : {{ marker.lockers ? marker.lockers.length : "" }}</p>
             </mgl-popup>
           </div>
-          <div  v-else>
+          <div v-else>
             <mgl-popup>
               <div class="flex-pop-up-mgl">
                 <b>Bâtiment : </b>
@@ -150,23 +147,22 @@ const handleAddMarker = () => {
 
 const onDragStart = (index) => console.log(`Marker ${index + 1} dragstart`);
 const onDrag = (index) => console.log(`Marker ${index + 1} drag`);
-const onDragEnd = (index) => console.log(`Marker ${index + 1} dragend`);
+const onDragEnd = (index) => {console.log(`Marker ${index + 1} drag`)};
 
 const fetchGroupLockers = async () => {
   try {
     const response = await axios.get('http://localhost:3000/group-locker/find/all');
     groupLocker.value = response.data;
 
-     // Transform the data to match the marker format
-     markers.value = groupLocker.value.map(locker => {
+    markers.value = groupLocker.value.map(locker => {
       const [lng, lat] = locker.coordinate.split(',').map(Number);
       return {
         coordinates: [lng, lat],
         locker_count: locker.lockers.length,
-        initial_locker_count: locker.lockers.length, // Store the initial locker count
+        initial_locker_count: locker.lockers.length,
         type: locker.locker_type,
         place: locker.name_place,
-        group_id: locker.id,  // Include the group_id to track existing markers
+        group_id: locker.id,
         lockers: locker.lockers
       };
     });
@@ -177,35 +173,33 @@ const fetchGroupLockers = async () => {
   }
 };
 
+function lngLatToString(lngLat) {
+  console.log(lngLat);
+  if (lngLat.lng && lngLat.lat){
+    return `${lngLat.lng},${lngLat.lat}`;
+  }
+}
 const updateMarkers = async () => {
   try {
     for (const marker of markers.value) {
       if (marker.group_id) {
-        // Existing group locker
         const group = groupLocker.value.find(g => g.id === marker.group_id);
         if (group) {
-          console.log(`Updating group locker with ID ${marker.group_id}`);
-          console.log(`Marker locker count: ${marker.locker_count}`);
-          console.log(`Initial locker count: ${marker.initial_locker_count}`);
-          console.log(`Difference: ${marker.locker_count - marker.initial_locker_count}`);
-
           if (
             marker.place !== group.name_place ||
             marker.type !== group.locker_type ||
             marker.locker_count !== group.lockers.length
           ) {
-            // Update group locker details in the database
             await axios.patch(`http://localhost:3000/group-locker/${group.id}`, {
               id: marker.group_id,
               name_place: marker.place,
               locker_type: marker.type,
-              locker_count: marker.locker_count, // Update locker count as well
+              locker_count: marker.locker_count,
               coordinate: marker.coordinates.join(','),
             });
 
             const difference = marker.locker_count - marker.initial_locker_count;
 
-            // If there are more lockers now, create the additional ones
             if (difference > 0) {
               for (let i = 0; i < difference; i++) {
                 await axios.post('http://localhost:3000/locker', {
@@ -218,29 +212,42 @@ const updateMarkers = async () => {
               }
             }
 
-            // If there are fewer lockers now, delete the excess ones
             if (difference < 0) {
               const lockersToRemove = group.lockers.slice(difference);
               for (const locker of lockersToRemove) {
                 await axios.delete(`http://localhost:3000/locker/${locker.id}`);
               }
             }
+          } else {
+
+            
+            await axios.patch(`http://localhost:3000/group-locker/${group.id}`, {
+              id: marker.group_id,
+              name_place: marker.place,
+              locker_type: marker.type,
+              locker_count: marker.locker_count,
+              coordinate: lngLatToString(marker.coordinates),
+            });
           }
         }
       } else {
-        // New group locker
-        const response = await axios.post('http://localhost:3000/group-locker/create', {
+        const response = await axios.post('http://localhost:3000/group-locker', {
+          state: 1,
+          is_delete: false,
           name_place: marker.place,
           locker_type: marker.type,
           coordinate: marker.coordinates.join(','),
-          locker_count: marker.locker_count, // Initialize with the locker count
-        });
+          locker_count: marker.locker_count,
+        }); 
         const newGroupId = response.data.id;
-        marker.group_id = newGroupId;  // Update the marker with the new group ID
-        // Create lockers for the new group locker
+        marker.group_id = newGroupId;
         for (let i = 0; i < marker.locker_count; i++) {
-          await axios.post('http://localhost:3000/locker/create', {
-            group_id: newGroupId,
+          await axios.post('http://localhost:3000/locker', {
+            state: 0,
+            position: '',
+            is_open: false,
+            is_delete: false,
+            groupLocker: marker.group_id
           });
         }
       }
@@ -251,28 +258,24 @@ const updateMarkers = async () => {
   }
 };
 
-// Helper function to get marker color
 const getMarkerColor = (type) => {
   switch (type) {
     case 'Chargeur':
-      return '#42b0ca'; // Blue for Chargeur
+      return '#42b0ca';
     case 'Equipements':
-      return '#ED7F10'; // Orange for Equipements
+      return '#ED7F10';
     default:
-      return '#0000cc'; // Default blue
+      return '#0000cc';
   }
 };
 
-// Center the map on the newly added marker when the map is mounted
 onMounted(() => {
   if (mapRef.value) {
-    // Ensure the map reference is available
     fetchGroupLockers();
     console.log('Map reference is set.');
   }
 });
 
-// Function to get minimum locker count for each marker
 const minLockerCount = (marker) => {
   return marker.initial_locker_count;
 };

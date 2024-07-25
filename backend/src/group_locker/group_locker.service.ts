@@ -20,7 +20,7 @@ export class GroupLockerService {
   ) {}
 
   create(createGroupLockerDto: CreateGroupLockerDto) {
-    return 'This action adds a new groupLocker';
+    return this.groupLockerRepository.save(createGroupLockerDto);
   }
 
   findAll() {

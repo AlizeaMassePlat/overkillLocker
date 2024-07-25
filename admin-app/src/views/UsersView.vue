@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Utilisateurs</h1>
+    <h1 v-if="!showCreateUser">Utilisateurs</h1>
     <div class="content">
       <div v-if="showCreateUser">
         <ButtonComponent type="sm" @click="hideCreateUserForm" label="Retour" />
