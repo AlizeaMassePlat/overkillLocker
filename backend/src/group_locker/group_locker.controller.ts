@@ -36,4 +36,9 @@ export class GroupLockerController {
   findAllWithRelat(){
     return this.groupLockerService.findAllRelations();
   }
+
+  @Get('/find/all/free')
+  findAllFree(){
+    return this.groupLockerService.findAllFree();
+  }
 }

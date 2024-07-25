@@ -4,6 +4,8 @@ import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { Reservation } from './entities/reservation.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/user/entities/user.entity';
+import { Locker } from 'src/locker/entities/locker.entity';
 
 @Injectable()
 export class ReservationService {
@@ -11,10 +13,35 @@ export class ReservationService {
   constructor(
     @InjectRepository(Reservation)
     private reservationRepository: Repository<Reservation>,
+
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+
+    @InjectRepository(Locker)
+    private lockerRepository: Repository<Locker>,
   ) {}
 
-  create(createReservationDto: CreateReservationDto) {
-    return 'This action adds a new reservation';
+  async create(createReservationDto: CreateReservationDto): Promise<Reservation> {
+    // Trouver les entités User et Locker
+    const user = await this.userRepository.findOne({
+      where: { id: createReservationDto.id_user },
+    });
+    const locker = await this.lockerRepository.findOne({
+      where: { id: createReservationDto.id_locker },
+    });
+
+    if (!user || !locker) {
+      throw new Error('User or Locker not found');
+    }
+
+    // Créer la réservation
+    const reservation = this.reservationRepository.create({
+      ...createReservationDto,
+      user,
+      locker,
+    });
+
+    return this.reservationRepository.save(reservation);
   }
 
   findAll() {

@@ -1,13 +1,8 @@
 <template>
   <div>
-    <h1>Réservations</h1>
     <div class="content">
       <div v-if="showCreateReservation">
-        <ButtonComponent type="sm" @click="hideCreateReservationForm" label="Retour" />
-      </div>
-     
-      <div v-if="showCreateReservation">
-        <CreateReservationView />
+        <CreateReservationView @update:showCreateReservation="handleUpdateShowCreateReservation" />
       </div>
       <div v-else>
         <section class="search_filter_container">
@@ -64,8 +59,8 @@
                   </p>
                 </td>
                 <td align="center">
-                  <button @click="editReservation(reservation.id)">
-                    <img width="20" height="20" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1"/>
+                  <button @click="deleteReservation(reservation.id)">
+                    <img width="20" height="20" src="https://img.icons8.com/ios/50/delete--v1.png" alt="search--v1"/>
                   </button>
                 </td>
               </tr>
@@ -91,19 +86,17 @@
 
 <script>
 import { ref } from 'vue';
-import ButtonComponent from '@/components/ButtonComponent.vue';
 import CreateReservationView from '@/views/CreateReservationView.vue';
 import axios from 'axios';
 
 export default {
   name: 'ReservationsView',
   components: {
-    ButtonComponent,
     CreateReservationView
   },
   data() {
     return {
-      showCreateReservation: false,
+      showCreateReservation: ref(false),
       reservations: ref([]),
       selectedStatus: ref(''),
       search: ref(''),
@@ -167,7 +160,11 @@ export default {
     hideCreateReservationForm() {
       this.showCreateReservation = false;
     },
-    editReservation() {
+    async deleteReservation(id) {
+      let response = await axios.delete(`http://localhost:3000/reservation/${id}`, {
+        id: id
+      })
+      console.log(response);
       // Navigate to edit reservation view or perform edit action
     },
     prevPage() {
@@ -195,6 +192,9 @@ export default {
     formatDate(dateString) {
       const date = new Date(dateString);
       return date.toLocaleDateString('fr-FR');
+    },
+    handleUpdateShowCreateReservation (value){
+      this.showCreateReservation = value;
     }
   },
   mounted() {
