@@ -9,8 +9,8 @@
 					<ion-avatar class="avatar">
 						<img :src="currentUser.gravatarUrl" alt="Avatar" />
 					</ion-avatar>
-					<h2>{{ currentUser.firstname }} {{ currentUser.name }}</h2>
-					<p>{{ currentUser.email }} | {{ currentUser.promotion }}</p>
+					<h2>{{ currentUser.firstname }} {{ currentUser.lastname }}</h2>
+					<p>{{ currentUser.email }} | {{ currentUser.school_prom }}</p>
 				</div>
 				<div class="profile-actions">
 					<div class="action-box">
@@ -70,8 +70,8 @@
 						label-placement="floating"
 						error-text=""
 						helper-text=""
-						:value="currentUser.name"
-						v-model="currentUser.name" />
+						:value="currentUser.lastname"
+						v-model="currentUser.lastname" />
 
 					<FormInputComponent
 						class="custom profile-modal-item"
@@ -109,8 +109,8 @@
 						label-placement="floating"
 						error-text=""
 						helper-text=""
-						:value="currentUser.promotion"
-						v-model="currentUser.promotion" />
+						:value="currentUser.school_prom"
+						v-model="currentUser.school_prom" />
 
 					<FormInputComponent
 						class="editable custom profile-modal-item"
@@ -157,7 +157,10 @@
 				class="confirmation-modal">
 				<div class="confirmation-modal-content">
 					<Close @click="closeModal" />
-					<h2>Profil complété !</h2>
+					<h2>Mise à jour réussie !</h2>
+					<p>
+							Votre profil a bien été complété.<br />
+						</p>
 				</div>
 			</ModalComponent>
 		</ion-content>
@@ -165,8 +168,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import axios from 'axios';
 import {
 	IonPage,
 	IonContent,
@@ -188,7 +192,7 @@ import {
 import BackArrow from "@/components/ButtonBackArrow.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
 import ButtonComponent from "@/components/ButtonComponent.vue";
-import Close from "@/components/ButtonClose.vue"
+import Close from "@/components/ButtonClose.vue";
 import FormInputComponent from "@/components/FormInputComponent.vue";
 import FormSelectComponent from "@/components/FormSelectComponent.vue";
 import md5 from "md5";
@@ -199,44 +203,13 @@ const router = useRouter();
 
 const isProfileModalOpen = ref(false);
 
-const currentUserId = 1;
+const user = JSON.parse(localStorage.getItem('user') || '{}');
+const currentUserId = user.id;
 
-const users = ref([
-	{
-		id: 1,
-		firstname: "Jane",
-		name: "Doe",
-		email: "smart@locker.fr",
-		phone: null,
-		promotion: "Bachelor 2",
-		age: null,
-		gender: null,
-		gravatarUrl: `https://www.gravatar.com/avatar/${md5(
-			"smart@locker.fr".trim().toLowerCase()
-		)}`,
-	},
-	{
-		id: 2,
-		firstname: "John",
-		name: "Smith",
-		email: "john@example.com",
-		phone: null,
-		promotion: "Start Web",
-		age: null,
-		gender: null,
-		gravatarUrl: `https://www.gravatar.com/avatar/${md5(
-			"john@example.com".trim().toLowerCase()
-		)}`,
-	},
-]);
-
-const currentUser = computed(() =>
-	users.value.find((user) => user.id === currentUserId)
-);
-
-const age = ref(currentUser.value.age);
-const phone = ref(currentUser.value.phone);
-const selectedGender = ref(currentUser.value.gender);
+const currentUser = ref(null);
+const age = ref(null);
+const phone = ref(null);
+const selectedGender = ref(null);
 
 const openProfileModal = () => {
 	isProfileModalOpen.value = true;
@@ -246,22 +219,52 @@ const closeProfileModal = () => {
 	isProfileModalOpen.value = false;
 };
 
+const closeModal = () => {
+	isModalOpen.value = false;
+};
+
 const isModalOpen = ref(false);
 
-const updateProfile = async () => {
-	currentUser.value.age = age.value;
-	currentUser.value.gender = selectedGender.value;
-	console.log("Profile updated", {
-		name: currentUser.value.name,
-		firstname: currentUser.value.firstname,
-		email: currentUser.value.email,
-		phone: currentUser.value.phone,
-		age: age.value,
-		gender: selectedGender.value,
-	});
-	closeProfileModal();
-	isModalOpen.value = true;
+const getUserData = async () => {
+	try {
+		const response = await axios.get(`http://localhost:3000/user/finduserbyid/${currentUserId}`);
+		currentUser.value = response.data;
+		age.value = currentUser.value.age;
+		phone.value = currentUser.value.phone;
+		selectedGender.value = currentUser.value.gender;
+	} catch (error) {
+		console.error("Error fetching user data", error);
+	}
 };
+
+const updateProfile = async () => {
+	try {
+		await axios.patch(`http://localhost:3000/user/update/${currentUserId}`, {
+			age: age.value,
+			phone: phone.value,
+			gender: selectedGender.value,
+		});
+		currentUser.value.age = age.value;
+		currentUser.value.phone = phone.value;
+		currentUser.value.gender = selectedGender.value;
+		console.log("Profile updated", {
+			name: currentUser.value.lastname,
+			firstname: currentUser.value.firstname,
+			email: currentUser.value.email,
+			phone: currentUser.value.phone,
+			age: age.value,
+			gender: selectedGender.value,
+		});
+		closeProfileModal();
+		isModalOpen.value = true;
+	} catch (error) {
+		console.error("Error updating profile", error);
+	}
+};
+
+onMounted(() => {
+	getUserData();
+});
 
 const goToReservationsView = () => {
 	router.push({ name: "BookingsView" });
@@ -271,9 +274,6 @@ const goToSupportView = () => {
 	router.push({ name: "ReportIncidentView" });
 };
 
-const closeModal = () => {
-	isModalOpen.value = false;
-};
 
 const signOut = () => {
 	router.push({ name: "LoginView" });
@@ -391,7 +391,7 @@ ion-select.editable {
 }
 
 .confirmation-modal {
-	--height: 20%;
+	--height: 30%;
 	--width: 80%;
 	--border-radius: 16px;
 	--box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
@@ -405,6 +405,6 @@ ion-select.editable {
 	align-items: center;
 	text-align: center;
 	padding: 10px;
-	padding-top: 50px;
+	padding-top: 60px;
 }
 </style>
