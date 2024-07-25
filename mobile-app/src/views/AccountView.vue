@@ -203,7 +203,8 @@ const router = useRouter();
 
 const isProfileModalOpen = ref(false);
 
-const currentUserId = 10;
+const user = JSON.parse(localStorage.getItem('user') || '{}');
+const currentUserId = user.id;
 
 const currentUser = ref(null);
 const age = ref(null);
@@ -273,9 +274,6 @@ const goToSupportView = () => {
 	router.push({ name: "ReportIncidentView" });
 };
 
-const closeModal = () => {
-	isModalOpen.value = false;
-};
 
 const signOut = () => {
 	router.push({ name: "LoginView" });
