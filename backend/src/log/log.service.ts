@@ -21,6 +21,10 @@ export class LogService {
     return this.logRepository.find();
   }
 
+  async count():Promise<number> {
+    return this.logRepository.count();
+  }
+
   async findLogsByLocker(id_locker:number) {
     return this.logRepository.createQueryBuilder('log')
       .select('log.id')

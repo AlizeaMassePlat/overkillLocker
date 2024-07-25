@@ -26,6 +26,10 @@ export class ReservationService {
     });
   }
 
+  count():Promise<number> {
+    return this.reservationRepository.count();
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} reservation`;
   }
