@@ -25,6 +25,10 @@ export class LockerService {
     });
   }
 
+  count():Promise<number> {
+    return this.lockerRepository.count();
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} locker`;
   }

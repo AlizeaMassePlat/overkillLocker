@@ -16,7 +16,11 @@ export class ReservationController {
   findAll() {
     return this.reservationService.findAll();
   }
-
+  @Get('/count')
+  async ControllerCount(){
+    return await this.reservationService.count();
+  }
+  
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.reservationService.findOne(+id);
