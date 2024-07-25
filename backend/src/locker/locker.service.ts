@@ -14,7 +14,7 @@ export class LockerService {
   ) {}
 
   create(createLockerDto: CreateLockerDto) {
-    return 'This action adds a new locker';
+    return this.lockerRepository.save(createLockerDto);
   }
 
   findAll() {
@@ -30,7 +30,7 @@ export class LockerService {
   }
 
   update(id: number, updateLockerDto: UpdateLockerDto) {
-    return `This action updates a #${id} locker`;
+    return this.lockerRepository.update(id, updateLockerDto);
   }
 
   remove(id: number) {

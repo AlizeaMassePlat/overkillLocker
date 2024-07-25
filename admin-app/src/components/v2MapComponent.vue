@@ -25,7 +25,6 @@
         :bearing="bearing"
         :maxBounds="maxBounds"
         :height="mapSize"
-        @click="handleMapClick"
         ref="mapRef"
       >
         <mgl-navigation-control />
@@ -50,9 +49,22 @@
           </div>
           <div  v-else>
             <mgl-popup>
-              <h3>Bâtiment : <input type="text" v-model="marker.place"> {{  marker.place }}</h3>
-              <p>Type : {{  marker.type }}</p>
-              <p>Nombre de casiers : {{ marker.lockers ? marker.lockers.length : "" }}</p>
+              <div class="flex-pop-up-mgl">
+                <b>Bâtiment : </b>
+                <input type="text" v-model="marker.place">
+              </div>
+              <div class="flex-pop-up-mgl">
+                <p>Type : </p>
+                <select v-model="marker.type">
+                  <option value="Chargeur">Chargeur</option>
+                  <option value="Equipements">Equipements</option>
+                  <option value="Technique">Technique</option>
+                </select>
+              </div>
+              <div class="flex-pop-up-mgl">
+                <p>Casiers : </p>
+                <input type="number" v-model.number="marker.locker_count" :min="minLockerCount(marker)" />
+              </div>
             </mgl-popup>
           </div>
         </mgl-marker>
@@ -96,7 +108,7 @@ const draggable = ref(false);
 // Map reference
 const mapRef = ref(null);
 
-const groupLocker = ref([])
+const groupLocker = ref([]);
 
 // Props and emits
 const props = defineProps({
@@ -118,24 +130,22 @@ const setIsAddingZone = () => {
   draggable.value = true; // Toggle draggable mode
 };
 
-const handleSave = () => {
+const handleSave = async () => {
   draggable.value = false; // Disable draggable mode after saving
-  // Your logic to save changes
+  await updateMarkers();
 };
 
 const handleAddMarker = () => {
-  const newMarker = { coordinates: [...center] };
+  const newMarker = { 
+    coordinates: [...center], 
+    locker_count: 0, 
+    initial_locker_count: 0, // Initialize initial locker count
+    type: 'Chargeur', 
+    place: '', 
+    group_id: null  // Initialize with null to indicate a new marker
+  };
   markers.value.push(newMarker); // Add new marker at the center of the map
   center.value = newMarker.coordinates; // Center the map on the new marker
-};
-
-const handleMapClick = (event) => {
-  if (draggable.value) {
-    const { lngLat } = event;
-    console.log('Map clicked at:', lngLat);
-    const newMarker = { coordinates: [lngLat.lng, lngLat.lat] };
-    markers.value.push(newMarker); // Add new marker to the map
-  }
 };
 
 const onDragStart = (index) => console.log(`Marker ${index + 1} dragstart`);
@@ -147,14 +157,16 @@ const fetchGroupLockers = async () => {
     const response = await axios.get('http://localhost:3000/group-locker/find/all');
     groupLocker.value = response.data;
 
-    // Transform the data to match the marker format
-    markers.value = groupLocker.value.map(locker => {
+     // Transform the data to match the marker format
+     markers.value = groupLocker.value.map(locker => {
       const [lng, lat] = locker.coordinate.split(',').map(Number);
       return {
         coordinates: [lng, lat],
-        locker_count: locker.locker_count,
+        locker_count: locker.lockers.length,
+        initial_locker_count: locker.lockers.length, // Store the initial locker count
         type: locker.locker_type,
         place: locker.name_place,
+        group_id: locker.id,  // Include the group_id to track existing markers
         lockers: locker.lockers
       };
     });
@@ -165,18 +177,91 @@ const fetchGroupLockers = async () => {
   }
 };
 
+const updateMarkers = async () => {
+  try {
+    for (const marker of markers.value) {
+      if (marker.group_id) {
+        // Existing group locker
+        const group = groupLocker.value.find(g => g.id === marker.group_id);
+        if (group) {
+          console.log(`Updating group locker with ID ${marker.group_id}`);
+          console.log(`Marker locker count: ${marker.locker_count}`);
+          console.log(`Initial locker count: ${marker.initial_locker_count}`);
+          console.log(`Difference: ${marker.locker_count - marker.initial_locker_count}`);
+
+          if (
+            marker.place !== group.name_place ||
+            marker.type !== group.locker_type ||
+            marker.locker_count !== group.lockers.length
+          ) {
+            // Update group locker details in the database
+            await axios.patch(`http://localhost:3000/group-locker/${group.id}`, {
+              id: marker.group_id,
+              name_place: marker.place,
+              locker_type: marker.type,
+              locker_count: marker.locker_count, // Update locker count as well
+              coordinate: marker.coordinates.join(','),
+            });
+
+            const difference = marker.locker_count - marker.initial_locker_count;
+
+            // If there are more lockers now, create the additional ones
+            if (difference > 0) {
+              for (let i = 0; i < difference; i++) {
+                await axios.post('http://localhost:3000/locker', {
+                  state: 0,
+                  position: '',
+                  is_open: false,
+                  is_delete: false,
+                  groupLocker: marker.group_id
+                });
+              }
+            }
+
+            // If there are fewer lockers now, delete the excess ones
+            if (difference < 0) {
+              const lockersToRemove = group.lockers.slice(difference);
+              for (const locker of lockersToRemove) {
+                await axios.delete(`http://localhost:3000/locker/${locker.id}`);
+              }
+            }
+          }
+        }
+      } else {
+        // New group locker
+        const response = await axios.post('http://localhost:3000/group-locker/create', {
+          name_place: marker.place,
+          locker_type: marker.type,
+          coordinate: marker.coordinates.join(','),
+          locker_count: marker.locker_count, // Initialize with the locker count
+        });
+        const newGroupId = response.data.id;
+        marker.group_id = newGroupId;  // Update the marker with the new group ID
+        // Create lockers for the new group locker
+        for (let i = 0; i < marker.locker_count; i++) {
+          await axios.post('http://localhost:3000/locker/create', {
+            group_id: newGroupId,
+          });
+        }
+      }
+    }
+    console.log('Markers updated successfully.');
+  } catch (error) {
+    console.error('Error updating markers:', error);
+  }
+};
+
 // Helper function to get marker color
 const getMarkerColor = (type) => {
   switch (type) {
     case 'Chargeur':
-      return '#42b0ca'; // Red for Chargeur
+      return '#42b0ca'; // Blue for Chargeur
     case 'Equipements':
-      return '#ED7F10'; // Green for Relais
+      return '#ED7F10'; // Orange for Equipements
     default:
-      return '#0000cc'; // Blue for others
+      return '#0000cc'; // Default blue
   }
 };
-
 
 // Center the map on the newly added marker when the map is mounted
 onMounted(() => {
@@ -186,10 +271,21 @@ onMounted(() => {
     console.log('Map reference is set.');
   }
 });
+
+// Function to get minimum locker count for each marker
+const minLockerCount = (marker) => {
+  return marker.initial_locker_count;
+};
 </script>
+
 
 <style lang="css">
 @import "maplibre-gl/dist/maplibre-gl.css";
+
+* {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
 
 .map-container {
   width: 100%;
@@ -274,5 +370,45 @@ onMounted(() => {
   border-radius: 50%;
   cursor: pointer;
 }
+
+.action-pop-up {
+  text-align: center;
+  border-radius: 8px;
+  background-color: #ffa62b;
+  color: white;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.flex-pop-up-mgl {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.flex-pop-up-mgl b {
+  font-size: 14px;
+} 
+
+.flex-pop-up-mgl input {
+  width: 100px;
+}
+
+.select-locker {
+  width: 100%;
+  border : 1px solid #FFA62B;
+  background: #ECF0FF;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+
 
 </style>

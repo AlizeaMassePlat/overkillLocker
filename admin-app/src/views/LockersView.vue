@@ -35,6 +35,7 @@
             <th scope="col">Date</th>
             <th scope="col">Type</th>
             <th scope="col" align="center">State</th>
+            <th scope="col" align="center">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -42,7 +43,14 @@
             <td>{{ locker.id }}</td>
             <td>{{ locker.groupLocker.coordinate }}</td>
             <td>{{ locker.groupLocker.name_place }}</td>
-            <td>{{ locker.position }}</td>
+            <td>
+              <template v-if="editLockerId === locker.id">
+                <input type="text" v-model="locker.position" />
+              </template>
+              <template v-else>
+                {{ locker.position }}
+              </template>
+            </td>
             <td>{{ formatDate(locker.create_date) }}</td>
             <td>{{ locker.groupLocker.locker_type }}</td>
             <td align="center">
@@ -52,6 +60,14 @@
                 <option :value="2">En panne</option>
                 <option :value="3">Réparation</option>
               </select>
+            </td>
+            <td align="center">
+              <template v-if="editLockerId === locker.id">
+                <img @click="saveLocker(locker)" class="actionIcon" width="15" height="15" src="https://img.icons8.com/ios/50/save--v1.png" alt="save--v1"/>
+              </template>
+              <template v-else>
+                <img @click="setEditLocker(locker.id)" class="actionIcon" width="15" height="15" src="https://img.icons8.com/ios/50/pencil--v1.png" alt="pencil--v1"/>
+              </template>
             </td>
           </tr>
         </tbody>
@@ -90,6 +106,7 @@ const search = ref('');
 const currentPage = ref(1);
 const itemsPerPage = 8;
 
+const editLockerId = ref(null);
 const showList = ref(true);
 
 const filteredLockers = computed(() => {
@@ -187,6 +204,28 @@ const getStateClass = (state) => {
 
 const setshowList = () => {
   showList.value = false
+};
+
+const setEditLocker = (id) => {
+  editLockerId.value = id;
+};
+
+const saveLocker = async (locker) => {
+  // Ajouter la logique pour enregistrer les modifications du locker ici
+  editLockerId.value = null;
+
+  console.log(locker);
+  try {
+    const response = await axios.patch(`http://localhost:3000/locker/${locker.id}`, {
+      state: locker.state,
+      position: locker.position,
+      is_open: locker.isOpen
+    })
+
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 </script>
@@ -335,6 +374,10 @@ select.state-repairing {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   padding: 8px 24px;
   font-size: 14px;
+  cursor: pointer;
+}
+
+.actionIcon {
   cursor: pointer;
 }
 </style>

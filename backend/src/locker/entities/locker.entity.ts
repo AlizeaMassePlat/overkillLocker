@@ -25,8 +25,9 @@ export class Locker extends AbstractEntity<Locker> {
     })
     create_date: Date;
 
-    @ManyToOne(() => GroupLocker, (GroupLocker) => GroupLocker.lockers)
-    groupLocker: GroupLocker
+    @ManyToOne(() => GroupLocker, (groupLocker) => groupLocker.lockers)
+    @JoinColumn({ name: 'groupLockerId' }) // Assurez-vous que cette ligne existe
+    groupLocker: GroupLocker;
 
     @OneToMany(() => Reservation, (reservation) => reservation.locker)
     reservations: Reservation[];
